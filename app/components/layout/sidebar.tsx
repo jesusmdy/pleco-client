@@ -1,6 +1,6 @@
 "use client";
 
-import { HardDrive, Activity } from "lucide-react";
+import { HardDrive, Activity, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -9,6 +9,7 @@ export function Sidebar() {
 
   const isDriveActive = pathname === "/drive" || pathname.startsWith("/drive/folders");
   const isActivityActive = pathname === "/drive/activity";
+  const isTrashActive = pathname === "/drive/trash";
 
   return (
     <div className="w-[240px] bg-discord-bg-secondary flex flex-col hidden md:flex border-r border-black/10">
@@ -34,6 +35,14 @@ export function Sidebar() {
         >
           <Activity className={`w-5 h-5 ${isActivityActive ? 'text-white' : 'text-discord-text-muted'}`} />
           <span className="font-medium text-[15px]">Activity</span>
+        </Link>
+
+        <Link 
+          href="/drive/trash"
+          className={`rounded p-2 flex items-center gap-3 text-white transition-colors hover:bg-discord-bg-modifier-hover ${isTrashActive ? 'bg-discord-bg-modal/50' : 'bg-transparent'}`}
+        >
+          <Trash2 className={`w-5 h-5 ${isTrashActive ? 'text-white' : 'text-discord-text-muted'}`} />
+          <span className="font-medium text-[15px]">Trash</span>
         </Link>
       </div>
     </div>

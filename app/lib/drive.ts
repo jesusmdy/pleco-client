@@ -1,5 +1,22 @@
 import { request, API_BASE_URL } from "./client";
 
+export interface TrashItem {
+  id: string;
+  name: string;
+  itemType: "FILE" | "FOLDER";
+  mimeType: string | null;
+  size: number | null;
+  status: string;
+  trashedAt: string | null;
+  originalParentId: string | null;
+  parentId: string | null;
+  path: string[];
+  depth: number;
+  encrypted: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface UnifiedDriveItem {
   id: string;
   name: string;
@@ -72,3 +89,23 @@ export const downloadFile = async (id: string, fileName: string, token: string) 
   a.remove();
   window.URL.revokeObjectURL(url);
 };
+
+export const listTrash = (token: string) =>
+  request<TrashItem[]>("/trash", { method: "GET", token });
+
+export const searchTrash = (query: string, token: string) =>
+  request<TrashItem[]>(`/trash/search?query=${encodeURIComponent(query)}`, { method: "GET", token });
+
+export const restoreItems = (itemIds: string[], token: string) =>
+  request<void>("/trash/restore", {
+    method: "POST",
+    body: JSON.stringify({ itemIds }),
+    token,
+  });
+
+export const permanentlyDeleteItems = (itemIds: string[], token: string) =>
+  request<void>("/trash/permanent", {
+    method: "DELETE",
+    body: JSON.stringify({ itemIds }),
+    token,
+  });
