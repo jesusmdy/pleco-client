@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { DiscordInput } from "@/app/components/ui/discord-input";
-import { DiscordButton } from "@/app/components/ui/discord-button";
+import { Input } from "@/app/components/ui/input";
+import { Button } from "@/app/components/ui/button";
 import Link from "next/link";
 
 export default function SignInPage() {
@@ -45,12 +45,12 @@ export default function SignInPage() {
   return (
     <div className="w-full flex flex-col items-center">
       <h2 className="text-2xl font-bold text-white mb-2">Welcome back!</h2>
-      <p className="text-discord-text-muted text-[16px] mb-6">
-        We&apos;re so excited to see you again!
+      <p className="text-discord-text-muted text-[16px] mb-6 text-center">
+        Sign in to access your secure drive.
       </p>
 
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-5">
-        <DiscordInput
+        <Input
           label="Username"
           required
           value={username}
@@ -59,7 +59,7 @@ export default function SignInPage() {
         />
 
         <div className="flex flex-col gap-1">
-          <DiscordInput
+          <Input
             label="Password"
             type="password"
             required
@@ -67,9 +67,9 @@ export default function SignInPage() {
             onChange={(e) => setPassword(e.target.value)}
             autoComplete="current-password"
           />
-          <DiscordButton variant="link" type="button" className="w-fit">
+          <Button variant="link" type="button" className="w-fit mt-1">
             Forgot your password?
-          </DiscordButton>
+          </Button>
         </div>
 
         {error && (
@@ -78,9 +78,9 @@ export default function SignInPage() {
           </p>
         )}
 
-        <DiscordButton type="submit" isLoading={isLoading}>
+        <Button type="submit" variant="primary" isLoading={isLoading} className="w-full h-[44px] rounded-[3px]">
           Log In
-        </DiscordButton>
+        </Button>
 
         <p className="text-[14px] text-discord-text-muted mt-2">
           Need an account?{" "}

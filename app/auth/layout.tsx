@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { DiscordLogo } from "@/app/components/ui/discord-logo";
+import { HardDrive } from "lucide-react";
 import { AuthGuard } from "@/app/components/auth-guard";
 
 export default function AuthLayout({
@@ -17,7 +17,12 @@ export default function AuthLayout({
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-discord-fuchsia opacity-5 rounded-full blur-[100px]" />
         
         <div className="z-10 w-full max-w-[480px] bg-discord-bg-modal rounded-lg shadow-2xl p-8 flex flex-col items-center">
-          <DiscordLogo className="w-12 h-12 text-discord-blurple mb-6" />
+          <div className="flex flex-col items-center mb-8 gap-2">
+            <div className="w-16 h-16 bg-discord-blurple rounded-2xl flex items-center justify-center shadow-lg transform -rotate-6">
+              <HardDrive className="w-8 h-8 text-white transform rotate-6" />
+            </div>
+            <h1 className="text-3xl font-black text-white tracking-tight mt-2">Pleco</h1>
+          </div>
           {children}
         </div>
       </div>

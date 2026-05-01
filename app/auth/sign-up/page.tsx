@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { signUp } from "@/app/lib/api";
-import { DiscordInput } from "@/app/components/ui/discord-input";
-import { DiscordButton } from "@/app/components/ui/discord-button";
+import { Input } from "@/app/components/ui/input";
+import { Button } from "@/app/components/ui/button";
 import Link from "next/link";
 
 export default function SignUpPage() {
@@ -46,7 +46,7 @@ export default function SignUpPage() {
       <h2 className="text-2xl font-bold text-white mb-6">Create an account</h2>
 
       <form onSubmit={handleSubmit} className="w-full flex flex-col gap-5">
-        <DiscordInput
+        <Input
           label="Email"
           name="email"
           type="email"
@@ -56,7 +56,7 @@ export default function SignUpPage() {
           autoComplete="email"
         />
 
-        <DiscordInput
+        <Input
           label="Username"
           name="username"
           required
@@ -65,7 +65,7 @@ export default function SignUpPage() {
           autoComplete="username"
         />
 
-        <DiscordInput
+        <Input
           label="Password"
           name="password"
           type="password"
@@ -82,9 +82,9 @@ export default function SignUpPage() {
         )}
 
         <div className="mt-2">
-          <DiscordButton type="submit" isLoading={mutation.isPending}>
+          <Button type="submit" variant="primary" isLoading={mutation.isPending} className="w-full h-[44px] rounded-[3px]">
             Continue
-          </DiscordButton>
+          </Button>
         </div>
 
         <Link

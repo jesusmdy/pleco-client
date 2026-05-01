@@ -2,13 +2,13 @@
 
 import React from "react";
 
-interface DiscordInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   error?: string;
   required?: boolean;
 }
 
-export const DiscordInput = React.forwardRef<HTMLInputElement, DiscordInputProps>(
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ label, error, required, ...props }, ref) => {
     return (
       <div className="flex flex-col gap-2 w-full">
@@ -39,4 +39,4 @@ export const DiscordInput = React.forwardRef<HTMLInputElement, DiscordInputProps
   }
 );
 
-DiscordInput.displayName = "DiscordInput";
+Input.displayName = "Input";

@@ -1,21 +1,14 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { getProfile } from "@/app/lib/api";
-import { useSession } from "next-auth/react";
+import { useParams } from "next/navigation";
 import { FileGrid } from "@/app/components/drive/file-grid";
+import { Breadcrumb } from "@/app/components/drive/breadcrumb";
 import { useDrive } from "@/app/hooks/useDrive";
 
-export default function DriveRootPage() {
-  const { data: session } = useSession();
-  const { folderContent, isLoading, error } = useDrive(null);
-
-  const { data: profile } = useQuery({
-    queryKey: ["profile"],
-    queryFn: () => getProfile(session!.backendToken),
-    enabled: !!session?.backendToken,
-    retry: false,
-  });
+export default function FolderPage() {
+  const params = useParams();
+  const folderId = params.folderId as string;
+  const { folderContent, breadcrumb, isLoading, error } = useDrive(folderId);
 
   if (error) {
     return (
@@ -27,7 +20,8 @@ export default function DriveRootPage() {
   }
 
   return (
-    <div className="">
+    <div>
+      {breadcrumb && <Breadcrumb path={breadcrumb} />}
       <FileGrid items={folderContent || []} isLoading={isLoading} />
     </div>
   );
