@@ -1,6 +1,6 @@
-import { ChevronRight, Home } from "lucide-react";
-import { BreadcrumbNode } from "@/app/lib/api";
-import Link from "next/link";
+import { BreadcrumbNode } from "@/app/lib/drive";
+import { BreadcrumbItem } from "./breadcrumb-item";
+import { BreadcrumbSeparator } from "./breadcrumb-separator";
 
 interface BreadcrumbProps {
   path: BreadcrumbNode[];
@@ -8,26 +8,26 @@ interface BreadcrumbProps {
 
 export function Breadcrumb({ path }: BreadcrumbProps) {
   return (
-    <div className="flex items-center gap-2 text-[14px] text-discord-text-muted mb-4 overflow-x-auto pb-2">
-      <Link 
-        href="/drive"
-        className="hover:text-white transition-colors flex items-center gap-1 shrink-0"
-      >
-        <Home className="w-4 h-4" />
-        My Drive
-      </Link>
+    <div className="flex items-center gap-1 mb-6 overflow-x-auto pb-2 -ml-3">
+      <BreadcrumbItem 
+        href="/drive" 
+        label="My Drive" 
+        isLast={path.length === 0} 
+      />
       
-      {path.map((node) => (
-        <div key={node.id} className="flex items-center gap-2 shrink-0">
-          <ChevronRight className="w-4 h-4 text-discord-text-muted/50" />
-          <Link
-            href={`/drive/folders/${node.id}`}
-            className="hover:text-white transition-colors truncate max-w-[150px]"
-          >
-            {node.name}
-          </Link>
-        </div>
-      ))}
+      {path.map((node, index) => {
+        const isLast = index === path.length - 1;
+        return (
+          <div key={node.id} className="flex items-center gap-1 shrink-0">
+            <BreadcrumbSeparator />
+            <BreadcrumbItem 
+              href={`/drive/folders/${node.id}`} 
+              label={node.name} 
+              isLast={isLast} 
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }

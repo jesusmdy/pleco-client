@@ -1,6 +1,7 @@
-import { HardDrive, Folder, FileText, Lock } from "lucide-react";
-import { UnifiedDriveItem } from "@/app/lib/api";
+import { Folder, FileText, Lock } from "lucide-react";
+import { UnifiedDriveItem } from "@/app/lib/drive";
 import { useRouter } from "next/navigation";
+import { FileCardMenu } from "./file-card-menu";
 
 interface FileCardProps {
   item: UnifiedDriveItem;
@@ -18,49 +19,43 @@ export function FileCard({ item }: FileCardProps) {
     }
   };
 
-  const formatSize = (bytes: number | null) => {
-    if (bytes === null) return null;
-    const kb = bytes / 1024;
-    if (kb > 1024) {
-      return `${(kb / 1024).toFixed(2)} MB`;
-    }
-    return `${Math.round(kb)} KB`;
-  };
+  if (isFolder) {
+    return (
+      <div 
+        onClick={handleClick}
+        className="flex items-center justify-between bg-discord-bg-secondary hover:bg-white/5 rounded-lg p-3 cursor-pointer group transition-colors border border-transparent hover:border-white/10"
+      >
+        <div className="flex items-center gap-3 overflow-hidden">
+          <Folder className="w-5 h-5 text-discord-text-muted group-hover:text-discord-blurple shrink-0 transition-colors" />
+          <span className="text-white text-[14px] font-medium truncate select-none">{item.name}</span>
+        </div>
+        <FileCardMenu item={item} />
+      </div>
+    );
+  }
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString();
-  };
-
+  // File Layout
   return (
     <div 
       onClick={handleClick}
-      className="bg-discord-bg-secondary border border-transparent hover:border-discord-blurple/30 rounded-lg p-4 cursor-pointer transition-all group flex flex-col relative"
+      className="bg-discord-bg-secondary hover:bg-white/5 rounded-xl cursor-pointer group flex flex-col h-56 overflow-hidden border border-transparent hover:border-white/10 transition-all"
     >
-      {item.encrypted && (
-        <div className="absolute top-3 right-3 text-discord-text-muted">
-          <Lock className="w-4 h-4" />
+      {/* File Header */}
+      <div className="flex items-center justify-between p-3 shrink-0">
+        <div className="flex items-center gap-3 overflow-hidden">
+          <FileText className="w-5 h-5 text-discord-text-muted group-hover:text-discord-blurple shrink-0 transition-colors" />
+          <span className="text-white text-[14px] font-medium truncate select-none">{item.name}</span>
         </div>
-      )}
-      
-      <div className="w-12 h-12 bg-discord-bg-tertiary rounded flex items-center justify-center mb-3 text-discord-text-muted group-hover:text-discord-blurple transition-colors">
-        {isFolder ? (
-          <Folder className="w-6 h-6" />
-        ) : (
-          <FileText className="w-6 h-6" />
-        )}
+        <div className="flex items-center gap-1">
+          {item.encrypted && <Lock className="w-3.5 h-3.5 text-discord-text-muted" />}
+          <FileCardMenu item={item} />
+        </div>
       </div>
       
-      <p className="text-white font-medium truncate mb-1" title={item.name}>
-        {item.name}
-      </p>
-      
-      {!isFolder && (
-        <p className="text-discord-text-muted text-[12px]">
-          {formatDate(item.updatedAt)} 
-          {item.size !== null ? ` • ${formatSize(item.size)}` : ""}
-        </p>
-      )}
+      {/* Future Preview Area */}
+      <div className="flex-1 bg-discord-bg-tertiary mx-3 mb-3 rounded-lg border border-white/5 flex items-center justify-center group-hover:bg-discord-bg-primary transition-colors">
+        <FileText className="w-12 h-12 text-discord-text-muted/20" />
+      </div>
     </div>
   );
 }

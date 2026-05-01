@@ -1,9 +1,10 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { getProfile } from "@/app/lib/api";
+import { getProfile } from "@/app/lib/user";
 import { useSession } from "next-auth/react";
 import { FileGrid } from "@/app/components/drive/file-grid";
+import { Breadcrumb } from "@/app/components/drive/breadcrumb";
 import { useDrive } from "@/app/hooks/useDrive";
 
 export default function DriveRootPage() {
@@ -28,6 +29,7 @@ export default function DriveRootPage() {
 
   return (
     <div className="">
+      <Breadcrumb path={[]} />
       <FileGrid items={folderContent || []} isLoading={isLoading} />
     </div>
   );

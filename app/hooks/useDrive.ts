@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getRootFolders, getFolderChildren, getBreadcrumb } from "@/app/lib/api";
+import { getRootFolders, getFolderChildren, getBreadcrumb } from "@/app/lib/drive";
 import { useSession } from "next-auth/react";
 
 export function useDrive(currentFolderId: string | null) {

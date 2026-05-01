@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { useUploadStore } from "@/app/store/useUploadStore";
-import { uploadDriveFile } from "@/app/lib/api";
+import { uploadDriveFile } from "@/app/lib/drive";
 import { useSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
 
