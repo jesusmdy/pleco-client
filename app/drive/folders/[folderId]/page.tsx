@@ -1,15 +1,21 @@
 "use client";
 
+import { useEffect } from "react";
 import { useParams } from "next/navigation";
 import { FileGrid } from "@/app/components/drive/file-grid";
 import { Breadcrumb } from "@/app/components/drive/breadcrumb";
 import { useDrive } from "@/app/hooks/useDrive";
 import { CreateFolderButton } from "@/app/components/drive/create-folder-button";
 import { UploadFileButton } from "@/app/components/drive/upload-file-button";
+import { BulkActionToolbar } from "@/app/components/drive/bulk-action-toolbar";
+import { useSelectionStore } from "@/app/store/selectionStore";
 
 export default function FolderPage() {
   const params = useParams();
   const folderId = params.folderId as string;
+  const { clear } = useSelectionStore();
+
+  useEffect(() => () => clear(), [folderId]);
   const { folderContent, breadcrumb, isLoading, error } = useDrive(folderId);
 
   if (error) {
@@ -32,6 +38,7 @@ export default function FolderPage() {
           <CreateFolderButton />
         </div>
       </div>
+      <BulkActionToolbar />
       <FileGrid items={folderContent || []} isLoading={isLoading} />
     </div>
   );

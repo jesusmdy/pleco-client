@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "@/app/lib/user";
 import { useSession } from "next-auth/react";
@@ -8,10 +9,15 @@ import { Breadcrumb } from "@/app/components/drive/breadcrumb";
 import { useDrive } from "@/app/hooks/useDrive";
 import { CreateFolderButton } from "@/app/components/drive/create-folder-button";
 import { UploadFileButton } from "@/app/components/drive/upload-file-button";
+import { BulkActionToolbar } from "@/app/components/drive/bulk-action-toolbar";
+import { useSelectionStore } from "@/app/store/selectionStore";
 
 export default function DriveRootPage() {
   const { data: session } = useSession();
   const { folderContent, isLoading, error } = useDrive(null);
+  const { clear } = useSelectionStore();
+
+  useEffect(() => () => clear(), []);
 
   const { data: profile } = useQuery({
     queryKey: ["profile"],
@@ -40,6 +46,7 @@ export default function DriveRootPage() {
           <CreateFolderButton />
         </div>
       </div>
+      <BulkActionToolbar />
       <FileGrid items={folderContent || []} isLoading={isLoading} />
     </div>
   );

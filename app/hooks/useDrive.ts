@@ -12,12 +12,16 @@ export function useDrive(currentFolderId: string | null) {
       ? getFolderChildren(currentFolderId, token!)
       : getRootFolders(token!),
     enabled: !!token,
+    staleTime: 0,
+    refetchOnMount: true,
   });
 
   const { data: breadcrumb } = useQuery({
     queryKey: ["breadcrumb", currentFolderId],
     queryFn: () => getBreadcrumb(currentFolderId!, token!),
     enabled: !!token && !!currentFolderId,
+    staleTime: 0,
+    refetchOnMount: true,
   });
 
   return { folderContent, breadcrumb, isLoading, error };
