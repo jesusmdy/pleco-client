@@ -1,8 +1,9 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { Search, Bell, Settings } from "lucide-react";
+import { Search, Bell } from "lucide-react";
 import { UserProfileBar } from "@/app/components/ui/user-profile-bar";
+import Link from "next/link";
 
 export function Header() {
   const { data: session } = useSession();
@@ -22,8 +23,9 @@ export function Header() {
 
       <div className="flex items-center gap-4 ml-auto">
         <div className="flex items-center gap-2 text-discord-text-muted mr-2">
-          <button className="p-2 hover:bg-white/10 rounded-full transition-colors"><Settings className="w-5 h-5" /></button>
-          <button className="p-2 hover:bg-white/10 rounded-full transition-colors"><Bell className="w-5 h-5" /></button>
+          <Link href="/drive/activity" className="p-2 hover:bg-white/10 rounded-full transition-colors">
+            <Bell className="w-5 h-5" />
+          </Link>
         </div>
         <UserProfileBar username={session?.username} />
       </div>
