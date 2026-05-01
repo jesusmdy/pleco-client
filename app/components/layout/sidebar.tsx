@@ -1,15 +1,10 @@
 "use client";
 
 import { HardDrive, Activity } from "lucide-react";
-import { UserProfileBar } from "@/app/components/ui/user-profile-bar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-interface SidebarProps {
-  username?: string | null;
-}
-
-export function Sidebar({ username }: SidebarProps) {
+export function Sidebar() {
   const pathname = usePathname();
 
   const isDriveActive = pathname === "/drive" || pathname.startsWith("/drive/folders");
@@ -17,8 +12,11 @@ export function Sidebar({ username }: SidebarProps) {
 
   return (
     <div className="w-[240px] bg-discord-bg-secondary flex flex-col hidden md:flex border-r border-black/10">
-      <div className="p-4 h-12 shadow-sm flex items-center border-b border-black/10">
-        <h1 className="font-bold text-white truncate">Pleco Storage</h1>
+      <div className="p-4 h-14 flex items-center gap-3 border-b border-white/5 shrink-0">
+        <div className="w-8 h-8 bg-discord-blurple rounded-lg flex items-center justify-center shrink-0 shadow-lg">
+          <HardDrive className="w-5 h-5 text-white transform -rotate-6" />
+        </div>
+        <h1 className="font-black text-white text-xl tracking-tight truncate">Pleco</h1>
       </div>
 
       <div className="flex-1 p-2 flex flex-col gap-1 mt-2">
@@ -38,8 +36,6 @@ export function Sidebar({ username }: SidebarProps) {
           <span className="font-medium text-[15px]">Activity</span>
         </Link>
       </div>
-
-      <UserProfileBar username={username} />
     </div>
   );
 }

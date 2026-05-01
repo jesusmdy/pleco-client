@@ -4,6 +4,8 @@ import { useParams } from "next/navigation";
 import { FileGrid } from "@/app/components/drive/file-grid";
 import { Breadcrumb } from "@/app/components/drive/breadcrumb";
 import { useDrive } from "@/app/hooks/useDrive";
+import { CreateFolderButton } from "@/app/components/drive/create-folder-button";
+import { UploadFileButton } from "@/app/components/drive/upload-file-button";
 
 export default function FolderPage() {
   const params = useParams();
@@ -21,7 +23,15 @@ export default function FolderPage() {
 
   return (
     <div>
-      {breadcrumb && <Breadcrumb path={breadcrumb} />}
+      <div className="flex items-center justify-between mb-6 gap-4">
+        <div className="flex-1 min-w-0">
+          {breadcrumb && <Breadcrumb path={breadcrumb} />}
+        </div>
+        <div className="flex items-center gap-3 shrink-0">
+          <UploadFileButton />
+          <CreateFolderButton />
+        </div>
+      </div>
       <FileGrid items={folderContent || []} isLoading={isLoading} />
     </div>
   );
