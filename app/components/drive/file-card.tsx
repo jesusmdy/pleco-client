@@ -7,24 +7,26 @@ import { useRouter } from "next/navigation";
 import { FileCardMenu } from "./file-card-menu";
 import { useSelectionStore } from "@/app/store/selectionStore";
 
+export type FileCardContext = "drive" | "trash";
+
 interface FileCardProps {
   item: UnifiedDriveItem;
+  context?: FileCardContext;
 }
 
 const DOUBLE_CLICK_MS = 220;
 
-export function FileCard({ item }: FileCardProps) {
+export function FileCard({ item, context = "drive" }: FileCardProps) {
   const router = useRouter();
   const isFolder = item.itemType === "FOLDER";
+  const isTrash = context === "trash";
   const { toggle, isSelected } = useSelectionStore();
   const selected = isSelected(item.id);
   const clickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleOpen = () => {
-    if (isFolder) {
-      router.push(`/drive/folders/${item.id}`);
-    }
-    // File open/preview can go here in the future
+    if (isTrash) return; // no navigation in trash context
+    if (isFolder) router.push(`/drive/folders/${item.id}`);
   };
 
   const handleClick = () => {
@@ -62,9 +64,9 @@ export function FileCard({ item }: FileCardProps) {
         </div>
         {selected ? (
           <CheckCircle2 className="w-5 h-5 text-discord-blurple shrink-0" />
-        ) : (
+        ) : !isTrash ? (
           <FileCardMenu item={item} />
-        )}
+        ) : null}
       </div>
     );
   }
@@ -90,12 +92,12 @@ export function FileCard({ item }: FileCardProps) {
           <span className="text-white text-[14px] font-medium truncate select-none">{item.name}</span>
         </div>
         <div className="flex items-center gap-1">
-          {item.encrypted && !selected && <Lock className="w-3.5 h-3.5 text-discord-text-muted" />}
+          {item.encrypted && !selected && !isTrash && <Lock className="w-3.5 h-3.5 text-discord-text-muted" />}
           {selected ? (
             <CheckCircle2 className="w-5 h-5 text-discord-blurple shrink-0" />
-          ) : (
+          ) : !isTrash ? (
             <FileCardMenu item={item} />
-          )}
+          ) : null}
         </div>
       </div>
 

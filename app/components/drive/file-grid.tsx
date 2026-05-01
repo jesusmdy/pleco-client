@@ -1,12 +1,13 @@
-import { FileCard } from "@/app/components/drive/file-card";
+import { FileCard, FileCardContext } from "@/app/components/drive/file-card";
 import { UnifiedDriveItem } from "@/app/lib/drive";
 
 interface FileGridProps {
   items: UnifiedDriveItem[];
   isLoading: boolean;
+  context?: FileCardContext;
 }
 
-export function FileGrid({ items, isLoading }: FileGridProps) {
+export function FileGrid({ items, isLoading, context = "drive" }: FileGridProps) {
   if (isLoading) {
     return (
       <div className="flex flex-col items-center justify-center h-full gap-4 text-discord-text-muted min-h-[200px]">
@@ -33,7 +34,7 @@ export function FileGrid({ items, isLoading }: FileGridProps) {
         <section>
           <h3 className="text-sm font-bold text-discord-text-muted mb-4 uppercase tracking-wider">Folders</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
-            {folders.map(folder => <FileCard key={folder.id} item={folder} />)}
+            {folders.map(folder => <FileCard key={folder.id} item={folder} context={context} />)}
           </div>
         </section>
       )}
@@ -42,7 +43,7 @@ export function FileGrid({ items, isLoading }: FileGridProps) {
         <section>
           <h3 className="text-sm font-bold text-discord-text-muted mb-4 uppercase tracking-wider">Files</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-            {files.map(file => <FileCard key={file.id} item={file} />)}
+            {files.map(file => <FileCard key={file.id} item={file} context={context} />)}
           </div>
         </section>
       )}

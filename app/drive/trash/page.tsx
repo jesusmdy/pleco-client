@@ -1,23 +1,23 @@
 "use client";
 
-import { useState, useCallback, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useSession } from "next-auth/react";
-import { listTrash, searchTrash } from "@/app/lib/drive";
-import { TrashToolbar } from "@/app/components/trash/trash-toolbar";
-import { TrashItemList } from "@/app/components/trash/trash-item-list";
-import { RestoreModal } from "@/app/components/trash/restore-modal";
-import { PermanentDeleteModal } from "@/app/components/trash/permanent-delete-modal";
+import { listTrash, searchTrash, trashItemToDriveItem } from "@/app/lib/drive";
+import { FileGrid } from "@/app/components/drive/file-grid";
+import { BulkActionToolbar } from "@/app/components/drive/bulk-action-toolbar";
+import { TrashBulkActions } from "@/app/components/trash/trash-bulk-actions";
+import { useSelectionStore } from "@/app/store/selectionStore";
 import { useDebounce } from "@/app/hooks/useDebounce";
+import { Search } from "lucide-react";
 
 export default function TrashPage() {
   const { data: session } = useSession();
+  const { clear } = useSelectionStore();
   const [search, setSearch] = useState("");
-  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
-  const [isRestoreOpen, setIsRestoreOpen] = useState(false);
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-
   const debouncedSearch = useDebounce(search, 300);
+
+  useEffect(() => () => clear(), []);
 
   const { data: items = [], isLoading } = useQuery({
     queryKey: ["trash", debouncedSearch],
@@ -30,71 +30,35 @@ export default function TrashPage() {
     refetchOnMount: true,
   });
 
-  const allSelected = useMemo(
-    () => items.length > 0 && selectedIds.size === items.length,
-    [items.length, selectedIds.size]
-  );
-
-  const handleToggle = useCallback((id: string) => {
-    setSelectedIds(prev => {
-      const next = new Set(prev);
-      next.has(id) ? next.delete(id) : next.add(id);
-      return next;
-    });
-  }, []);
-
-  const handleSelectAll = useCallback(() => {
-    setSelectedIds(prev =>
-      prev.size === items.length ? new Set() : new Set(items.map(i => i.id))
-    );
-  }, [items]);
-
-  const handleActionSuccess = useCallback(() => {
-    setSelectedIds(new Set());
-  }, []);
+  const driveItems = useMemo(() => items.map(trashItemToDriveItem), [items]);
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-8 gap-4">
         <h1 className="text-3xl font-bold text-white">Trash</h1>
-        {!isLoading && items.length > 0 && (
-          <span className="text-discord-text-muted text-[14px]">
-            {items.length} item{items.length !== 1 ? "s" : ""}
-          </span>
-        )}
+
+        <div className="flex items-center gap-4">
+          {!isLoading && items.length > 0 && (
+            <span className="text-discord-text-muted text-[14px]">
+              {items.length} item{items.length !== 1 ? "s" : ""}
+            </span>
+          )}
+          <div className="relative">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-discord-text-muted" />
+            <input
+              type="text"
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search trash..."
+              className="bg-discord-bg-tertiary text-white text-[14px] rounded-full pl-10 pr-4 py-2 outline-none focus:ring-1 focus:ring-discord-blurple border border-transparent transition-all w-56"
+            />
+          </div>
+        </div>
       </div>
 
-      <TrashToolbar
-        search={search}
-        onSearchChange={setSearch}
-        selectedCount={selectedIds.size}
-        totalCount={items.length}
-        allSelected={allSelected}
-        onSelectAll={handleSelectAll}
-        onRestore={() => setIsRestoreOpen(true)}
-        onDelete={() => setIsDeleteOpen(true)}
-      />
+      <BulkActionToolbar actions={<TrashBulkActions />} />
 
-      <TrashItemList
-        items={items}
-        isLoading={isLoading}
-        selectedIds={selectedIds}
-        onToggle={handleToggle}
-      />
-
-      <RestoreModal
-        isOpen={isRestoreOpen}
-        onClose={() => setIsRestoreOpen(false)}
-        selectedIds={selectedIds}
-        onSuccess={handleActionSuccess}
-      />
-
-      <PermanentDeleteModal
-        isOpen={isDeleteOpen}
-        onClose={() => setIsDeleteOpen(false)}
-        selectedIds={selectedIds}
-        onSuccess={handleActionSuccess}
-      />
+      <FileGrid items={driveItems} isLoading={isLoading} context="trash" />
     </div>
   );
 }

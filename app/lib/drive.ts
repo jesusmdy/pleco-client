@@ -17,6 +17,22 @@ export interface TrashItem {
   updatedAt: string;
 }
 
+export function trashItemToDriveItem(item: TrashItem): UnifiedDriveItem {
+  return {
+    id: item.id,
+    name: item.name,
+    itemType: item.itemType,
+    size: item.size,
+    mimeType: item.mimeType,
+    encrypted: item.encrypted ?? false,
+    depth: item.depth ?? 0,
+    parentId: item.parentId,
+    path: item.path ?? [],
+    createdAt: item.createdAt,
+    updatedAt: item.updatedAt,
+  };
+}
+
 export interface UnifiedDriveItem {
   id: string;
   name: string;
