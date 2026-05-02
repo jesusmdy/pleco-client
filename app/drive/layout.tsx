@@ -9,12 +9,12 @@ export default function DriveLayout({ children }: { children: React.ReactNode })
 
   return (
     <AuthGuard isAuth={true}>
-      <div className="flex min-h-screen bg-discord-bg-primary">
+      <div className="flex min-h-screen bg-zinc-800">
         <Sidebar />
         <UploadManager />
-        <div className="flex-1 flex flex-col bg-discord-bg-primary overflow-hidden">
+        <div className="flex-1 flex flex-col overflow-hidden border-l border-white/5">
           <Header />
-          <main className="flex-1 p-6 overflow-y-auto">
+          <main className="flex-1 overflow-y-auto border-t border-white/5">
             {children}
           </main>
         </div>

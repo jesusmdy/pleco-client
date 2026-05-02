@@ -28,7 +28,7 @@ export default function FolderPage() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6 gap-4">
+      <div className="flex items-center justify-between p-4 gap-4">
         <div className="flex-1 min-w-0">
           {breadcrumb && <Breadcrumb path={breadcrumb} />}
         </div>
@@ -36,8 +36,10 @@ export default function FolderPage() {
           <NewItemDropdown />
         </div>
       </div>
-      <BulkActionToolbar />
-      <FileGrid items={folderContent || []} isLoading={isLoading} />
+      <div className="p-4 border-t border-white/5">
+        <BulkActionToolbar />
+        <FileGrid items={folderContent || []} isLoading={isLoading} />
+      </div>
     </div>
   );
 }
