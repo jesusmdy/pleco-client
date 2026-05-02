@@ -5,8 +5,7 @@ import { useParams } from "next/navigation";
 import { FileGrid } from "@/app/components/drive/file-grid";
 import { Breadcrumb } from "@/app/components/drive/breadcrumb";
 import { useDrive } from "@/app/hooks/useDrive";
-import { CreateFolderButton } from "@/app/components/drive/create-folder-button";
-import { UploadFileButton } from "@/app/components/drive/upload-file-button";
+import { NewItemDropdown } from "@/app/components/drive/new-item-dropdown";
 import { BulkActionToolbar } from "@/app/components/drive/bulk-action-toolbar";
 import { useSelectionStore } from "@/app/store/selectionStore";
 
@@ -33,9 +32,8 @@ export default function FolderPage() {
         <div className="flex-1 min-w-0">
           {breadcrumb && <Breadcrumb path={breadcrumb} />}
         </div>
-        <div className="flex items-center gap-3 shrink-0">
-          <UploadFileButton />
-          <CreateFolderButton />
+        <div className="flex items-center shrink-0">
+          <NewItemDropdown />
         </div>
       </div>
       <BulkActionToolbar />
