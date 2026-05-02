@@ -87,7 +87,7 @@ export const deleteItem = (id: string, token: string) =>
   request<void>(`/drive/items/${id}`, { method: "DELETE", token });
 
 export const downloadFile = async (id: string, fileName: string, token: string) => {
-  const response = await fetch(`${API_BASE_URL}/files/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/drive/download/${id}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
   
