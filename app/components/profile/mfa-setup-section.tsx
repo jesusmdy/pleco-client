@@ -19,6 +19,8 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
   const [verificationCode, setVerificationCode] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [scratchCodes, setScratchCodes] = useState<string[]>([]);
+  const [showCodes, setShowCodes] = useState(false);
 
   const handleStartSetup = async () => {
     setIsLoading(true);
@@ -57,19 +59,54 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
         body: JSON.stringify({ code: verificationCode }),
       });
 
+      const data = await res.json();
       if (!res.ok) {
-        const data = await res.json();
         throw new Error(data.message || "Invalid verification code");
       }
 
-      setIsSettingUp(false);
-      onRefresh();
+      if (data.scratchCodes) {
+        setScratchCodes(data.scratchCodes);
+        setShowCodes(true);
+      } else {
+        setIsSettingUp(false);
+        onRefresh();
+      }
     } catch (err: any) {
       setError(err.message);
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (showCodes) {
+    return (
+      <div className="flex flex-col gap-6">
+        <div className="flex items-center gap-2 text-[#23a559]">
+          <div className="w-2 h-2 rounded-full bg-current"></div>
+          <span className="font-medium text-lg">MFA Enabled Successfully!</span>
+        </div>
+        
+        <div className="flex flex-col gap-4 p-4 bg-[#23a559]/5 border border-[#23a559]/20 rounded-lg">
+          <p className="text-white text-sm font-semibold">Save your backup codes:</p>
+          <p className="text-discord-text-muted text-xs">
+            These codes can be used to access your account if you lose your phone. 
+            Store them in a secure place like a password manager. Each code can only be used once.
+          </p>
+          <div className="grid grid-cols-2 gap-2 mt-2">
+            {scratchCodes.map((code, index) => (
+              <code key={index} className="bg-discord-bg-tertiary p-2 rounded text-center font-mono text-sm text-white border border-white/5">
+                {code}
+              </code>
+            ))}
+          </div>
+        </div>
+
+        <Button onClick={() => { setShowCodes(false); setIsSettingUp(false); onRefresh(); }} variant="primary">
+          I've saved these codes
+        </Button>
+      </div>
+    );
+  }
 
   if (mfaEnabled) {
     return (
