@@ -8,8 +8,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       credentials: {
         username: { label: "Username", type: "text" },
         password: { label: "Password", type: "password" },
+        mfaToken: { label: "MFA Token", type: "text" },
+        mfaUser: { label: "MFA User", type: "text" }, // We can pass serialized user data here
       },
       async authorize(credentials) {
+        if (credentials?.mfaToken && credentials?.mfaUser) {
+          const user = JSON.parse(credentials.mfaUser as string);
+          return {
+            id: String(user.id),
+            name: user.username,
+            email: user.email,
+            backendToken: credentials.mfaToken as string,
+            status: "SUCCESS"
+          };
+        }
+
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/signin`,
           {
@@ -28,10 +41,11 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!data?.token) return null;
 
         return {
-          id: String(data.id),
+          id: data.id ? String(data.id) : "temp",
           name: data.username,
           email: data.email,
           backendToken: data.token,
+          status: data.status
         };
       },
     }),

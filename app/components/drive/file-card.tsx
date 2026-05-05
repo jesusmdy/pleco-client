@@ -6,6 +6,7 @@ import { UnifiedDriveItem } from "@/app/lib/drive";
 import { useRouter } from "next/navigation";
 import { FileCardMenu } from "./file-card-menu";
 import { useSelectionStore } from "@/app/store/selectionStore";
+import { Thumbnail } from "./thumbnail";
 
 export type FileCardContext = "drive" | "trash";
 
@@ -103,11 +104,20 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
 
       {/* Future Preview Area */}
       <div
-        className={`flex-1 mx-3 mb-3 rounded-lg border border-white/5 flex items-center justify-center transition-colors ${
+        className={`flex-1 mx-3 mb-3 rounded-lg border border-white/5 overflow-hidden flex items-center justify-center transition-colors ${
           selected ? "bg-discord-blurple/5" : "bg-discord-bg-tertiary group-hover:bg-discord-bg-primary"
         }`}
       >
-        <FileText className="w-12 h-12 text-discord-text-muted/20" />
+        {item.hasThumb500 ? (
+          <Thumbnail 
+            itemId={item.id} 
+            size={500} 
+            alt={item.name} 
+            className="w-full h-full"
+          />
+        ) : (
+          <FileText className="w-12 h-12 text-discord-text-muted/20" />
+        )}
       </div>
     </div>
   );

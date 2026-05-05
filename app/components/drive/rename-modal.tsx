@@ -18,6 +18,25 @@ export function RenameModal({ item, onClose }: RenameModalProps) {
   const { data: session } = useSession();
   const queryClient = useQueryClient();
 
+  // Extract original extension if item is a file
+  const lastDotIndex = item.name.lastIndexOf(".");
+  const originalExtension = item.itemType === "FILE" && lastDotIndex !== -1 
+    ? item.name.slice(lastDotIndex) 
+    : "";
+
+  const isMissingExtension = originalExtension && !name.toLowerCase().endsWith(originalExtension.toLowerCase());
+
+  const handleApplyExtension = () => {
+    const currentDotIndex = name.lastIndexOf(".");
+    if (currentDotIndex !== -1) {
+      // Replace existing extension or append if name ends in dot
+      setName(name.slice(0, currentDotIndex) + originalExtension);
+    } else {
+      // Append original extension
+      setName(name + originalExtension);
+    }
+  };
+
   const mutation = useMutation({
     mutationFn: () => renameItem(item.id, name, session!.backendToken),
     onSuccess: () => {
@@ -63,6 +82,25 @@ export function RenameModal({ item, onClose }: RenameModalProps) {
               placeholder="e.g. My Documents"
               required
             />
+
+            {isMissingExtension && (
+              <div className="mt-2.5 flex flex-col gap-1.5 animate-in fade-in slide-in-from-top-1 duration-300">
+                <p className="text-[12px] text-amber-400 font-medium flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                  If you change the extension, the file may become unreadable.
+                </p>
+                <button
+                  type="button"
+                  onClick={handleApplyExtension}
+                  className="text-[12px] text-blue-400 hover:text-blue-300 hover:underline transition-all w-fit text-left flex items-center gap-1.5 group"
+                >
+                  <span className="opacity-90">Restore original extension</span>
+                  <span className="font-bold bg-blue-400/10 px-1.5 py-0.5 rounded transition-colors group-hover:bg-blue-400/20">
+                    {originalExtension}
+                  </span>
+                </button>
+              </div>
+            )}
           </div>
           
           <div className="flex justify-end gap-3 mt-2">

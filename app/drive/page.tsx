@@ -7,8 +7,7 @@ import { useSession } from "next-auth/react";
 import { FileGrid } from "@/app/components/drive/file-grid";
 import { Breadcrumb } from "@/app/components/drive/breadcrumb";
 import { useDrive } from "@/app/hooks/useDrive";
-import { CreateFolderButton } from "@/app/components/drive/create-folder-button";
-import { UploadFileButton } from "@/app/components/drive/upload-file-button";
+import { NewItemDropdown } from "@/app/components/drive/new-item-dropdown";
 import { BulkActionToolbar } from "@/app/components/drive/bulk-action-toolbar";
 import { useSelectionStore } from "@/app/store/selectionStore";
 
@@ -37,17 +36,18 @@ export default function DriveRootPage() {
 
   return (
     <div className="">
-      <div className="flex items-center justify-between mb-6 gap-4">
+      <div className="flex items-center justify-between p-4">
         <div className="flex-1 min-w-0">
           <Breadcrumb path={[]} />
         </div>
-        <div className="flex items-center gap-3 shrink-0">
-          <UploadFileButton />
-          <CreateFolderButton />
+        <div className="flex items-center shrink-0">
+          <NewItemDropdown />
         </div>
       </div>
-      <BulkActionToolbar />
-      <FileGrid items={folderContent || []} isLoading={isLoading} />
+      <div className="p-4 border-t border-white/5">
+        <BulkActionToolbar />
+        <FileGrid items={folderContent || []} isLoading={isLoading} />
+      </div>
     </div>
   );
 }

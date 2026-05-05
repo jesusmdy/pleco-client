@@ -45,7 +45,12 @@ export interface UnifiedDriveItem {
   path: string[];
   createdAt: string;
   updatedAt: string;
+  hasThumb200?: boolean;
+  hasThumb500?: boolean;
 }
+
+export const getRecentFiles = (token: string) =>
+  request<UnifiedDriveItem[]>("/drive/recent", { method: "GET", token });
 
 export interface BreadcrumbNode {
   id: string;
