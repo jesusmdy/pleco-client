@@ -8,6 +8,7 @@ import { useProfile } from "@/app/hooks/useProfile";
 import { formatBytes } from "@/app/lib/utils";
 
 import { StorageChip } from "@/app/components/ui/storage-chip";
+import { cn } from "@/app/lib/utils";
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -23,26 +24,42 @@ export function Sidebar() {
   const percentage = Math.min(100, (used / limit) * 100);
 
   return (
-    <div className="w-sidebar flex flex-col hidden md:flex bg-md-surface-container-low h-full border-r border-md-outline-variant/10 z-10 transition-all duration-300 ease-in-out">
-      <div className="flex-1 p-3 flex flex-col gap-2 mt-4">
+    <div className="w-sidebar flex flex-col hidden md:flex bg-md-surface-container-low h-full border-r border-md-outline-variant/10 z-10 transition-all duration-500 ease-in-out">
+      <div className="flex-1 p-3 flex flex-col gap-1 mt-6">
         <Link
           href="/fm/drive"
-          className={`rounded-2xl px-5 py-3 flex items-center gap-3.5 transition-all group ${isDriveActive ? 'bg-md-primary-container text-md-on-primary-container font-semibold' : 'bg-transparent text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface'}`}
+          className={cn(
+            "rounded-full px-6 py-3 flex items-center gap-4 transition-all duration-300 group",
+            isDriveActive 
+              ? 'bg-md-primary-container text-md-on-primary-container font-semibold' 
+              : 'bg-transparent text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface'
+          )}
         >
-          <HardDrive className={`w-5 h-5 ${isDriveActive ? 'text-md-primary' : 'text-md-on-surface-variant group-hover:text-md-on-surface'}`} />
-          <span className="text-[15px]">My Drive</span>
+          <HardDrive className={cn(
+            "w-5 h-5 transition-colors",
+            isDriveActive ? 'text-md-primary' : 'text-md-on-surface-variant group-hover:text-md-on-surface'
+          )} />
+          <span className="text-[14px] tracking-wide">My Drive</span>
         </Link>
 
         <Link
           href="/fm/drive/trash-bin"
-          className={`rounded-2xl px-5 py-3 flex items-center gap-3.5 transition-all group ${isTrashActive ? 'bg-md-primary-container text-md-on-primary-container font-semibold' : 'bg-transparent text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface'}`}
+          className={cn(
+            "rounded-full px-6 py-3 flex items-center gap-4 transition-all duration-300 group",
+            isTrashActive 
+              ? 'bg-md-primary-container text-md-on-primary-container font-semibold' 
+              : 'bg-transparent text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface'
+          )}
         >
-          <Trash2 className={`w-5 h-5 ${isTrashActive ? 'text-md-primary' : 'text-md-on-surface-variant group-hover:text-md-on-surface'}`} />
-          <span className="text-[15px]">Trash</span>
+          <Trash2 className={cn(
+            "w-5 h-5 transition-colors",
+            isTrashActive ? 'text-md-primary' : 'text-md-on-surface-variant group-hover:text-md-on-surface'
+          )} />
+          <span className="text-[14px] tracking-wide">Trash</span>
         </Link>
       </div>
 
-      <div className="p-4 border-t border-md-outline-variant/10 bg-md-surface-container-lowest/30">
+      <div className="p-4 mt-auto mb-6 border-t border-md-outline-variant/10 bg-md-surface-container-lowest/30">
         {usage && profile && (
           <StorageChip used={used} limit={limit} percentage={percentage} />
         )}

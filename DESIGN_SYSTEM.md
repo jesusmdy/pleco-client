@@ -1,6 +1,6 @@
 # Pleco Design System (Material Expressive)
 
-This document outlines the core design principles, tokens, and component guidelines for the Pleco application, now standardized on the **Material Expressive (Material 3)** design system. **You must adhere to these guidelines during all future UI updates to ensure a cohesive and professional experience.**
+This document outlines the core design principles, tokens, and component guidelines for the Pleco application, now standardized on the **Material Expressive (Material 3)** design system. **You must adhere to these guidelines during all future UI updates to ensure a cohesive and professional experience.** For detailed technical specifications and agent operation instructions, refer to the [Design Guidelines](./DESIGN_GUIDELINES.md).
 
 ## 1. Core Philosophy
 - **Aesthetic**: A premium, high-density implementation of Material 3 in a unique "Olive Expressive" theme.
