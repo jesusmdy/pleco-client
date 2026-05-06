@@ -83,54 +83,55 @@ export function SignInForm() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
+    <form onSubmit={handleSubmit} className="w-full flex flex-col gap-8">
       {!isMfaRequired ? (
         <>
           <Input
-            label="Username"
+            label="Account Username"
             required
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             autoComplete="username"
           />
 
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-3">
             <Input
-              label="Password"
+              label="Account Password"
               type="password"
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               autoComplete="current-password"
             />
-            <div className="flex justify-end">
-              <button type="button" className="text-[12px] text-figma-blue hover:text-figma-blue/80 font-medium transition-colors">
-                Forgot password?
+            <div className="flex justify-end px-1">
+              <button type="button" className="text-[12px] text-md-primary hover:text-md-on-surface font-bold uppercase tracking-widest transition-all">
+                Forgot access?
               </button>
             </div>
           </div>
         </>
       ) : (
-        <div className="flex flex-col gap-4">
-          <div className="p-3 rounded-lg bg-figma-blue/5 border border-figma-blue/20">
-            <p className="text-[12px] text-figma-blue leading-relaxed text-center">
-              MFA is enabled on your account. Please enter the code from your authenticator app.
+        <div className="flex flex-col gap-6">
+          <div className="p-6 rounded-[24px] bg-md-primary-container/20 border border-md-primary/10">
+            <p className="text-[14px] text-md-on-primary-container leading-relaxed text-center font-medium">
+              Multi-Factor Authentication is active. Please enter the verification code from your device.
             </p>
           </div>
           <Input
-            label="Verification Code"
+            label="Security Code"
             required
             value={mfaCode}
             onChange={(e) => setMfaCode(e.target.value)}
-            placeholder="000000"
+            placeholder="000 000"
             autoFocus
+            className="text-center text-xl tracking-[0.4em] font-bold"
           />
         </div>
       )}
 
       {error && (
-        <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20">
-          <p className="text-red-400 text-[12px] font-medium text-center">
+        <div className="p-4 rounded-xl bg-md-error/10 border border-md-error/20 animate-in shake duration-300">
+          <p className="text-md-error text-[13px] font-bold text-center uppercase tracking-wider">
             {error}
           </p>
         </div>
@@ -140,19 +141,19 @@ export function SignInForm() {
         type="submit"
         variant="primary"
         isLoading={isLoading}
-        className="w-full h-11 bg-figma-blue hover:bg-figma-blue/90 text-white font-bold rounded-lg shadow-[0_8px_16px_rgba(24,160,251,0.2)] transition-all"
+        className="w-full h-12 bg-md-primary text-md-on-primary font-bold rounded-xl shadow-lg shadow-md-primary/25 transition-all hover:scale-[1.02] active:scale-[0.98] text-[14px] uppercase tracking-widest"
       >
-        {isMfaRequired ? "Verify Identity" : "Sign In"}
+        {isMfaRequired ? "Confirm Identity" : "Access Workspace"}
       </Button>
 
       <div className="mt-2 text-center">
-        <p className="text-[13px] text-figma-text-muted">
-          New here?{" "}
+        <p className="text-[14px] text-md-on-surface-variant font-medium">
+          New to Pleco?{" "}
           <Link
             href="/auth/sign-up"
-            className="text-figma-blue hover:underline font-bold"
+            className="text-md-primary hover:underline font-bold uppercase tracking-widest ml-1"
           >
-            Create an account
+            Create Workspace
           </Link>
         </p>
       </div>

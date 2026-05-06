@@ -15,21 +15,21 @@ export function ActivityItem({ item, onCancel }: ActivityItemProps) {
 
   const getStatusIcon = (status: UploadItem["status"]) => {
     switch (status) {
-      case "queue": return <Clock className="w-4 h-4 text-figma-text-muted" />;
-      case "in_progress": return <Loader2 className="w-4 h-4 text-figma-blue animate-spin" />;
-      case "completed": return <CheckCircle className="w-4 h-4 text-green-400" />;
-      case "cancelled": return <XCircle className="w-4 h-4 text-figma-text-muted" />;
-      case "error": return <AlertCircle className="w-4 h-4 text-discord-red" />;
+      case "queue": return <Clock className="w-5 h-5 text-md-on-surface-variant" />;
+      case "in_progress": return <Loader2 className="w-5 h-5 text-md-primary animate-spin" />;
+      case "completed": return <CheckCircle className="w-5 h-5 text-green-400" />;
+      case "cancelled": return <XCircle className="w-5 h-5 text-md-on-surface-variant" />;
+      case "error": return <AlertCircle className="w-5 h-5 text-md-error" />;
     }
   };
 
   return (
-    <div className="p-3 flex items-center justify-between hover:bg-figma-hover transition-colors group">
-      <div className="flex items-center gap-3">
+    <div className="p-4 flex items-center justify-between hover:bg-md-primary/10 transition-colors group">
+      <div className="flex items-center gap-4">
         {getStatusIcon(item.status)}
         <div>
-          <p className="text-white text-[13px] font-medium leading-tight">{item.file.name}</p>
-          <p className="text-figma-text-muted text-[11px] mt-0.5 uppercase tracking-wide font-semibold">
+          <p className="text-md-on-surface text-[15px] font-bold leading-tight">{item.file.name}</p>
+          <p className="text-md-on-surface-variant text-[11px] mt-1 uppercase tracking-widest font-bold">
             {formatSize(item.file.size)} • {item.status.replace("_", " ")}
           </p>
         </div>
@@ -38,7 +38,7 @@ export function ActivityItem({ item, onCancel }: ActivityItemProps) {
       {(item.status === "queue" || item.status === "in_progress") && (
         <button
           onClick={() => onCancel(item.id)}
-          className="text-figma-text-muted hover:text-discord-red text-[11px] font-bold uppercase tracking-wider px-2 py-1 hover:bg-discord-red/10 rounded-md transition-all"
+          className="text-md-on-surface-variant hover:text-md-error text-[12px] font-bold uppercase tracking-widest px-3 py-1.5 hover:bg-md-error/10 rounded-xl transition-all"
         >
           Cancel
         </button>

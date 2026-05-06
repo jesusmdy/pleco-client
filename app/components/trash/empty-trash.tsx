@@ -40,55 +40,56 @@ export function EmptyTrash({ itemIds, disabled }: EmptyTrashProps) {
         disabled={disabled || isPending}
         title="Permanently delete all items in the trash"
         className={`
-          flex items-center gap-1.5 h-7 px-3
-          bg-figma-red hover:bg-figma-red/90 
-          text-white font-medium text-[12px]
-          rounded-md shadow-sm transition-all duration-150 active:scale-95
+          flex items-center gap-2 h-9 px-4
+          bg-md-error text-md-on-error hover:bg-md-error/90 
+          font-bold text-[13px] uppercase tracking-widest
+          rounded-xl shadow-lg shadow-md-error/20 transition-all duration-200 active:scale-95
           disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100
           cursor-pointer
         `}
       >
         {isPending ? (
-          <Loader2 className="w-3.5 h-3.5 animate-spin" />
+          <Loader2 className="w-4 h-4 animate-spin" />
         ) : (
-          <Trash2 className="w-3.5 h-3.5" />
+          <Trash2 className="w-4 h-4" />
         )}
         <span>Empty Trash</span>
       </button>
 
       {showConfirm && (
         <div 
-          className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 backdrop-blur-[2px] animate-in fade-in duration-200"
+          className="fixed inset-0 bg-black/80 z-[100] flex items-center justify-center p-4 backdrop-blur-[4px] animate-in fade-in duration-300"
           onClick={() => setShowConfirm(false)}
         >
           <div 
-            className="bg-figma-dark rounded-lg shadow-2xl w-full max-w-sm overflow-hidden border border-black/50 animate-in zoom-in-95 duration-200"
+            className="bg-md-surface-container-high rounded-[28px] shadow-[0_24px_64px_rgba(0,0,0,0.6)] w-full max-w-md overflow-hidden border border-md-outline-variant/10 animate-in zoom-in-95 duration-300"
             onClick={e => e.stopPropagation()}
           >
-            <div className="px-4 py-3 flex items-center justify-between border-b border-white/5 bg-figma-dark/50">
-              <h2 className="text-[13px] font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                <AlertTriangle className="w-3.5 h-3.5 text-figma-red" />
+            <div className="px-6 py-4 flex items-center justify-between border-b border-md-outline-variant/10 bg-md-surface-container-high/50">
+              <h2 className="text-[14px] font-bold text-md-on-surface uppercase tracking-widest flex items-center gap-3">
+                <AlertTriangle className="w-5 h-5 text-md-error" />
                 Empty Trash
               </h2>
               <button 
                 onClick={() => setShowConfirm(false)}
-                className="text-figma-text-muted hover:text-white transition-colors p-1 hover:bg-figma-hover rounded-md"
+                className="text-md-on-surface-variant hover:text-md-on-surface transition-all p-1.5 hover:bg-md-surface-variant/20 rounded-full"
               >
-                <X className="w-4 h-4" />
+                <X className="w-6 h-6" />
               </button>
             </div>
             
-            <div className="p-4">
-              <p className="text-[13px] text-figma-text-muted leading-relaxed">
-                Are you sure you want to permanently delete <span className="text-white font-bold">{itemIds.length} items</span>? 
-                This action cannot be undone and files will be lost forever.
+            <div className="p-8">
+              <p className="text-[15px] text-md-on-surface-variant leading-relaxed font-medium">
+                Are you sure you want to permanently delete <span className="text-md-on-surface font-bold">{itemIds.length} items</span>? 
+                This action <span className="text-md-error font-bold">cannot be undone</span> and files will be lost forever.
               </p>
               
-              <div className="flex justify-end gap-2 mt-6">
+              <div className="flex justify-end gap-3 mt-8">
                 <Button
                   variant="ghost"
                   onClick={() => setShowConfirm(false)}
                   disabled={isPending}
+                  className="h-10 px-6 font-bold"
                 >
                   Cancel
                 </Button>
@@ -96,7 +97,7 @@ export function EmptyTrash({ itemIds, disabled }: EmptyTrashProps) {
                   variant="primary"
                   onClick={() => handleEmpty()}
                   disabled={isPending}
-                  className="bg-figma-red hover:bg-figma-red/90 px-6"
+                  className="bg-md-error text-md-on-error hover:bg-md-error/90 px-8 h-10 font-bold shadow-lg shadow-md-error/20 rounded-xl"
                 >
                   {isPending ? "Emptying..." : "Empty Trash"}
                 </Button>

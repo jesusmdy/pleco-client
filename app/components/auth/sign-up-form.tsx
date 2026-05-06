@@ -73,8 +73,8 @@ export function SignUpForm() {
       />
 
       {error && (
-        <div className="p-3 rounded-lg bg-red-500/10 border border-red-500/20">
-          <p className="text-red-400 text-[12px] font-medium text-center">
+        <div className="p-4 rounded-xl bg-md-error/10 border border-md-error/20 animate-in shake duration-300">
+          <p className="text-md-error text-[13px] font-bold text-center uppercase tracking-wider">
             {error}
           </p>
         </div>
@@ -84,30 +84,30 @@ export function SignUpForm() {
         type="submit" 
         variant="primary" 
         isLoading={mutation.isPending} 
-        className="w-full h-11 bg-figma-blue hover:bg-figma-blue/90 text-white font-bold rounded-lg shadow-[0_8px_16px_rgba(24,160,251,0.2)] transition-all"
+        className="w-full h-12 bg-md-primary text-md-on-primary font-bold rounded-xl shadow-lg shadow-md-primary/25 transition-all hover:scale-[1.02] active:scale-[0.98] text-[14px] uppercase tracking-widest"
       >
-        Create Account
+        Initialize Account
       </Button>
 
-      <div className="text-center">
-        <p className="text-[13px] text-figma-text-muted">
-          Already have an account?{" "}
+      <div className="text-center pt-2">
+        <p className="text-[14px] text-md-on-surface-variant font-medium">
+          Already a member?{" "}
           <Link
             href="/auth/sign-in"
-            className="text-figma-blue hover:underline font-bold"
+            className="text-md-primary hover:underline font-bold uppercase tracking-widest ml-1"
           >
             Sign In
           </Link>
         </p>
       </div>
 
-      <p className="text-[11px] text-figma-text-muted/60 mt-4 leading-relaxed text-center">
+      <p className="text-[12px] text-md-on-surface-variant/50 mt-6 leading-relaxed text-center font-medium">
         By registering, you agree to Pleco Drive&apos;s{" "}
-        <button type="button" className="text-figma-text-muted hover:text-white transition-colors underline decoration-white/20">
+        <button type="button" className="text-md-on-surface-variant hover:text-md-on-surface transition-colors underline decoration-md-outline-variant/30">
           Terms of Service
         </button>{" "}
         and{" "}
-        <button type="button" className="text-figma-text-muted hover:text-white transition-colors underline decoration-white/20">
+        <button type="button" className="text-md-on-surface-variant hover:text-md-on-surface transition-colors underline decoration-md-outline-variant/30">
           Privacy Policy
         </button>
         .

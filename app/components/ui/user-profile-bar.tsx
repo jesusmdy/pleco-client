@@ -14,10 +14,10 @@ export function UserProfileBar({ username }: UserProfileBarProps) {
 
   return (
     <Link href="/fm/profile" className="relative group">
-      <div className={`w-8 h-8 flex items-center justify-center transition-all rounded-md text-white font-bold text-xs select-none ${
+      <div className={`w-9 h-9 flex items-center justify-center transition-all rounded-full font-bold text-[13px] select-none ${
         isActive 
-          ? 'bg-figma-blue shadow-sm' 
-          : 'bg-figma-hover group-hover:bg-[#4a4a4a]'
+          ? 'bg-md-primary text-md-on-primary shadow-lg shadow-md-primary/20 scale-105' 
+          : 'bg-md-surface-container-highest text-md-on-surface group-hover:bg-md-surface-variant/40'
       }`}>
         {initial}
       </div>

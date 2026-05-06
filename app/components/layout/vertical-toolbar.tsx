@@ -41,14 +41,14 @@ function ToolbarItem({ href, icon: Icon, children, pattern }: ToolbarItemProps) 
     : pathname === href;
 
   return (
-    <Link href={href} className="relative">
-      <div className={`w-8 h-8 flex items-center justify-center transition-colors rounded-md ${
+    <Link href={href} className="relative group px-2">
+      <div className={`w-10 h-10 flex items-center justify-center transition-all rounded-full ${
         isActive 
-          ? 'bg-figma-blue text-white shadow-sm' 
-          : 'text-figma-text-muted hover:bg-figma-hover hover:text-white'
+          ? 'bg-md-primary-container text-md-on-primary-container shadow-sm' 
+          : 'text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface'
       }`}>
         {Icon ? (
-          <Icon className="w-4 h-4" />
+          <Icon className={`w-5 h-5 transition-transform group-active:scale-90 ${isActive ? 'scale-110' : ''}`} />
         ) : (
           <div className="font-bold text-xs select-none">
             {children}
@@ -65,14 +65,14 @@ export function VerticalToolbar() {
   const { data: session } = useSession();
 
   return (
-    <aside className="w-[44px] flex flex-col items-center py-2 bg-figma-dark h-screen shrink-0 gap-2 border-r border-black/20 shadow-xl">
-      <div className="mb-2 p-1">
-        <div className="w-6 h-6 bg-figma-blue rounded flex items-center justify-center">
-          <HardDrive className="w-3.5 h-3.5 text-white" />
+    <aside className="w-[56px] flex flex-col items-center py-4 bg-md-surface-container-low h-screen shrink-0 gap-4 border-r border-md-outline-variant/10 shadow-2xl z-50">
+      <div className="mb-4">
+        <div className="w-10 h-10 bg-md-primary rounded-2xl flex items-center justify-center shadow-lg shadow-md-primary/20 rotate-3 hover:rotate-0 transition-transform cursor-pointer">
+          <HardDrive className="w-5 h-5 text-md-on-primary" />
         </div>
       </div>
 
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-2">
         {TOOLBAR_ITEMS.map((item) => (
           <ToolbarItem 
             key={item.href}
@@ -83,8 +83,8 @@ export function VerticalToolbar() {
         ))}
       </div>
 
-      <div className="mt-auto flex flex-col items-center gap-1">
-        <div className="w-6 h-[1px] bg-white/5 mb-1" />
+      <div className="mt-auto flex flex-col items-center gap-4 w-full">
+        <div className="w-8 h-[1px] bg-md-outline-variant/20" />
         <UserProfileBar username={session?.username} />
       </div>
     </aside>

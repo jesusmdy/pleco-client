@@ -29,8 +29,8 @@ export function AuthGuard({ children, isAuth }: AuthGuardProps) {
   // Show spinner while session is resolving
   if (status === "loading") {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-figma-dark">
-        <Loader size="lg" label="Securing Session" />
+      <div className="flex items-center justify-center min-h-screen bg-md-background">
+        <Loader size="lg" label="Synchronizing Workspace" />
       </div>
     );
   }

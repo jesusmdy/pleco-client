@@ -12,13 +12,13 @@ export function BreadcrumbItem({ href, label, isLast }: BreadcrumbItemProps) {
     <Link 
       href={href}
       className={`
-        flex items-center gap-1 px-2 py-1 rounded-md transition-colors shrink-0
-        ${isLast ? 'text-white font-semibold' : 'text-figma-text-muted hover:bg-figma-hover hover:text-white'}
-        text-[13px]
+        flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg transition-all shrink-0 font-medium
+        ${isLast ? 'text-md-on-surface font-bold bg-md-surface-variant/10' : 'text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface'}
+        text-[14px]
       `}
     >
-      <span className="truncate max-w-[150px]">{label}</span>
-      {isLast && <ChevronDown className="w-3 h-3 ml-0.5 opacity-50" />}
+      <span className="truncate max-w-[200px]">{label}</span>
+      {isLast && <ChevronDown className="w-3.5 h-3.5 ml-0.5 text-md-on-surface-variant" />}
     </Link>
   );
 }

@@ -11,20 +11,20 @@ export function ViewToggle({ className = "" }: ViewToggleProps) {
   const { viewMode, setViewMode } = useViewStore();
 
   return (
-    <div className={`flex bg-figma-bg p-0.5 rounded-md border border-white/5 ${className}`}>
+    <div className={`flex bg-md-surface-container p-1 rounded-2xl border border-md-outline-variant/10 ${className}`}>
       <button
         onClick={() => setViewMode("grid")}
-        className={`p-1 rounded transition-all ${viewMode === "grid" ? "bg-figma-hover text-white shadow-sm" : "text-figma-text-muted hover:text-white"}`}
+        className={`p-2 rounded-xl transition-all ${viewMode === "grid" ? "bg-md-primary text-md-on-primary shadow-lg shadow-md-primary/20" : "text-md-on-surface-variant hover:text-md-on-surface hover:bg-md-surface-variant/20"}`}
         title="Grid View"
       >
-        <Grid className="w-3.5 h-3.5" />
+        <Grid className="w-4 h-4" />
       </button>
       <button
         onClick={() => setViewMode("list")}
-        className={`p-1 rounded transition-all ${viewMode === "list" ? "bg-figma-hover text-white shadow-sm" : "text-figma-text-muted hover:text-white"}`}
+        className={`p-2 rounded-xl transition-all ${viewMode === "list" ? "bg-md-primary text-md-on-primary shadow-lg shadow-md-primary/20" : "text-md-on-surface-variant hover:text-md-on-surface hover:bg-md-surface-variant/20"}`}
         title="List View"
       >
-        <ListIcon className="w-3.5 h-3.5" />
+        <ListIcon className="w-4 h-4" />
       </button>
     </div>
   );

@@ -10,9 +10,9 @@ function DriveDeleteButton({ onClick, count }: { onClick: () => void; count: num
   return (
     <button
       onClick={onClick}
-      className="bg-figma-red hover:bg-figma-red/90 text-white shadow-sm flex items-center gap-1.5 px-3 h-7 rounded-md text-[12px] font-medium transition-all cursor-pointer"
+      className="bg-md-error text-md-on-error hover:bg-md-error/90 shadow-lg shadow-md-error/20 flex items-center gap-2 px-4 h-8 rounded-lg text-[13px] font-bold uppercase tracking-wider transition-all cursor-pointer active:scale-95"
     >
-      <Trash2 className="w-3.5 h-3.5" />
+      <Trash2 className="w-4 h-4" />
       Delete ({count})
     </button>
   );
@@ -31,21 +31,21 @@ export function BulkActionToolbar({ actions }: BulkActionToolbarProps) {
 
   return (
     <>
-      <div className="h-9 flex items-center justify-between px-3 rounded-md bg-figma-blue/10 border border-figma-blue/20 animate-in fade-in duration-200 mb-4">
-        <div className="flex items-center gap-3">
+      <div className="h-12 flex items-center justify-between px-4 rounded-xl bg-md-primary-container border border-md-primary/10 animate-in slide-in-from-top-2 duration-300 mb-6 shadow-md">
+        <div className="flex items-center gap-4">
           <button
             onClick={clear}
-            className="p-1 hover:bg-figma-blue/20 rounded-md text-figma-blue transition-colors"
+            className="p-1.5 hover:bg-md-on-primary-container/10 rounded-full text-md-on-primary-container transition-all active:scale-90"
             title="Deselect all"
           >
-            <X className="w-3.5 h-3.5" />
+            <X className="w-4.5 h-4.5" />
           </button>
-          <span className="text-figma-blue text-[12px] font-bold whitespace-nowrap">
-            {count} selected
+          <span className="text-md-on-primary-container text-[14px] font-bold uppercase tracking-widest whitespace-nowrap">
+            {count} items selected
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           {actions ?? <DriveDeleteButton onClick={() => setIsDeleteOpen(true)} count={count} />}
         </div>
       </div>

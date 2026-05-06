@@ -17,8 +17,8 @@ export default function ChangePasswordPage() {
 
   if (isLoading) {
     return (
-      <div className="max-w-2xl bg-figma-dark/40 rounded-xl border border-white/5 p-8 animate-pulse text-center">
-        <p className="text-figma-text-muted text-[13px]">Loading security context...</p>
+      <div className="max-w-3xl bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-12 animate-pulse text-center font-bold uppercase tracking-widest text-[14px] text-md-on-surface-variant">
+        Loading security context...
       </div>
     );
   }
@@ -26,13 +26,13 @@ export default function ChangePasswordPage() {
   if (!session?.backendToken) return null;
 
   return (
-    <div className="max-w-2xl space-y-6">
-      <section className="space-y-3">
-        <div className="flex items-center gap-2 text-figma-text-muted">
-          <Lock className="w-3.5 h-3.5" />
-          <h2 className="text-[10px] font-bold uppercase tracking-wider opacity-80">Security Settings</h2>
+    <div className="max-w-3xl space-y-12">
+      <section className="space-y-4">
+        <div className="flex items-center gap-3 text-md-on-surface-variant px-1">
+          <Lock className="w-5 h-5" />
+          <h2 className="text-[13px] font-bold uppercase tracking-widest">Security Settings</h2>
         </div>
-        <div className="bg-figma-dark/40 rounded-xl border border-white/5 p-5">
+        <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-8 shadow-xl">
           <ChangePasswordSection 
             token={session.backendToken} 
             mfaEnabled={!!profile?.mfaEnabled} 

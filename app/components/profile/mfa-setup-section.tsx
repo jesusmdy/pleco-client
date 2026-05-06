@@ -79,20 +79,20 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
 
   if (showCodes) {
     return (
-      <div className="space-y-5 animate-in fade-in slide-in-from-bottom-2 duration-300">
-        <div className="flex items-center gap-2 text-figma-blue">
-          <div className="w-1.5 h-1.5 rounded-full bg-current"></div>
-          <span className="font-bold text-[14px]">MFA Enabled Successfully</span>
+      <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-400">
+        <div className="flex items-center gap-3 text-md-primary">
+          <div className="w-2 h-2 rounded-full bg-current shadow-[0_0_12px_rgba(var(--color-md-primary-rgb),0.5)]"></div>
+          <span className="font-bold text-[15px] uppercase tracking-wider">MFA Protection Enabled</span>
         </div>
         
-        <div className="space-y-3 p-4 bg-figma-blue/5 border border-figma-blue/20 rounded-xl">
-          <p className="text-white text-[13px] font-bold">Important: Save backup codes</p>
-          <p className="text-figma-text-muted text-[12px] leading-relaxed">
-            These codes are the only way to access your account if you lose your authenticator. Store them securely.
+        <div className="space-y-4 p-6 bg-md-primary-container/30 border border-md-primary/20 rounded-2xl">
+          <p className="text-md-on-surface font-bold text-[14px]">Action Required: Save Backup Codes</p>
+          <p className="text-md-on-surface-variant text-[13px] leading-relaxed font-medium">
+            These codes are the ONLY way to access your account if you lose your authenticator. Store them in a secure physical or digital location.
           </p>
-          <div className="grid grid-cols-4 gap-2 mt-4">
+          <div className="grid grid-cols-2 gap-3 mt-6">
             {scratchCodes.map((code, index) => (
-              <code key={index} className="bg-figma-bg p-2 rounded-md text-center font-mono text-[11px] text-white border border-white/5 select-all">
+              <code key={index} className="bg-md-surface-container-highest p-3 rounded-xl text-center font-mono text-[13px] text-md-on-surface border border-md-outline-variant/10 select-all font-bold tracking-widest shadow-sm">
                 {code}
               </code>
             ))}
@@ -101,9 +101,9 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
 
         <Button 
           onClick={() => { setShowCodes(false); setIsSettingUp(false); onRefresh(); }} 
-          className="w-full bg-figma-blue hover:bg-figma-blue/90 text-white h-8 text-[12px] font-bold uppercase tracking-wider"
+          className="w-full bg-md-primary text-md-on-primary h-12 text-[14px] font-bold uppercase tracking-widest rounded-xl shadow-lg shadow-md-primary/20"
         >
-          I've saved these codes
+          I have saved these codes
         </Button>
       </div>
     );
@@ -111,20 +111,19 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
 
   if (mfaEnabled) {
     return (
-      <div className="space-y-5">
-        <div className="flex items-center gap-2 text-figma-blue">
-          <div className="w-1.5 h-1.5 rounded-full bg-current shadow-[0_0_8px_rgba(24,160,251,0.4)]"></div>
-          <span className="font-bold text-[13px]">MFA Protection Active</span>
+      <div className="space-y-6">
+        <div className="flex items-center gap-3 text-md-primary">
+          <div className="w-2 h-2 rounded-full bg-current shadow-[0_0_12px_rgba(var(--color-md-primary-rgb),0.5)]"></div>
+          <span className="font-bold text-[14px] uppercase tracking-widest">Active Protection</span>
         </div>
 
-        <form onSubmit={handleDisableMfa} className="pt-5 space-y-4 border-t border-white/5">
-          <div className="space-y-3">
+        <form onSubmit={handleDisableMfa} className="pt-8 space-y-5 border-t border-md-outline-variant/10">
+          <div className="space-y-4">
             <Input 
-              label="Confirm Password"
+              label="Confirm Identity (Password)"
               name="password"
               type="password" 
               required
-              className="bg-figma-bg border-white/5 h-9 text-[13px]"
             />
             <Input 
               label="Current TOTP Code"
@@ -132,16 +131,16 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
               type="text" 
               maxLength={6}
               required
-              className="bg-figma-bg border-white/5 h-9 text-[13px]"
+              placeholder="000 000"
             />
           </div>
-          {error && <p className="text-figma-red text-[12px] font-medium">{error}</p>}
+          {error && <p className="text-md-error text-[13px] font-bold text-center">{error}</p>}
           <Button 
             type="submit"
             isLoading={isLoading}
-            className="w-full bg-transparent hover:bg-figma-red/10 text-figma-red border border-figma-red/20 h-8 text-[11px] font-bold uppercase tracking-wider"
+            className="w-full bg-md-error/10 hover:bg-md-error text-md-error hover:text-md-on-error border border-md-error/30 h-10 text-[12px] font-bold uppercase tracking-widest rounded-xl transition-all"
           >
-            Disable 2FA
+            Deactivate 2FA Protection
           </Button>
         </form>
       </div>
@@ -150,39 +149,44 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
 
   if (isSettingUp) {
     return (
-      <div className="space-y-6 animate-in fade-in duration-300">
-        <div className="flex flex-col items-center gap-4 p-4 bg-white rounded-xl shadow-xl">
-          <QRCodeSVG value={qrCodeData} size={160} />
+      <div className="space-y-8 animate-in fade-in duration-300">
+        <div className="flex flex-col items-center gap-6 p-8 bg-white rounded-[28px] shadow-2xl border border-md-outline-variant/10 mx-auto w-fit">
+          <QRCodeSVG value={qrCodeData} size={180} />
+          <div className="text-center">
+            <p className="text-slate-900 text-[14px] font-bold">Scan with Authenticator</p>
+            <p className="text-slate-500 text-[12px] font-medium mt-1">Google, Authy, or Ente</p>
+          </div>
         </div>
         
-        <div className="space-y-2">
-          <span className="text-figma-text-muted text-[10px] font-bold uppercase tracking-wider">Manual Setup Key</span>
-          <code className="block bg-figma-bg p-2.5 rounded-lg text-figma-blue text-[11px] font-mono break-all uppercase border border-white/5 text-center tracking-widest">
+        <div className="space-y-3">
+          <span className="text-md-on-surface-variant text-[11px] font-bold uppercase tracking-widest px-1">Manual Setup Key</span>
+          <code className="block bg-md-surface-container-highest p-4 rounded-2xl text-md-primary text-[14px] font-mono break-all uppercase border border-md-outline-variant/10 text-center tracking-[0.2em] font-bold shadow-inner">
             {secret}
           </code>
         </div>
 
-        <div className="space-y-4 pt-4 border-t border-white/5">
+        <div className="space-y-6 pt-6 border-t border-md-outline-variant/10">
           <Input
-            label="Verification Code"
+            label="Enter Verification Code"
             value={verificationCode}
             onChange={(e) => setVerificationCode(e.target.value)}
             placeholder="000 000"
             maxLength={6}
-            className="bg-figma-bg border-white/5 h-9 text-center text-lg tracking-[0.5em]"
+            className="text-center text-2xl tracking-[0.6em] font-bold h-14"
           />
-          {error && <p className="text-figma-red text-[12px] font-medium">{error}</p>}
-          <div className="flex gap-2">
+          {error && <p className="text-md-error text-[13px] font-bold text-center">{error}</p>}
+          <div className="flex gap-3">
             <Button 
               onClick={handleVerify} 
               isLoading={isLoading} 
-              className="flex-1 bg-figma-blue hover:bg-figma-blue/90 text-white h-8 text-[12px] font-bold uppercase tracking-wider"
+              className="flex-1 bg-md-primary text-md-on-primary h-12 text-[14px] font-bold uppercase tracking-widest rounded-xl shadow-lg shadow-md-primary/20"
             >
-              Verify & Enable
+              Verify & Link
             </Button>
             <Button 
               onClick={() => setIsSettingUp(false)} 
-              className="bg-transparent hover:bg-white/5 text-figma-text-muted hover:text-white h-8 text-[12px] font-bold uppercase tracking-wider px-4"
+              variant="ghost"
+              className="h-12 px-6 font-bold"
             >
               Cancel
             </Button>
@@ -194,13 +198,13 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
 
   return (
     <div className="space-y-4">
-      {error && <p className="text-figma-red text-[12px] font-medium">{error}</p>}
+      {error && <p className="text-md-error text-[13px] font-bold">{error}</p>}
       <Button 
         onClick={handleStartSetup} 
         isLoading={isLoading} 
-        className="w-full bg-figma-blue hover:bg-figma-blue/90 text-white h-8 text-[12px] font-bold uppercase tracking-wider shadow-lg shadow-figma-blue/10"
+        className="w-full bg-md-primary text-md-on-primary h-12 text-[14px] font-bold uppercase tracking-widest rounded-xl shadow-lg shadow-md-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all"
       >
-        Configure Two-Factor
+        Configure Two-Factor Auth
       </Button>
     </div>
   );

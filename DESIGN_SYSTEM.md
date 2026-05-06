@@ -1,70 +1,72 @@
-# Pleco Design System
+# Pleco Design System (Material Expressive)
 
-This document outlines the core design principles, tokens, and component guidelines for the Pleco application. **You must adhere to these guidelines during all future UI updates to ensure a cohesive and professional experience.**
+This document outlines the core design principles, tokens, and component guidelines for the Pleco application, now standardized on the **Material Expressive (Material 3)** design system. **You must adhere to these guidelines during all future UI updates to ensure a cohesive and professional experience.**
 
 ## 1. Core Philosophy
-- **Aesthetic**: A premium blend of Discord's dark mode palette and Google Drive's structured, spacious layout. 
-- **Vibe**: Sleek, professional, and dark. Avoid bright, jarring colors outside of intentional accent elements.
-- **Micro-animations**: Interactive elements should feel alive through subtle transitions, not bouncy or exaggerated transforms.
+- **Aesthetic**: A premium, high-density implementation of Material 3 in a unique "Olive Expressive" theme.
+- **Vibe**: Natural, sophisticated, and deep. Colors are derived from an olive seed color (#7b7c25).
+- **Shapes**: High-density rounded corners. We favor `rounded-2xl` (16px) for cards and `rounded-[28px]` (28px) for large containers and modals.
+- **Micro-animations**: Interactive elements use `transition-all` with durations between 200ms and 300ms.
 
-## 2. Color Tokens
+## 2. Color Tokens (Olive Expressive Palette)
 
-### Backgrounds
-- **Primary Page Background**: `bg-discord-bg-primary` (Deepest shade, used for the main application canvas).
-- **Secondary Background**: `bg-discord-bg-secondary` (Slightly lighter, used for Sidebars, Modals, and large Cards).
-- **Tertiary Background**: `bg-discord-bg-tertiary` (Used for Search bars, Input fields, and deep nested areas).
-- **Overlays**: `bg-black/60` (Used for modal backdrops).
+### Backgrounds & Surfaces (Symmetric Elevation)
+- **App Canvas**: `bg-md-background` (#0A1100) - The deepest layer.
+- **Surface Containers**:
+  - `bg-md-surface-container-lowest`: (#0F1604)
+  - `bg-md-surface-container-low`: (#151C0A)
+  - `bg-md-surface-container`: (#1B2312)
+  - `bg-md-surface-container-high`: (#262D1C)
+  - `bg-md-surface-container-highest`: (#313826)
 
-### Text & Typography
-- **Primary Text**: `text-white` or `text-discord-text-primary` (For headings and active data).
-- **Secondary/Muted Text**: `text-discord-text-muted` (For labels, breadcrumbs, descriptions).
-- **Danger Text**: `text-discord-red` (For delete actions, sign-out).
-- **Success Text**: `text-[#23a559]` (For verified badges, success toasts).
-
-### Accents & Brands
-- **Primary Brand / Action**: `bg-discord-blurple` (Primary buttons, active states, main brand logos).
-- **Danger Action**: `bg-discord-red` (Destructive buttons).
+### Typography & Semantic Colors
+- **Primary Text**: `text-md-on-surface` (#E4E3D6) - High contrast body text.
+- **Secondary Text**: `text-md-on-surface-variant` (#C8C8B6) - For labels and metadata.
+- **Primary Brand**: `text-md-primary` (#E2E48C) - Light yellowish green for actions.
+- **Primary Container**: `bg-md-primary-container` (#4B4C04) - Dark olive for grouped elements.
 
 ## 3. Typography Scale
-We use standard sans-serif (Inter/system-ui default) with specific size constraints to maintain crispness.
-- **H1 (Page Title)**: `text-3xl font-bold mb-8`
-- **H2 (Section Header)**: `text-xl font-semibold mb-6`
-- **H3 (Card Header)**: `text-lg font-semibold`
-- **Standard Body**: `text-[15px]` or `text-[14px]`
-- **Metadata/Small**: `text-[13px]` or `text-[12px]`
+We use **Outfit** as the recommended font for Material Design Expressive.
+- **Display/H1**: `text-3xl font-bold tracking-tighter`
+- **Headline/H2**: `text-xl font-bold tracking-tight`
+- **Title/H3**: `text-[14px] font-bold uppercase tracking-widest`
+- **Body Large**: `text-[15px] font-medium`
+- **Label/Small**: `text-[11px] font-bold uppercase tracking-widest`
 
 ## 4. Spacing & Layout
-Avoid tight, cluttered layouts. Let the UI breathe.
-- **Page Wrapper**: Use `w-full` inside a flex layout. Maintain `px-4` or `px-6` padding globally.
-- **Section Gaps**: Use `gap-6` between major list items or form groups.
-- **Component Gaps**: Use `gap-2` or `gap-3` between icons and text.
-- **Vertical Spacing**: Use `mt-8` or `mb-8` to separate distinct page sections.
+Standardized on an 8px grid with high-density overrides.
+- **Page Wrapper**: `max-w-[1600px] mx-auto p-8`.
+- **Section Gaps**: `gap-12` between major blocks.
+- **Component Gaps**: `gap-4` for internal spacing.
+- **Safe Area**: `px-6` for horizontal padding inside containers.
 
-## 5. Borders & Dividers
-Borders should be nearly invisible, providing structure without drawing the eye.
-- **Standard Divider**: `border-b border-white/5` or `border-black/10` depending on the background depth.
-- **Card Borders**: `border border-white/10`.
-- **Focus Rings**: `focus:ring-1 focus:ring-discord-blurple border-transparent`. Never use default browser outlines.
+## 5. Borders & Outlines
+Borders are used sparingly to define structure without adding noise.
+- **Standard Outline**: `border border-md-outline-variant/10`.
+- **Active Outline**: `border-md-primary/30`.
 
-## 6. Border Radius (Corners)
-- **Small Elements (Inputs, Buttons, Badges)**: `rounded` or `rounded-md` (approx 4px - 6px).
-- **Cards & Modals**: `rounded-lg` or `rounded-xl` (approx 8px - 12px) for a softer, modern edge.
-- **Avatars & Quick Action Icons**: `rounded-full`.
+## 6. Border Radius (Shapes)
+- **Standard Component (Buttons, Inputs)**: `rounded-xl` (12px).
+- **Medium Elements (Cards, Breadcrumbs)**: `rounded-2xl` (16px).
+- **Large Elements (Modals, Large Containers)**: `rounded-[28px]` or `rounded-[32px]`.
+- **Icon Triggers**: `rounded-full`.
 
-## 7. Interactive States (Hover & Active)
-All clickable elements must have a defined hover state.
-- **Ghost/Text Buttons**: Use `hover:bg-white/5` or `hover:bg-white/10`.
-- **Danger Elements**: Use a subtle red wash `hover:bg-discord-red/10` and `hover:text-red-400`.
-- **Transitions**: Apply `transition-colors` or `transition-all` to ensure hover states fade in smoothly (150ms default).
-- **Micro-interactions**: Use `group` and `group-hover` to slightly nudge icons. Example: `group-hover:-translate-x-1` for a back/logout arrow.
+## 7. Interactive States
+- **Hover**: Use `hover:bg-md-surface-variant/20` for neutral triggers or `hover:bg-md-primary/10` for themed triggers.
+- **Active/Press**: Apply `active:scale-95` or `active:scale-90` for tactile feedback.
+- **Shadows**:
+  - `shadow-lg` for standard buttons.
+  - `shadow-[0_24px_64px_rgba(0,0,0,0.6)]` for modals.
+  - Always add a subtle color-matched shadow to buttons (e.g., `shadow-md-primary/20`).
 
 ## 8. Modals & Dialogs
-- Must always have a dark backdrop (`bg-black/60`).
-- Must trap clicks (clicking backdrop closes modal).
-- Must have a clear header with a close (`X`) icon.
-- Max width should typically be `max-w-md` for actions, or `max-w-xl` for complex forms.
+- **Backdrop**: `bg-black/80` + `backdrop-blur-[4px]`.
+- **Container**: `bg-md-surface-container-high`, `rounded-[28px]`, `shadow-2xl`.
+- **Header**: Separated by `border-b border-md-outline-variant/10`.
+- **Content**: Generous padding (`p-8`).
 
 ## 9. Structural Limitations
-- **No pure white backgrounds** anywhere.
-- **No excessive box-shadows**. Use `shadow-sm` for buttons and `shadow-xl` for Modals to create depth without glow.
-- **Data Tables/Lists**: Avoid horizontal lines everywhere. Favor grid-alignments or flex-between layouts with generous vertical gaps (like the Profile page).
+- **No legacy figma-* or discord-* classes.**
+- **No pure white/black** backgrounds for UI elements.
+- **Elevation**: Driven by `md-surface-container-*` variants rather than raw shadows.
+- **Density**: Maintain high density (smaller fonts with wider tracking) to provide a professional, data-rich environment.

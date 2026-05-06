@@ -38,15 +38,15 @@ export function ProfileSidebar() {
         key={item.href}
         href={item.href}
         className={cn(
-          "flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[13px] font-medium transition-all group",
+          "flex items-center gap-3 px-4 py-2.5 rounded-full text-[14px] font-bold transition-all group",
           isActive 
-            ? "bg-figma-blue/10 text-figma-blue" 
-            : "text-figma-text-muted hover:bg-white/5 hover:text-white"
+            ? "bg-md-primary-container text-md-on-primary-container shadow-sm" 
+            : "text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface"
         )}
       >
         <Icon className={cn(
-          "w-4 h-4",
-          isActive ? "text-figma-blue" : "text-figma-text-muted group-hover:text-white"
+          "w-5 h-5",
+          isActive ? "text-md-primary" : "text-md-on-surface-variant group-hover:text-md-on-surface"
         )} />
         {item.label}
       </Link>
@@ -54,22 +54,22 @@ export function ProfileSidebar() {
   };
 
   return (
-    <div className="w-64 shrink-0 flex flex-col gap-8 pr-8 border-r border-white/5 h-full">
-      <div className="space-y-4">
-        <div className="space-y-1.5">
-          <h2 className="px-3 text-[10px] font-bold text-figma-text-muted uppercase tracking-wider mb-2">
+    <div className="w-64 shrink-0 flex flex-col gap-10 pr-8 border-r border-md-outline-variant/10 h-full">
+      <div className="space-y-8">
+        <div className="space-y-2">
+          <h2 className="px-4 text-[11px] font-bold text-md-on-surface-variant uppercase tracking-widest mb-3">
             Personal Information
           </h2>
-          <nav className="space-y-0.5">
+          <nav className="space-y-1">
             {PERSONAL_ITEMS.map(renderItem)}
           </nav>
         </div>
 
-        <div className="space-y-1.5">
-          <h2 className="px-3 text-[10px] font-bold text-figma-text-muted uppercase tracking-wider mb-2">
+        <div className="space-y-2">
+          <h2 className="px-4 text-[11px] font-bold text-md-on-surface-variant uppercase tracking-widest mb-3">
             Security
           </h2>
-          <nav className="space-y-0.5">
+          <nav className="space-y-1">
             {SECURITY_ITEMS.map(renderItem)}
           </nav>
         </div>

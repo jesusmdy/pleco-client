@@ -6,13 +6,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function Button({ variant = "primary", isLoading, className = "", children, ...props }: ButtonProps) {
-  const baseStyles = "inline-flex items-center justify-center gap-2 px-3 h-8 rounded-md font-medium transition-all cursor-pointer text-[12px] disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseStyles = "inline-flex items-center justify-center gap-2 px-4 h-9 rounded-full font-bold transition-all cursor-pointer text-[12px] disabled:opacity-50 disabled:cursor-not-allowed select-none active:scale-[0.98]";
   
   const variants = {
-    primary: "bg-figma-blue hover:bg-figma-blue/90 text-white shadow-sm",
-    secondary: "bg-figma-hover hover:bg-[#4a4a4a] text-white border border-white/5",
-    ghost: "bg-transparent text-figma-text-muted hover:text-white hover:bg-figma-hover active:bg-white/5",
-    link: "bg-transparent text-figma-blue hover:underline px-0 py-0 disabled:hover:no-underline"
+    primary: "bg-md-primary text-md-on-primary hover:bg-md-primary/90 shadow-[0_2px_8px_rgba(168,199,250,0.1)]",
+    secondary: "bg-md-secondary-container text-md-on-secondary-container hover:bg-md-secondary-container/90",
+    ghost: "bg-transparent text-md-on-surface-variant hover:bg-md-surface-variant/20",
+    link: "bg-transparent text-md-primary hover:underline px-0 py-0 disabled:hover:no-underline"
   };
 
   return (

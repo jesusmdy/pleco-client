@@ -14,19 +14,19 @@ export function SearchResultItem({ item, onClick }: SearchResultItemProps) {
     <Link
       href={item.itemType === "FOLDER" ? `/fm/drive/folders/${item.id}` : `/fm/drive?fileId=${item.id}`}
       onClick={onClick}
-      className="flex items-center gap-2.5 px-3 py-2 hover:bg-white/5 transition-colors group/item"
+      className="flex items-center gap-3.5 px-4 py-2.5 hover:bg-md-primary/10 transition-colors group/item mx-1 rounded-xl"
     >
-      <div className="shrink-0 w-6 h-6 rounded bg-figma-bg border border-white/5 flex items-center justify-center">
+      <div className="shrink-0 w-8 h-8 rounded-lg bg-md-surface-container-highest border border-md-outline-variant/10 flex items-center justify-center">
         {item.itemType === "FOLDER" ? (
-          <Folder className="w-3.5 h-3.5 text-figma-blue" />
+          <Folder className="w-4 h-4 text-md-primary" />
         ) : (
-          <File className="w-3.5 h-3.5 text-figma-text-muted group-hover/item:text-white transition-colors" />
+          <File className="w-4 h-4 text-md-on-surface-variant group-hover/item:text-md-primary transition-colors" />
         )}
       </div>
       <div className="flex flex-col min-w-0">
-        <span className="text-[12px] text-white font-medium truncate">{item.name}</span>
-        <span className="text-[10px] text-figma-text-muted truncate">
-          {item.path.length > 0 ? item.path.join(" / ") : "Root"}
+        <span className="text-[13px] text-md-on-surface font-bold truncate">{item.name}</span>
+        <span className="text-[11px] text-md-on-surface-variant truncate font-medium">
+          {item.path.length > 0 ? item.path.join(" / ") : "My Drive"}
         </span>
       </div>
     </Link>

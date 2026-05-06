@@ -10,15 +10,15 @@ export default function ActivityPage() {
   const { queue, cancelItem } = useUploadStore();
 
   return (
-    <div className="h-full overflow-y-auto p-6 w-[60%] mx-auto space-y-10 scrollbar-thin scrollbar-thumb-white/5">
+    <div className="h-full overflow-y-auto p-8 w-full max-w-5xl mx-auto space-y-12 bg-md-background scrollbar-thin scrollbar-thumb-md-outline-variant/10">
       <ActivityHeader />
 
-      <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-12">
         {/* Section 1: Live Uploads (On Top) */}
         <section className="space-y-4">
-          <div className="flex items-center gap-2 text-figma-text-muted">
-            <CloudUpload className="w-4 h-4" />
-            <h2 className="text-[11px] font-bold uppercase tracking-wider">Live Activity</h2>
+          <div className="flex items-center gap-3 text-md-on-surface-variant px-1">
+            <CloudUpload className="w-5 h-5" />
+            <h2 className="text-[13px] font-bold uppercase tracking-widest">Live Activity</h2>
           </div>
           <ActivityList queue={queue} onCancel={cancelItem} />
         </section>

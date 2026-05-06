@@ -45,39 +45,39 @@ export function FileCardMenu({ item }: FileCardMenuProps) {
       <button 
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="text-figma-text-muted hover:text-white p-1 rounded-md transition-all hover:bg-figma-hover outline-none"
+        className="text-md-on-surface-variant hover:text-md-on-surface p-1.5 rounded-full transition-all hover:bg-md-surface-variant/20 outline-none active:scale-90"
       >
-        <MoreVertical className="w-3.5 h-3.5" />
+        <MoreVertical className="w-5 h-5" />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-1 w-40 bg-figma-dark rounded-md shadow-2xl border border-black/50 py-1 px-1 z-40 animate-in fade-in zoom-in-95 duration-100">
+        <div className="absolute right-0 top-full mt-2 w-48 bg-md-surface-container rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] border border-md-outline-variant/10 py-1.5 px-1.5 z-40 animate-in fade-in zoom-in-95 duration-200">
           <button
             type="button"
             onClick={() => { setIsOpen(false); setIsRenameOpen(true); }}
-            className="w-full text-left px-2 py-1.5 text-[12px] text-white hover:bg-figma-blue flex items-center gap-2 rounded-sm transition-colors group"
+            className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
           >
-            <Edit2 className="w-3.5 h-3.5 text-figma-text-muted group-hover:text-white" /> Rename
+            <Edit2 className="w-4.5 h-4.5 text-md-on-surface-variant group-hover:text-md-primary" /> Rename
           </button>
           
           {item.itemType === "FILE" && (
             <button
               type="button"
               onClick={handleDownload}
-              className="w-full text-left px-2 py-1.5 text-[12px] text-white hover:bg-figma-blue flex items-center gap-2 rounded-sm transition-colors group"
+              className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
             >
-              <Download className="w-3.5 h-3.5 text-figma-text-muted group-hover:text-white" /> Download
+              <Download className="w-4.5 h-4.5 text-md-on-surface-variant group-hover:text-md-primary" /> Download
             </button>
           )}
 
-          <div className="h-[1px] bg-white/5 my-1 mx-[-4px]" />
+          <div className="h-[1px] bg-md-outline-variant/10 my-1.5 mx-1" />
 
           <button
             type="button"
             onClick={() => { setIsOpen(false); setIsDeleteOpen(true); }}
-            className="w-full text-left px-2 py-1.5 text-[12px] text-discord-red hover:bg-discord-red hover:text-white flex items-center gap-2 rounded-sm transition-colors group"
+            className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-error hover:bg-md-error hover:text-md-on-error flex items-center gap-3 rounded-lg transition-all group"
           >
-            <Trash2 className="w-3.5 h-3.5 text-discord-red group-hover:text-white" /> Delete
+            <Trash2 className="w-4.5 h-4.5 group-hover:text-md-on-error" /> Delete
           </button>
         </div>
       )}

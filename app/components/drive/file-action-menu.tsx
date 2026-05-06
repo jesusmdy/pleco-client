@@ -80,15 +80,15 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
         <div 
           ref={menuRef}
           className={cn(
-            "fixed z-[100] w-48 bg-[#1e1e1e] rounded-md shadow-[0_8px_32px_rgba(0,0,0,0.5)] border border-white/5 py-1.5 px-1 animate-in fade-in zoom-in-95 duration-100",
+            "fixed z-[100] w-56 bg-md-surface-container rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] border border-md-outline-variant/10 py-2 px-1.5 animate-in fade-in zoom-in-95 duration-100",
             variant === "dropdown" ? "origin-top-right" : "origin-top-left"
           )}
           style={{ top: adjustedY, left: adjustedX }}
           onClick={(e) => e.stopPropagation()}
           onContextMenu={(e) => e.preventDefault()}
         >
-          <div className="px-2 py-1 mb-1 border-b border-white/5">
-            <p className="text-[10px] font-bold text-figma-text-muted uppercase tracking-wider truncate">
+          <div className="px-3 py-2 mb-1 border-b border-md-outline-variant/10">
+            <p className="text-[11px] font-bold text-md-on-surface-variant uppercase tracking-widest truncate">
               {item.name}
             </p>
           </div>
@@ -98,15 +98,15 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
               <button
                 type="button"
                 onClick={handleOpen}
-                className="w-full text-left px-2 py-1.5 text-[12px] text-white hover:bg-figma-blue flex items-center gap-2 rounded-sm transition-colors group"
+                className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
               >
                 {item.itemType === "FOLDER" ? (
                   <>
-                    <FolderOpen className="w-3.5 h-3.5 text-figma-text-muted group-hover:text-white" /> Open Folder
+                    <FolderOpen className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Open Folder
                   </>
                 ) : (
                   <>
-                    <ExternalLink className="w-3.5 h-3.5 text-figma-text-muted group-hover:text-white" /> Open File
+                    <ExternalLink className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Open File
                   </>
                 )}
               </button>
@@ -114,29 +114,29 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
               <button
                 type="button"
                 onClick={() => setIsRenameOpen(true)}
-                className="w-full text-left px-2 py-1.5 text-[12px] text-white hover:bg-figma-blue flex items-center gap-2 rounded-sm transition-colors group"
+                className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
               >
-                <Edit2 className="w-3.5 h-3.5 text-figma-text-muted group-hover:text-white" /> Rename
+                <Edit2 className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Rename
               </button>
               
               {item.itemType === "FILE" && (
                 <button
                   type="button"
                   onClick={handleDownload}
-                  className="w-full text-left px-2 py-1.5 text-[12px] text-white hover:bg-figma-blue flex items-center gap-2 rounded-sm transition-colors group"
+                  className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
                 >
-                  <Download className="w-3.5 h-3.5 text-figma-text-muted group-hover:text-white" /> Download
+                  <Download className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Download
                 </button>
               )}
 
-              <div className="h-[1px] bg-white/5 my-1 mx-[-4px]" />
+              <div className="h-[1px] bg-md-outline-variant/10 my-1 mx-[-6px]" />
 
               <button
                 type="button"
                 onClick={() => setIsDeleteOpen(true)}
-                className="w-full text-left px-2 py-1.5 text-[12px] text-red-400 hover:bg-red-500 hover:text-white flex items-center gap-2 rounded-sm transition-colors group"
+                className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-error hover:bg-md-error/10 flex items-center gap-3 rounded-lg transition-all group"
               >
-                <Trash2 className="w-3.5 h-3.5 text-red-400 group-hover:text-white" /> Delete
+                <Trash2 className="w-4 h-4 text-md-error group-hover:text-md-error" /> Delete
               </button>
             </>
           ) : (
@@ -144,19 +144,19 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
               <button
                 type="button"
                 onClick={handleRestore}
-                className="w-full text-left px-2 py-1.5 text-[12px] text-white hover:bg-figma-blue flex items-center gap-2 rounded-sm transition-colors group"
+                className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
               >
-                <RotateCcw className="w-3.5 h-3.5 text-figma-text-muted group-hover:text-white" /> Restore
+                <RotateCcw className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Restore
               </button>
 
-              <div className="h-[1px] bg-white/5 my-1 mx-[-4px]" />
+              <div className="h-[1px] bg-md-outline-variant/10 my-1 mx-[-6px]" />
 
               <button
                 type="button"
                 onClick={() => setIsPermanentDeleteOpen(true)}
-                className="w-full text-left px-2 py-1.5 text-[12px] text-red-400 hover:bg-red-500 hover:text-white flex items-center gap-2 rounded-sm transition-colors group"
+                className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-error hover:bg-md-error/10 flex items-center gap-3 rounded-lg transition-all group"
               >
-                <ShieldAlert className="w-3.5 h-3.5 text-red-400 group-hover:text-white" /> Delete Permanently
+                <ShieldAlert className="w-4 h-4 text-md-error group-hover:text-md-error" /> Delete Permanently
               </button>
             </>
           )}
@@ -191,9 +191,9 @@ export function FileActionTrigger({ item, context = "drive" }: { item: UnifiedDr
         ref={buttonRef}
         type="button"
         onClick={handleOpen}
-        className="text-figma-text-muted hover:text-white p-1 rounded-md transition-all hover:bg-figma-hover outline-none"
+        className="text-md-on-surface-variant hover:text-md-on-surface p-2 rounded-full transition-all hover:bg-md-surface-variant/20 outline-none active:scale-90"
       >
-        <MoreVertical className="w-3.5 h-3.5" />
+        <MoreVertical className="w-4 h-4" />
       </button>
 
       {menuPos && (
@@ -228,29 +228,29 @@ function PermanentDeleteModal({ item, onClose }: { item: UnifiedDriveItem; onClo
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4 backdrop-blur-[2px]">
-      <div className="bg-figma-dark rounded-lg shadow-2xl w-full max-w-sm border border-black/50 overflow-hidden">
-        <div className="p-6">
-          <div className="flex items-center gap-3 mb-4 text-red-400">
-            <ShieldAlert className="w-6 h-6" />
-            <h2 className="text-[14px] font-bold uppercase tracking-wider">Permanent Delete</h2>
+    <div className="fixed inset-0 bg-black/40 z-[200] flex items-center justify-center p-4 backdrop-blur-[4px]">
+      <div className="bg-md-surface-container-high rounded-[28px] shadow-[0_12px_48px_rgba(0,0,0,0.4)] w-full max-w-sm overflow-hidden">
+        <div className="p-8">
+          <div className="flex items-center gap-4 mb-6 text-md-error">
+            <ShieldAlert className="w-8 h-8" />
+            <h2 className="text-[18px] font-bold">Permanent Delete</h2>
           </div>
-          <p className="text-[13px] text-white/80 leading-relaxed">
-            Are you sure you want to permanently delete <span className="text-white font-bold">"{item.name}"</span>? 
-            This action <span className="text-red-400 font-bold uppercase underline">cannot be undone</span>.
+          <p className="text-[14px] text-md-on-surface-variant leading-relaxed">
+            Are you sure you want to permanently delete <span className="text-md-on-surface font-bold">"{item.name}"</span>? 
+            This action <span className="text-md-error font-bold uppercase underline decoration-2 underline-offset-4">cannot be undone</span>.
           </p>
         </div>
-        <div className="flex items-center justify-end gap-3 p-4 bg-white/5 border-t border-white/5">
+        <div className="flex items-center justify-end gap-3 p-6 bg-md-surface-container-highest/50 border-t border-md-outline-variant/10">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-[12px] font-bold text-figma-text-muted hover:text-white transition-colors"
+            className="px-5 py-2 text-[13px] font-bold text-md-on-surface-variant hover:text-md-on-surface transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleDelete}
             disabled={isLoading}
-            className="px-4 py-2 text-[12px] font-bold text-white bg-red-500 hover:bg-red-600 rounded-md shadow-lg transition-colors disabled:opacity-50"
+            className="px-6 py-2.5 text-[13px] font-bold text-md-on-error bg-md-error hover:bg-md-error/90 rounded-full shadow-lg transition-all disabled:opacity-50 active:scale-95"
           >
             {isLoading ? "Deleting..." : "Delete Permanently"}
           </button>

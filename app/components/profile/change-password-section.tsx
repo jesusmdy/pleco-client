@@ -35,21 +35,19 @@ export function ChangePasswordSection({ token, mfaEnabled }: ChangePasswordSecti
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="space-y-3">
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-4">
         <Input 
           label="Current Password"
           name="oldPassword"
           type="password" 
           required
-          className="bg-figma-bg border-white/5 h-9 text-[13px]"
         />
         <Input 
           label="New Password"
           name="newPassword"
           type="password" 
           required
-          className="bg-figma-bg border-white/5 h-9 text-[13px]"
         />
         {mfaEnabled && (
           <Input 
@@ -58,30 +56,30 @@ export function ChangePasswordSection({ token, mfaEnabled }: ChangePasswordSecti
             type="text" 
             maxLength={6}
             required
-            className="bg-figma-bg border-white/5 h-9 text-[13px]"
+            placeholder="000 000"
           />
         )}
       </div>
 
       {pwStatus && (
         <div className={cn(
-          "p-2.5 rounded-lg flex items-center gap-2 border text-[12px] font-medium transition-all",
+          "p-4 rounded-xl flex items-center gap-3 border text-[13px] font-bold transition-all animate-in fade-in slide-in-from-top-1 duration-200",
           pwStatus.type === 'success' 
-            ? 'bg-figma-blue/10 text-figma-blue border-figma-blue/20' 
-            : 'bg-figma-red/10 text-figma-red border-figma-red/20'
+            ? 'bg-md-primary/10 text-md-primary border-md-primary/20' 
+            : 'bg-md-error/10 text-md-error border-md-error/20'
         )}>
-          {pwStatus.type === 'success' ? <CheckCircle2 className="w-4 h-4 shrink-0" /> : <AlertCircle className="w-4 h-4 shrink-0" />}
-          <span className="leading-tight">{pwStatus.msg}</span>
+          {pwStatus.type === 'success' ? <CheckCircle2 className="w-5 h-5 shrink-0" /> : <AlertCircle className="w-5 h-5 shrink-0" />}
+          <span className="leading-tight uppercase tracking-wider">{pwStatus.msg}</span>
         </div>
       )}
 
-      <div className="pt-2">
+      <div className="pt-4">
         <Button 
           type="submit"
           isLoading={pwLoading}
-          className="w-full bg-figma-blue hover:bg-figma-blue/90 text-white h-8 text-[12px] font-bold uppercase tracking-wider shadow-lg shadow-figma-blue/10"
+          className="w-full bg-md-primary text-md-on-primary h-12 text-[14px] font-bold uppercase tracking-widest rounded-xl shadow-lg shadow-md-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all"
         >
-          Update Password
+          Update Account Password
         </Button>
       </div>
     </form>

@@ -12,17 +12,17 @@ interface StorageProgressBarProps {
 export function StorageProgressBar({ breakdown, limit, percentage }: StorageProgressBarProps) {
   return (
     <div className="relative">
-      <div className="h-2.5 bg-figma-bg rounded-full overflow-hidden flex shadow-inner border border-white/5">
+      <div className="h-4 bg-md-surface-container-highest rounded-full overflow-hidden flex">
         {Object.entries(breakdown).map(([label, size]) => {
           const categoryPercentage = (size / limit) * 100;
-          const config = Object.values(FILE_TYPE_CONFIG).find(c => c.label === label) || { color: "bg-figma-text-muted" };
+          const config = Object.values(FILE_TYPE_CONFIG).find(c => c.label === label) || { color: "bg-md-on-surface-variant" };
           
           if (categoryPercentage <= 0) return null;
 
           return (
             <div 
               key={label}
-              className={`h-full ${config.color} transition-all duration-700 ease-out`}
+              className={`h-full ${config.color} transition-all duration-700 ease-out border-r border-md-surface-container-high/20`}
               style={{ width: `${categoryPercentage}%` }}
               title={`${label}: ${formatBytes(size)}`}
             />

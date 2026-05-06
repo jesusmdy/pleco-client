@@ -83,8 +83,8 @@ export function SearchInput({ variant = "default", className, autoFocus = false 
   return (
     <div ref={containerRef} className={cn("relative group w-full", className)}>
       <Search className={cn(
-        "absolute left-2.5 top-1/2 -translate-y-1/2 text-figma-text-muted group-focus-within:text-figma-blue transition-colors",
-        variant === "page" ? "w-4 h-4 left-3" : "w-3.5 h-3.5"
+        "absolute left-3.5 top-1/2 -translate-y-1/2 text-md-on-surface-variant group-focus-within:text-md-primary transition-colors",
+        variant === "page" ? "w-5 h-5 left-4" : "w-4 h-4"
       )} />
       <input
         type="text"
@@ -96,10 +96,10 @@ export function SearchInput({ variant = "default", className, autoFocus = false 
         }}
         onFocus={() => setIsOpen(true)}
         onKeyDown={handleKeyDown}
-        placeholder="Search..."
+        placeholder="Search everything..."
         className={cn(
-          "w-full bg-figma-bg text-white rounded-md outline-none focus:ring-1 focus:ring-figma-blue/50 border border-white/5 focus:border-figma-blue/50 transition-all placeholder:text-figma-text-muted/50",
-          variant === "page" ? "h-10 pl-10 pr-4 text-[14px]" : "h-7 pl-8 pr-3 text-[12px]"
+          "w-full bg-md-surface-container-highest text-md-on-surface rounded-full outline-none focus:ring-2 focus:ring-md-primary/20 border border-md-outline-variant/10 focus:border-md-primary transition-all placeholder:text-md-on-surface-variant/40",
+          variant === "page" ? "h-12 pl-12 pr-6 text-[15px]" : "h-10 pl-11 pr-4 text-[13px] font-bold"
         )}
       />
 

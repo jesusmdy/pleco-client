@@ -6,11 +6,11 @@ import Link from "next/link";
 import { useRecentFiles } from "@/app/hooks/useRecentFiles";
 
 const FILE_TYPE_CONFIG: Record<string, { icon: any, color: string, label: string }> = {
-  "image/": { icon: ImageIcon, color: "text-figma-blue", label: "Images" },
-  "video/": { icon: Video, color: "text-purple-400", label: "Videos" },
-  "application/pdf": { icon: FileText, color: "text-figma-red", label: "Documents" },
-  "text/": { icon: FileText, color: "text-figma-red", label: "Documents" },
-  "application/zip": { icon: Archive, color: "text-yellow-600", label: "Archives" },
+  "image/": { icon: ImageIcon, color: "text-md-primary", label: "Images" },
+  "video/": { icon: Video, color: "text-md-tertiary", label: "Videos" },
+  "application/pdf": { icon: FileText, color: "text-md-error", label: "Documents" },
+  "text/": { icon: FileText, color: "text-md-error", label: "Documents" },
+  "application/zip": { icon: Archive, color: "text-md-secondary", label: "Archives" },
 };
 
 interface RecentHistoryProps {
@@ -52,32 +52,32 @@ export function RecentHistory({ title = "Historical Activity" }: RecentHistoryPr
 
   return (
     <section className="space-y-6">
-      <div className="flex items-center gap-2 text-figma-text-muted">
-        <History className="w-4 h-4" />
-        <h2 className="text-[11px] font-bold uppercase tracking-wider">{title}</h2>
+      <div className="flex items-center gap-3 text-md-on-surface-variant px-1">
+        <History className="w-5 h-5" />
+        <h2 className="text-[13px] font-bold uppercase tracking-widest">{title}</h2>
       </div>
       
-      <div className="space-y-8">
+      <div className="space-y-10">
         {isLoading ? (
-          <div className="bg-figma-dark/50 rounded-xl border border-white/5 p-8 text-center text-figma-text-muted text-[13px]">
+          <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-12 text-center text-md-on-surface-variant text-[14px] font-bold">
             Analyzing activity history...
           </div>
         ) : !files || files.length === 0 ? (
-          <div className="bg-figma-dark/50 rounded-xl border border-white/5 p-12 text-center text-figma-text-muted text-[13px] italic">
-            No recent activity found.
+          <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-16 text-center text-md-on-surface-variant text-[14px] font-bold italic">
+            No recent activity found in your drive.
           </div>
         ) : (
           Object.entries(groupedRecent || {}).map(([groupName, groupFiles]) => {
             if (groupFiles.length === 0) return null;
 
             return (
-              <div key={groupName} className="space-y-3">
-                <h3 className="text-[10px] font-bold text-figma-text-muted uppercase tracking-[0.08em] pl-1">
+              <div key={groupName} className="space-y-4">
+                <h3 className="text-[11px] font-bold text-md-on-surface-variant uppercase tracking-widest pl-2">
                   {groupName}
                 </h3>
-                <div className="bg-figma-dark/40 rounded-xl border border-white/5 shadow-2xl overflow-hidden divide-y divide-white/5">
+                <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 shadow-lg overflow-hidden divide-y divide-md-outline-variant/10">
                   {groupFiles.map((file) => {
-                    let config = { icon: File, color: "text-figma-text-muted" };
+                    let config = { icon: File, color: "text-md-on-surface-variant" };
                     for (const [key, c] of Object.entries(FILE_TYPE_CONFIG)) {
                       if (file.mimeType?.startsWith(key)) {
                         config = { icon: c.icon, color: c.color };
@@ -87,17 +87,17 @@ export function RecentHistory({ title = "Historical Activity" }: RecentHistoryPr
                     const Icon = config.icon;
 
                     return (
-                      <div key={file.id} className="p-3.5 flex items-center gap-4 hover:bg-white/5 transition-all group">
-                        <div className="w-9 h-9 rounded-lg bg-figma-bg border border-white/5 flex items-center justify-center shrink-0">
-                          <Icon className={`w-4.5 h-4.5 ${config.color} opacity-80 group-hover:opacity-100 transition-opacity`} />
+                      <div key={file.id} className="p-4 flex items-center gap-5 hover:bg-md-primary/10 transition-all group">
+                        <div className="w-11 h-11 rounded-xl bg-md-surface-container-highest border border-md-outline-variant/10 flex items-center justify-center shrink-0 shadow-sm">
+                          <Icon className={`w-5.5 h-5.5 ${config.color} opacity-80 group-hover:opacity-100 transition-opacity`} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="text-white text-[13px] font-bold truncate transition-colors">
+                          <div className="text-md-on-surface text-[15px] font-bold truncate transition-colors">
                             {file.name}
                           </div>
-                          <div className="text-figma-text-muted text-[11px] font-medium flex items-center gap-2 mt-0.5">
-                            <span className="text-white/60">{formatBytes(file.size || 0)}</span>
-                            <span className="opacity-30">•</span>
+                          <div className="text-md-on-surface-variant text-[12px] font-bold flex items-center gap-2 mt-1 uppercase tracking-wider">
+                            <span className="text-md-primary">{formatBytes(file.size || 0)}</span>
+                            <span className="opacity-20">•</span>
                             <span>
                               {new Date(file.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
                               {", "}
@@ -107,9 +107,9 @@ export function RecentHistory({ title = "Historical Activity" }: RecentHistoryPr
                         </div>
                         <Link 
                           href={`/fm/drive/folders/${file.parentId || ''}`}
-                          className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-figma-blue hover:scale-110"
+                          className="w-10 h-10 rounded-full bg-md-surface-container-highest flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-md-primary hover:text-md-on-primary hover:scale-110 shadow-sm"
                         >
-                          <ChevronRight className="w-4 h-4 text-white" />
+                          <ChevronRight className="w-5 h-5" />
                         </Link>
                       </div>
                     );

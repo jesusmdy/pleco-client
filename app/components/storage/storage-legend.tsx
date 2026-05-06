@@ -12,19 +12,19 @@ export function StorageLegend({ breakdown }: StorageLegendProps) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4 mt-5">
       {Object.entries(breakdown).map(([label, size]) => {
-        const config = Object.values(FILE_TYPE_CONFIG).find(c => c.label === label) || { icon: File, color: "bg-figma-text-muted" };
+        const config = Object.values(FILE_TYPE_CONFIG).find(c => c.label === label) || { icon: File, color: "bg-md-on-surface-variant" };
         
         if (size <= 0) return null;
 
         return (
-          <div key={label} className="space-y-0.5 group cursor-default">
-            <div className="flex items-center gap-1.5">
-              <div className={`w-1.5 h-1.5 rounded-full ${config.color} shadow-[0_0_8px_rgba(24,160,251,0.1)]`} />
-              <span className="text-figma-text-muted text-[9px] font-bold uppercase tracking-[0.05em] group-hover:text-white transition-colors">
+          <div key={label} className="space-y-1 group cursor-default">
+            <div className="flex items-center gap-2">
+              <div className={`w-2 h-2 rounded-full ${config.color} shadow-sm`} />
+              <span className="text-md-on-surface-variant text-[10px] font-bold uppercase tracking-widest group-hover:text-md-primary transition-all">
                 {label}
               </span>
             </div>
-            <div className="text-white font-bold text-sm leading-none">{formatBytes(size)}</div>
+            <div className="text-md-on-surface font-bold text-[15px] leading-none px-4">{formatBytes(size)}</div>
           </div>
         );
       })}

@@ -59,7 +59,7 @@ export function FileContextMenu({ item, x, y, onClose }: FileContextMenuProps) {
     <>
       <div 
         ref={menuRef}
-        className="fixed z-[100] w-40 bg-[#1e1e1e] rounded-md shadow-2xl border border-black/50 py-1 px-1 animate-in fade-in zoom-in-95 duration-100"
+        className="fixed z-[100] w-56 bg-md-surface-container rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] border border-md-outline-variant/10 py-2 px-2 animate-in fade-in zoom-in-95 duration-200"
         style={{ top: adjustedY, left: adjustedX }}
         onClick={(e) => e.stopPropagation()}
         onContextMenu={(e) => e.preventDefault()}
@@ -67,15 +67,15 @@ export function FileContextMenu({ item, x, y, onClose }: FileContextMenuProps) {
         <button
           type="button"
           onClick={handleOpen}
-          className="w-full text-left px-2 py-1.5 text-[12px] text-white hover:bg-figma-blue flex items-center gap-2 rounded-sm transition-colors group"
+          className="w-full text-left px-4 py-2.5 text-[14px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3.5 rounded-xl transition-all group"
         >
           {item.itemType === "FOLDER" ? (
             <>
-              <FolderOpen className="w-3.5 h-3.5 text-figma-text-muted group-hover:text-white" /> Open Folder
+              <FolderOpen className="w-5 h-5 text-md-on-surface-variant group-hover:text-md-primary" /> Open Folder
             </>
           ) : (
             <>
-              <ExternalLink className="w-3.5 h-3.5 text-figma-text-muted group-hover:text-white" /> Open File
+              <ExternalLink className="w-5 h-5 text-md-on-surface-variant group-hover:text-md-primary" /> Open File
             </>
           )}
         </button>
@@ -83,29 +83,29 @@ export function FileContextMenu({ item, x, y, onClose }: FileContextMenuProps) {
         <button
           type="button"
           onClick={() => setIsRenameOpen(true)}
-          className="w-full text-left px-2 py-1.5 text-[12px] text-white hover:bg-figma-blue flex items-center gap-2 rounded-sm transition-colors group"
+          className="w-full text-left px-4 py-2.5 text-[14px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3.5 rounded-xl transition-all group"
         >
-          <Edit2 className="w-3.5 h-3.5 text-figma-text-muted group-hover:text-white" /> Rename
+          <Edit2 className="w-5 h-5 text-md-on-surface-variant group-hover:text-md-primary" /> Rename
         </button>
         
         {item.itemType === "FILE" && (
           <button
             type="button"
             onClick={handleDownload}
-            className="w-full text-left px-2 py-1.5 text-[12px] text-white hover:bg-figma-blue flex items-center gap-2 rounded-sm transition-colors group"
+            className="w-full text-left px-4 py-2.5 text-[14px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3.5 rounded-xl transition-all group"
           >
-            <Download className="w-3.5 h-3.5 text-figma-text-muted group-hover:text-white" /> Download
+            <Download className="w-5 h-5 text-md-on-surface-variant group-hover:text-md-primary" /> Download
           </button>
         )}
 
-        <div className="h-[1px] bg-white/5 my-1 mx-[-4px]" />
+        <div className="h-[1px] bg-md-outline-variant/10 my-2 mx-2" />
 
         <button
           type="button"
           onClick={() => setIsDeleteOpen(true)}
-          className="w-full text-left px-2 py-1.5 text-[12px] text-discord-red hover:bg-discord-red hover:text-white flex items-center gap-2 rounded-sm transition-colors group"
+          className="w-full text-left px-4 py-2.5 text-[14px] font-bold text-md-error hover:bg-md-error hover:text-md-on-error flex items-center gap-3.5 rounded-xl transition-all group"
         >
-          <Trash2 className="w-3.5 h-3.5 text-discord-red group-hover:text-white" /> Delete
+          <Trash2 className="w-5 h-5 group-hover:text-md-on-error" /> Delete
         </button>
       </div>
 

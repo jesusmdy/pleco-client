@@ -36,36 +36,37 @@ export function CreateFolderModal({ parentId, onClose }: CreateFolderModalProps)
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-[2px] animate-in fade-in duration-200" onClick={(e) => e.stopPropagation()}>
-      <div className="bg-figma-dark rounded-lg shadow-2xl w-full max-w-sm overflow-hidden border border-black/50 animate-in zoom-in-95 duration-200">
-        <div className="px-4 py-3 flex items-center justify-between border-b border-white/5 bg-figma-dark/50">
-          <h2 className="text-[13px] font-bold text-white uppercase tracking-wider">Create Folder</h2>
+    <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-[4px] animate-in fade-in duration-300" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-md-surface-container-high rounded-[28px] shadow-[0_24px_64px_rgba(0,0,0,0.6)] w-full max-w-md overflow-hidden border border-md-outline-variant/10 animate-in zoom-in-95 duration-300">
+        <div className="px-6 py-4 flex items-center justify-between border-b border-md-outline-variant/10 bg-md-surface-container-high/50">
+          <h2 className="text-[14px] font-bold text-md-on-surface uppercase tracking-widest">New Folder</h2>
           <button 
             onClick={onClose}
-            className="text-figma-text-muted hover:text-white transition-colors p-1 hover:bg-figma-hover rounded-md"
+            className="text-md-on-surface-variant hover:text-md-on-surface transition-all p-1.5 hover:bg-md-surface-variant/20 rounded-full"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
         
-        <form onSubmit={handleSubmit} className="p-4">
-          <div className="mb-6">
+        <form onSubmit={handleSubmit} className="p-8">
+          <div className="mb-8">
             <Input
               label="Folder Name"
               id="folderName"
               autoFocus
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. My Documents"
+              placeholder="e.g. Projects 2024"
               required
             />
           </div>
           
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="flex justify-end gap-3 pt-2">
             <Button
               type="button"
               onClick={onClose}
               variant="ghost"
+              className="h-10 px-6 font-bold"
             >
               Cancel
             </Button>
@@ -73,14 +74,14 @@ export function CreateFolderModal({ parentId, onClose }: CreateFolderModalProps)
               type="submit"
               disabled={!name.trim() || mutation.isPending}
               variant="primary"
-              className="px-6"
+              className="px-8 h-10 font-bold shadow-lg shadow-md-primary/20"
             >
               {mutation.isPending ? "Creating..." : "Create"}
             </Button>
           </div>
           
           {mutation.isError && (
-            <p className="mt-3 text-discord-text-danger text-[11px] text-center">
+            <p className="mt-4 text-md-error text-[13px] text-center font-bold">
               {(mutation.error as Error).message || "Failed to create folder."}
             </p>
           )}

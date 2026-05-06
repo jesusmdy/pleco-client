@@ -6,9 +6,9 @@ interface StorageTierBadgeProps {
 
 export function StorageTierBadge({ tierName }: StorageTierBadgeProps) {
   return (
-    <div className="absolute top-0 right-0 p-3">
-      <div className="bg-figma-blue/10 px-2 py-0.5 rounded-full border border-figma-blue/20">
-        <span className="text-figma-blue font-bold text-[9px] uppercase tracking-widest">
+    <div className="absolute top-0 right-0 p-5">
+      <div className="bg-md-primary-container px-3 py-1 rounded-full shadow-sm border border-md-primary/10">
+        <span className="text-md-on-primary-container font-bold text-[11px] uppercase tracking-widest">
           {tierName}
         </span>
       </div>

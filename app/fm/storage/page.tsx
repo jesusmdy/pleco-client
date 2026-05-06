@@ -27,7 +27,7 @@ export default function StoragePage() {
   if (usageLoading || profileLoading) {
     return (
       <div className="h-full flex items-center justify-center">
-        <p className="text-figma-text-muted animate-pulse font-medium">Loading storage dashboard...</p>
+        <p className="text-md-on-surface-variant animate-pulse font-bold uppercase tracking-widest text-[12px]">Loading storage dashboard...</p>
       </div>
     );
   }
@@ -50,13 +50,13 @@ export default function StoragePage() {
   }, {} as Record<string, number>);
 
   return (
-    <div className="h-full overflow-y-auto p-5 w-[65%] mx-auto space-y-8 scrollbar-thin scrollbar-thumb-white/5">
+    <div className="h-full overflow-y-auto p-8 w-full max-w-5xl mx-auto space-y-12 bg-md-background scrollbar-thin scrollbar-thumb-md-outline-variant/10">
       <StorageHeader />
 
-      <section className="space-y-3">
-        <div className="flex items-center gap-2 text-figma-text-muted">
-          <Database className="w-3.5 h-3.5" />
-          <h2 className="text-[10px] font-bold uppercase tracking-wider opacity-80">Usage Statistics</h2>
+      <section className="space-y-4">
+        <div className="flex items-center gap-3 text-md-on-surface-variant px-1">
+          <Database className="w-4 h-4" />
+          <h2 className="text-[13px] font-bold uppercase tracking-widest">Usage Statistics</h2>
         </div>
         <StorageUsageCard 
           used={used} 

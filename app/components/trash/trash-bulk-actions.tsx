@@ -16,18 +16,19 @@ export function TrashBulkActions() {
   return (
     <>
       <Button
+        variant="secondary"
         onClick={() => setIsRestoreOpen(true)}
-        className="bg-figma-blue hover:bg-figma-blue/90 text-white shadow-sm flex items-center gap-1.5 h-7 px-3 rounded-md text-[12px] font-medium transition-all"
+        className="h-9 px-4 text-[13px] font-bold"
       >
-        <RotateCcw className="w-3.5 h-3.5" />
+        <RotateCcw className="w-4 h-4" />
         Restore ({count})
       </Button>
 
       <Button
         onClick={() => setIsDeleteOpen(true)}
-        className="bg-figma-red hover:bg-figma-red/90 text-white shadow-sm flex items-center gap-1.5 h-7 px-3 rounded-md text-[12px] font-medium transition-all"
+        className="h-9 px-4 text-[13px] font-bold bg-md-error text-md-on-error hover:bg-md-error/90 shadow-lg shadow-md-error/20"
       >
-        <Trash2 className="w-3.5 h-3.5" />
+        <Trash2 className="w-4 h-4" />
         Delete Forever ({count})
       </Button>
 

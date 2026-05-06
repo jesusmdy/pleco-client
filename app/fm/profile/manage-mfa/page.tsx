@@ -22,21 +22,21 @@ export default function ManageMfaPage() {
 
   if (isLoading) {
     return (
-      <div className="max-w-2xl bg-figma-dark/40 rounded-xl border border-white/5 p-8 text-center text-figma-text-muted animate-pulse">
-        <p className="text-[13px] font-medium">Analyzing security settings...</p>
+      <div className="max-w-3xl bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-12 text-center text-md-on-surface-variant animate-pulse font-bold uppercase tracking-widest text-[14px]">
+        Analyzing security settings...
       </div>
     );
   }
 
   return (
-    <div className="max-w-2xl space-y-6">
-      <section className="space-y-3">
-        <div className="flex items-center gap-2 text-figma-text-muted">
-          <ShieldCheck className="w-3.5 h-3.5" />
-          <h2 className="text-[10px] font-bold uppercase tracking-wider opacity-80">Two-Factor Authentication</h2>
+    <div className="max-w-3xl space-y-12">
+      <section className="space-y-4">
+        <div className="flex items-center gap-3 text-md-on-surface-variant px-1">
+          <ShieldCheck className="w-5 h-5" />
+          <h2 className="text-[13px] font-bold uppercase tracking-widest">Two-Factor Authentication</h2>
         </div>
-        <div className="bg-figma-dark/40 rounded-xl border border-white/5 p-5">
-          <p className="text-figma-text-muted text-[12px] mb-5 leading-relaxed">
+        <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-8 shadow-xl">
+          <p className="text-md-on-surface-variant text-[15px] mb-8 leading-relaxed font-medium">
             Secure your account with an extra layer of protection. Once enabled, you'll need to provide a code from your authenticator app to sign in.
           </p>
           <MfaSetupSection mfaEnabled={!!profile?.mfaEnabled} onRefresh={handleRefresh} />

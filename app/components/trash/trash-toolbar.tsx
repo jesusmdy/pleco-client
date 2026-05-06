@@ -23,42 +23,42 @@ export function TrashToolbar({
   const showViewToggle = true;
 
   return (
-    <div className="h-10 flex items-center px-3 justify-between shrink-0 bg-figma-dark border-b border-black/20 gap-4 mb-4">
-      <div className="flex items-center gap-2.5 min-w-0">
-        <div className="min-w-0 flex items-baseline gap-2">
-          <h1 className="text-[13px] font-bold text-white truncate">{title}</h1>
+    <div className="h-14 flex items-center px-4 justify-between shrink-0 bg-md-surface-container-low border-b border-md-outline-variant/10 gap-6 mb-2">
+      <div className="flex items-center gap-3 min-w-0">
+        <div className="min-w-0 flex items-baseline gap-3">
+          <h1 className="text-[18px] font-bold text-md-on-surface truncate">{title}</h1>
           {subtitle && (
-            <span className="text-[10px] text-figma-text-muted uppercase tracking-wider font-semibold truncate opacity-80">
+            <span className="text-[12px] text-md-on-surface-variant uppercase tracking-widest font-bold truncate opacity-80">
               {subtitle}
             </span>
           )}
         </div>
       </div>
 
-      <div className="flex items-center gap-3 shrink-0">
+      <div className="flex items-center gap-6 shrink-0">
         {onSearchChange && (
-          <div className="relative w-56 hidden md:block">
-            <Search className="w-3 h-3 absolute left-2.5 top-1/2 -translate-y-1/2 text-figma-text-muted" />
+          <div className="relative w-64 hidden lg:block">
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-md-on-surface-variant" />
             <input
               type="text"
               value={searchValue}
               onChange={e => onSearchChange?.(e.target.value)}
               placeholder={searchPlaceholder}
-              className="w-full bg-figma-bg text-white text-[11px] rounded-md pl-8 pr-3 py-1 outline-none focus:ring-1 focus:ring-figma-blue border border-white/5 transition-all"
+              className="w-full bg-md-surface-container-highest text-md-on-surface text-[13px] font-bold rounded-full pl-10 pr-4 py-2 outline-none focus:ring-2 focus:ring-md-primary/20 border border-md-outline-variant/10 transition-all placeholder:text-md-on-surface-variant/40"
             />
           </div>
         )}
 
         {showViewToggle && (
-          <div className="flex items-center gap-3">
-            {onSearchChange && <div className="w-[1px] h-3.5 bg-white/5" />}
+          <div className="flex items-center gap-4">
+            {onSearchChange && <div className="w-[1px] h-4 bg-md-outline-variant/20" />}
             <ViewToggle />
           </div>
         )}
 
         {itemIds.length > 0 && (
           <>
-            <div className="w-[1px] h-3.5 bg-white/5" />
+            <div className="w-[1px] h-4 bg-md-outline-variant/20" />
             <EmptyTrash itemIds={itemIds} />
           </>
         )}

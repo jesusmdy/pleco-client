@@ -35,25 +35,25 @@ export function BulkDeleteModal({ isOpen, onClose }: BulkDeleteModalProps) {
   });
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Delete Items" maxWidth="sm">
-      <div className="space-y-4">
-        <p className="text-[13px] text-figma-text-muted leading-relaxed">
+    <Modal isOpen={isOpen} onClose={onClose} title="Move to Trash" maxWidth="sm">
+      <div className="space-y-6">
+        <p className="text-[15px] text-md-on-surface-variant leading-relaxed font-medium">
           Are you sure you want to delete{" "}
-          <span className="text-white font-bold">{count} item{count !== 1 ? "s" : ""}</span>?
-          This action will move them to the trash.
+          <span className="text-md-on-surface font-bold">{count} selected item{count !== 1 ? "s" : ""}</span>?
+          This action will move them to the trash and they will be permanently deleted after 30 days.
         </p>
 
-        <div className="flex justify-end gap-2 pt-2">
-          <Button type="button" onClick={onClose} variant="ghost" disabled={mutation.isPending}>
+        <div className="flex justify-end gap-3 pt-2">
+          <Button type="button" onClick={onClose} variant="ghost" disabled={mutation.isPending} className="h-10 px-6 font-bold">
             Cancel
           </Button>
           <Button
             type="button"
             onClick={() => mutation.mutate()}
             disabled={mutation.isPending}
-            className="bg-figma-red hover:bg-figma-red/90 text-white shadow-sm px-6"
+            className="bg-md-error text-md-on-error hover:bg-md-error/90 px-8 h-10 font-bold shadow-lg shadow-md-error/20 rounded-xl"
           >
-            {mutation.isPending ? "Deleting..." : `Delete`}
+            {mutation.isPending ? "Deleting..." : `Delete Items`}
           </Button>
         </div>
       </div>

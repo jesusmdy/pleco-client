@@ -17,19 +17,18 @@ export function Header() {
   if (!hasActions) return <Fragment />
 
   return (
-    <header className="h-10 flex items-center px-3 justify-between shrink-0 bg-figma-dark border-b border-black/20 gap-4">
+    <header className="h-16 flex items-center px-6 justify-between shrink-0 bg-md-surface-container-low border-b border-md-outline-variant/10 gap-8 shadow-sm z-20">
       <div className="flex-1 min-w-0">
         <DriveBreadcrumb />
       </div>
 
-      <div className="flex items-center gap-4 shrink-0">
-
-        <div className="w-64 hidden md:block">
+      <div className="flex items-center gap-6 shrink-0">
+        <div className="w-80 hidden lg:block">
           <SearchInput />
         </div>
 
-        <div className="flex items-center gap-2">
-          <ViewToggle className="mr-2" />
+        <div className="flex items-center gap-3">
+          <ViewToggle />
           <NewItemDropdown />
         </div>
       </div>

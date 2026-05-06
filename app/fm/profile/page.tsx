@@ -17,18 +17,18 @@ export default function ProfilePage() {
   });
 
   return (
-    <div className="max-w-2xl space-y-10">
+    <div className="max-w-3xl space-y-12">
       <section className="space-y-4">
-        <div className="flex items-center gap-2 text-figma-text-muted">
-          <User className="w-4 h-4" />
-          <h2 className="text-[11px] font-bold uppercase tracking-wider">Account Details</h2>
+        <div className="flex items-center gap-3 text-md-on-surface-variant px-1">
+          <User className="w-5 h-5" />
+          <h2 className="text-[13px] font-bold uppercase tracking-widest">Account Details</h2>
         </div>
-        <div className="bg-figma-dark/40 rounded-xl border border-white/5 p-6 shadow-2xl">
+        <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-8 shadow-xl">
           <AccountDetails profile={profile} session={session} isLoading={isLoading} />
         </div>
       </section>
 
-      <div className="pt-6 border-t border-white/5">
+      <div className="pt-8 border-t border-md-outline-variant/10">
         <SignOutSection />
       </div>
     </div>

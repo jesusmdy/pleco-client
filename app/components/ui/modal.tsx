@@ -20,19 +20,19 @@ export function Modal({ isOpen, onClose, title, children, maxWidth = "md" }: Mod
   }[maxWidth];
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-[200] flex items-center justify-center p-4 backdrop-blur-[2px] animate-in fade-in duration-200" onClick={onClose}>
-      <div className={`bg-figma-dark rounded-lg shadow-2xl w-full ${maxWidthClass} overflow-hidden border border-black/50 animate-in zoom-in-95 duration-200`} onClick={e => e.stopPropagation()}>
-        <div className="px-4 py-3 flex items-center justify-between border-b border-white/5 bg-figma-dark/50">
-          <h2 className="text-[13px] font-bold text-white uppercase tracking-wider">{title}</h2>
+    <div className="fixed inset-0 bg-black/40 z-[200] flex items-center justify-center p-4 backdrop-blur-[4px] animate-in fade-in duration-300" onClick={onClose}>
+      <div className={`bg-md-surface-container-high rounded-[28px] shadow-[0_12px_48px_rgba(0,0,0,0.4)] w-full ${maxWidthClass} overflow-hidden animate-in zoom-in-95 duration-300`} onClick={e => e.stopPropagation()}>
+        <div className="px-6 py-5 flex items-center justify-between">
+          <h2 className="text-[18px] font-bold text-md-on-surface leading-tight">{title}</h2>
           <button 
             onClick={onClose}
-            className="text-figma-text-muted hover:text-white transition-colors p-1 hover:bg-figma-hover rounded-md"
+            className="text-md-on-surface-variant hover:bg-md-surface-variant/20 transition-all p-2 rounded-full active:scale-95"
           >
-            <X className="w-4 h-4" />
+            <X className="w-5 h-5" />
           </button>
         </div>
         
-        <div className="p-4">
+        <div className="px-6 pb-6 pt-1 text-md-on-surface-variant">
           {children}
         </div>
       </div>

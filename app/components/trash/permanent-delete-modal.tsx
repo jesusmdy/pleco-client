@@ -29,26 +29,29 @@ export function PermanentDeleteModal({ isOpen, onClose, selectedIds, onSuccess }
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Delete Forever" maxWidth="sm">
-      <div className="space-y-4">
-        <div className="space-y-2">
-          <p className="text-[13px] text-figma-text-muted leading-relaxed">
+      <div className="space-y-6">
+        <div className="space-y-3">
+          <p className="text-[15px] text-md-on-surface-variant leading-relaxed font-medium">
             Are you sure you want to permanently delete{" "}
-            <span className="text-white font-bold">{count} item{count !== 1 ? "s" : ""}</span>?
+            <span className="text-md-on-surface font-bold">{count} item{count !== 1 ? "s" : ""}</span>?
           </p>
-          <p className="text-figma-red text-[12px] font-medium flex items-center gap-1.5 opacity-90">
-            <span>⚠</span> This action cannot be undone. These files will be gone forever.
-          </p>
+          <div className="flex items-center gap-3 p-3 rounded-xl bg-md-error/10 border border-md-error/20">
+            <span className="text-md-error font-bold">⚠</span>
+            <p className="text-md-error text-[13px] font-bold uppercase tracking-wider">
+              Critical: This action cannot be undone.
+            </p>
+          </div>
         </div>
 
-        <div className="flex justify-end gap-2 pt-2">
-          <Button type="button" onClick={onClose} variant="ghost" disabled={mutation.isPending}>
+        <div className="flex justify-end gap-3 pt-2">
+          <Button type="button" onClick={onClose} variant="ghost" disabled={mutation.isPending} className="h-10 px-6 font-bold">
             Cancel
           </Button>
           <Button
             type="button"
             onClick={() => mutation.mutate()}
             disabled={mutation.isPending}
-            className="bg-figma-red hover:bg-figma-red/90 text-white shadow-sm px-6"
+            className="bg-md-error text-md-on-error hover:bg-md-error/90 px-8 h-10 font-bold shadow-lg shadow-md-error/20"
           >
             {mutation.isPending ? "Deleting..." : "Delete Forever"}
           </Button>

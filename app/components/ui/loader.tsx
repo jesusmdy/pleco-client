@@ -21,17 +21,17 @@ export function Loader({ className, size = "md", label }: LoaderProps) {
       <div className="relative">
         {/* Outer Ring */}
         <div className={cn(
-          "rounded-full border-white/5 animate-pulse",
+          "rounded-full border-md-outline-variant/30",
           sizeClasses[size]
         )} />
         {/* Spinning Ring */}
         <div className={cn(
-          "absolute inset-0 rounded-full border-transparent border-t-figma-blue animate-spin shadow-[0_0_15px_rgba(24,160,251,0.3)]",
+          "absolute inset-0 rounded-full border-transparent border-t-md-primary animate-spin",
           sizeClasses[size]
         )} />
       </div>
       {label && (
-        <p className="text-[11px] font-bold text-figma-text-muted uppercase tracking-widest opacity-60">
+        <p className="text-[12px] font-bold text-md-on-surface-variant tracking-wide uppercase opacity-80">
           {label}
         </p>
       )}
