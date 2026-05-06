@@ -5,9 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getProfile } from "@/app/lib/user";
 import { useSession } from "next-auth/react";
 import { FileGrid } from "@/app/components/drive/file-grid";
-import { Breadcrumb } from "@/app/components/drive/breadcrumb";
 import { useDrive } from "@/app/hooks/useDrive";
-import { NewItemDropdown } from "@/app/components/drive/new-item-dropdown";
 import { BulkActionToolbar } from "@/app/components/drive/bulk-action-toolbar";
 import { useSelectionStore } from "@/app/store/selectionStore";
 
@@ -35,16 +33,8 @@ export default function DriveRootPage() {
   }
 
   return (
-    <div className="">
-      <div className="flex items-center justify-between p-4">
-        <div className="flex-1 min-w-0">
-          <Breadcrumb path={[]} />
-        </div>
-        <div className="flex items-center shrink-0">
-          <NewItemDropdown />
-        </div>
-      </div>
-      <div className="p-4 border-t border-white/5">
+    <div className="flex flex-col h-full overflow-hidden">
+      <div className="flex-1 overflow-y-auto p-3 scrollbar-thin scrollbar-thumb-white/5 hover:scrollbar-thumb-white/10">
         <BulkActionToolbar />
         <FileGrid items={folderContent || []} isLoading={isLoading} />
       </div>

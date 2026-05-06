@@ -33,39 +33,39 @@ export function DeleteModal({ item, onClose }: DeleteModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={(e) => e.stopPropagation()}>
-      <div className="bg-discord-bg-primary rounded-lg shadow-xl w-full max-w-md overflow-hidden">
-        <div className="p-4 flex items-center justify-between border-b border-white/10">
-          <h2 className="font-bold text-white">Delete {item.itemType === "FOLDER" ? "Folder" : "File"}</h2>
+    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-[2px] animate-in fade-in duration-200" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-figma-dark rounded-lg shadow-2xl w-full max-w-sm overflow-hidden border border-black/50 animate-in zoom-in-95 duration-200">
+        <div className="px-4 py-3 flex items-center justify-between border-b border-white/5 bg-figma-dark/50">
+          <h2 className="text-[13px] font-bold text-white uppercase tracking-wider">Delete {item.itemType === "FOLDER" ? "Folder" : "File"}</h2>
           <button 
             type="button"
             onClick={onClose}
-            className="text-discord-text-muted hover:text-white transition-colors"
+            className="text-figma-text-muted hover:text-white transition-colors p-1 hover:bg-figma-hover rounded-md"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
         
         <form onSubmit={handleSubmit} className="p-4">
-          <p className="text-discord-text-primary text-[15px] mb-6 leading-relaxed">
-            Are you sure you want to delete <strong>{item.name}</strong>? This action cannot be undone.
+          <p className="text-white text-[13px] mb-6 leading-relaxed">
+            Are you sure you want to delete <span className="font-bold text-figma-blue">{item.name}</span>? This action cannot be undone.
           </p>
           
-          <div className="flex justify-end gap-3">
+          <div className="flex justify-end gap-2 pt-2">
             <Button type="button" onClick={onClose} variant="ghost">
               Cancel
             </Button>
             <Button 
               type="submit" 
               disabled={mutation.isPending} 
-              className="bg-discord-red hover:bg-discord-red/80 text-white shadow-sm"
+              className="bg-discord-red hover:bg-discord-red/80 text-white px-6"
             >
               {mutation.isPending ? "Deleting..." : "Delete"}
             </Button>
           </div>
           
           {mutation.isError && (
-            <p className="mt-4 text-discord-text-danger text-[14px]">
+            <p className="mt-3 text-discord-text-danger text-[11px] text-center">
               {(mutation.error as Error).message || "Failed to delete item."}
             </p>
           )}

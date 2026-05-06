@@ -9,15 +9,14 @@ interface ActivityListProps {
 export function ActivityList({ queue, onCancel }: ActivityListProps) {
   if (queue.length === 0) {
     return (
-      <div className="bg-discord-bg-secondary rounded-lg border border-white/5 overflow-hidden p-12 text-center">
-        <p className="text-discord-text-muted font-medium">No recent activity.</p>
-        <p className="text-discord-text-muted/60 text-[14px] mt-1">Uploads will appear here.</p>
+      <div className="bg-figma-dark rounded-lg border border-black/50 overflow-hidden p-12 text-center shadow-xl">
+        <p className="text-figma-text-muted text-[13px] font-medium italic">No active operations.</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-discord-bg-secondary rounded-lg border border-white/5 overflow-hidden">
+    <div className="bg-figma-dark rounded-lg border border-black/50 overflow-hidden shadow-xl">
       <div className="divide-y divide-white/5">
         {queue.slice().reverse().map((item) => (
           <ActivityItem key={item.id} item={item} onCancel={onCancel} />

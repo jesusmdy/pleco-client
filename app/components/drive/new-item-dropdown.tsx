@@ -45,17 +45,17 @@ export function NewItemDropdown() {
         onClick={() => setIsOpen(!isOpen)}
         title="Create or upload"
         className={`
-          flex items-center gap-2 h-9 px-4
-          bg-discord-blurple hover:bg-discord-blurple/90 
-          text-white font-semibold text-[14px]
-          rounded-full shadow-sm transition-all duration-150 active:scale-95
+          flex items-center gap-1.5 h-7 px-3
+          bg-figma-blue hover:bg-figma-blue/90 
+          text-white font-medium text-[12px]
+          rounded-md shadow-sm transition-all duration-150 active:scale-95
           cursor-pointer
           ${isOpen ? "ring-2 ring-white/20" : ""}
         `}
       >
-        <Plus className="w-4 h-4" />
+        <Plus className="w-3.5 h-3.5" />
         <span>New</span>
-        <ChevronDown className={`w-3.5 h-3.5 ml-0.5 opacity-60 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+        <ChevronDown className={`w-3 h-3 ml-0.5 opacity-60 transition-transform ${isOpen ? "rotate-180" : ""}`} />
       </button>
 
       {isOpen && (
@@ -64,6 +64,7 @@ export function NewItemDropdown() {
           onFileUpload={() => fileInputRef.current?.click()}
         />
       )}
+
 
       {isCreateModalOpen && (
         <CreateFolderModal parentId={folderId} onClose={() => setIsCreateModalOpen(false)} />
@@ -83,16 +84,16 @@ function DropdownMenu({
   onFileUpload: () => void; 
 }) {
   return (
-    <div className="absolute right-0 top-full mt-2 w-56 bg-discord-bg-modal rounded-lg shadow-xl border border-white/10 py-1.5 z-50 animate-in fade-in zoom-in-95 duration-100">
+    <div className="absolute right-0 top-full mt-2 w-48 bg-figma-dark rounded-md shadow-2xl border border-black/50 py-1 z-50 animate-in fade-in zoom-in-95 duration-100">
       <MenuButton 
-        icon={<FolderPlus className="w-4 h-4" />} 
+        icon={<FolderPlus className="w-3.5 h-3.5" />} 
         label="New folder" 
         onClick={onNewFolder} 
         hint="Create a new folder"
       />
-      <div className="h-[1px] bg-white/5 my-1 mx-2" />
+      <div className="h-[1px] bg-white/5 my-1 mx-1" />
       <MenuButton 
-        icon={<FileUp className="w-4 h-4" />} 
+        icon={<FileUp className="w-3.5 h-3.5" />} 
         label="File upload" 
         onClick={onFileUpload} 
         hint="Upload files from your computer"
@@ -116,9 +117,9 @@ function MenuButton({
     <button
       onClick={onClick}
       title={hint}
-      className="w-full flex items-center gap-3 px-3 py-2 text-[14px] text-discord-text-primary hover:bg-discord-blurple hover:text-white transition-colors text-left cursor-pointer group"
+      className="w-full flex items-center gap-2 px-2 py-1.5 text-[12px] text-figma-text-muted hover:bg-figma-blue hover:text-white transition-colors text-left cursor-pointer group rounded-sm mx-1 w-[calc(100%-8px)]"
     >
-      <span className="text-discord-text-muted group-hover:text-white transition-colors">{icon}</span>
+      <span className="text-figma-text-muted group-hover:text-white transition-colors">{icon}</span>
       {label}
     </button>
   );

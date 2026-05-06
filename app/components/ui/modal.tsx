@@ -20,15 +20,15 @@ export function Modal({ isOpen, onClose, title, children, maxWidth = "md" }: Mod
   }[maxWidth];
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={onClose}>
-      <div className={`bg-discord-bg-primary rounded-xl shadow-xl w-full ${maxWidthClass} overflow-hidden`} onClick={e => e.stopPropagation()}>
-        <div className="p-4 flex items-center justify-between border-b border-white/10">
-          <h2 className="font-bold text-white text-lg">{title}</h2>
+    <div className="fixed inset-0 bg-black/60 z-[100] flex items-center justify-center p-4 backdrop-blur-[2px] animate-in fade-in duration-200" onClick={onClose}>
+      <div className={`bg-figma-dark rounded-lg shadow-2xl w-full ${maxWidthClass} overflow-hidden border border-black/50 animate-in zoom-in-95 duration-200`} onClick={e => e.stopPropagation()}>
+        <div className="px-4 py-3 flex items-center justify-between border-b border-white/5 bg-figma-dark/50">
+          <h2 className="text-[13px] font-bold text-white uppercase tracking-wider">{title}</h2>
           <button 
             onClick={onClose}
-            className="text-discord-text-muted hover:text-white transition-colors p-1"
+            className="text-figma-text-muted hover:text-white transition-colors p-1 hover:bg-figma-hover rounded-md"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
         

@@ -45,39 +45,39 @@ export function FileCardMenu({ item }: FileCardMenuProps) {
       <button 
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="text-discord-text-muted hover:text-white p-1 rounded-full opacity-0 group-hover:opacity-100 transition-opacity focus:opacity-100 outline-none"
+        className="text-figma-text-muted hover:text-white p-1 rounded-md transition-all hover:bg-figma-hover outline-none"
       >
-        <MoreVertical className="w-4 h-4" />
+        <MoreVertical className="w-3.5 h-3.5" />
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-1 w-48 bg-discord-bg-modal rounded shadow-xl border border-white/5 py-1 z-40">
+        <div className="absolute right-0 top-full mt-1 w-40 bg-figma-dark rounded-md shadow-2xl border border-black/50 py-1 px-1 z-40 animate-in fade-in zoom-in-95 duration-100">
           <button
             type="button"
             onClick={() => { setIsOpen(false); setIsRenameOpen(true); }}
-            className="w-full text-left px-3 py-2 text-[14px] text-discord-text-primary hover:bg-discord-blurple hover:text-white flex items-center gap-2"
+            className="w-full text-left px-2 py-1.5 text-[12px] text-white hover:bg-figma-blue flex items-center gap-2 rounded-sm transition-colors group"
           >
-            <Edit2 className="w-4 h-4" /> Rename
+            <Edit2 className="w-3.5 h-3.5 text-figma-text-muted group-hover:text-white" /> Rename
           </button>
           
           {item.itemType === "FILE" && (
             <button
               type="button"
               onClick={handleDownload}
-              className="w-full text-left px-3 py-2 text-[14px] text-discord-text-primary hover:bg-discord-blurple hover:text-white flex items-center gap-2"
+              className="w-full text-left px-2 py-1.5 text-[12px] text-white hover:bg-figma-blue flex items-center gap-2 rounded-sm transition-colors group"
             >
-              <Download className="w-4 h-4" /> Download
+              <Download className="w-3.5 h-3.5 text-figma-text-muted group-hover:text-white" /> Download
             </button>
           )}
 
-          <div className="h-[1px] bg-white/5 my-1 mx-2" />
+          <div className="h-[1px] bg-white/5 my-1 mx-[-4px]" />
 
           <button
             type="button"
             onClick={() => { setIsOpen(false); setIsDeleteOpen(true); }}
-            className="w-full text-left px-3 py-2 text-[14px] text-discord-red hover:bg-discord-red hover:text-white flex items-center gap-2"
+            className="w-full text-left px-2 py-1.5 text-[12px] text-discord-red hover:bg-discord-red hover:text-white flex items-center gap-2 rounded-sm transition-colors group"
           >
-            <Trash2 className="w-4 h-4" /> Delete
+            <Trash2 className="w-3.5 h-3.5 text-discord-red group-hover:text-white" /> Delete
           </button>
         </div>
       )}

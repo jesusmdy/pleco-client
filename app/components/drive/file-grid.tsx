@@ -3,6 +3,8 @@ import { FileListItem } from "@/app/components/drive/file-list-item";
 import { UnifiedDriveItem } from "@/app/lib/drive";
 import { useViewStore } from "@/app/store/viewStore";
 
+import { Loader } from "@/app/components/ui/loader";
+
 interface FileGridProps {
   items: UnifiedDriveItem[];
   isLoading: boolean;
@@ -14,17 +16,16 @@ export function FileGrid({ items, isLoading, context = "drive" }: FileGridProps)
 
   if (isLoading) {
     return (
-      <div className="flex flex-col items-center justify-center h-full gap-4 text-discord-text-muted min-h-[200px]">
-        <div className="w-10 h-10 border-4 border-white/10 border-t-discord-blurple rounded-full animate-spin" />
-        <p>Fetching...</p>
+      <div className="flex flex-col items-center justify-center py-20 min-h-[400px]">
+        <Loader label="Fetching contents..." />
       </div>
     );
   }
 
   if (!items || items.length === 0) {
     return (
-      <div className="text-center py-10 text-discord-text-muted">
-        <p>This folder is empty.</p>
+      <div className="flex flex-col items-center justify-center py-20 text-figma-text-muted">
+        <p className="text-[13px]">This folder is empty.</p>
       </div>
     );
   }
@@ -36,7 +37,7 @@ export function FileGrid({ items, isLoading, context = "drive" }: FileGridProps)
     return (
       <div className="flex flex-col">
         {/* Table Header */}
-        <div className="flex items-center gap-4 px-4 py-2 text-discord-text-muted text-[11px] font-bold uppercase tracking-wider border-b border-white/5">
+        <div className="flex items-center gap-4 px-4 py-2 text-figma-text-muted text-[10px] font-bold uppercase tracking-[0.05em] border-b border-white/5">
           <div className="flex-1">Name</div>
           <div className="w-24 hidden sm:block">Size</div>
           <div className="w-32 hidden md:block">Created</div>
@@ -49,11 +50,11 @@ export function FileGrid({ items, isLoading, context = "drive" }: FileGridProps)
   }
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       {folders.length > 0 && (
         <section>
-          <h3 className="text-sm font-bold text-discord-text-muted mb-4 uppercase tracking-wider">Folders</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-4">
+          <h3 className="text-[11px] font-bold text-figma-text-muted mb-3 uppercase tracking-wider">Folders</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3">
             {folders.map(folder => <FileCard key={folder.id} item={folder} context={context} />)}
           </div>
         </section>
@@ -61,8 +62,8 @@ export function FileGrid({ items, isLoading, context = "drive" }: FileGridProps)
 
       {files.length > 0 && (
         <section>
-          <h3 className="text-sm font-bold text-discord-text-muted mb-4 uppercase tracking-wider">Files</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          <h3 className="text-[11px] font-bold text-figma-text-muted mb-3 uppercase tracking-wider">Files</h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-3">
             {files.map(file => <FileCard key={file.id} item={file} context={context} />)}
           </div>
         </section>

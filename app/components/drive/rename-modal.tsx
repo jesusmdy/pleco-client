@@ -59,61 +59,57 @@ export function RenameModal({ item, onClose }: RenameModalProps) {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={(e) => e.stopPropagation()}>
-      <div className="bg-discord-bg-primary rounded-lg shadow-xl w-full max-w-md overflow-hidden">
-        <div className="p-4 flex items-center justify-between border-b border-white/10">
-          <h2 className="font-bold text-white">Rename {item.itemType === "FOLDER" ? "Folder" : "File"}</h2>
+    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-[2px] animate-in fade-in duration-200" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-figma-dark rounded-lg shadow-2xl w-full max-w-sm overflow-hidden border border-black/50 animate-in zoom-in-95 duration-200">
+        <div className="px-4 py-3 flex items-center justify-between border-b border-white/5 bg-figma-dark/50">
+          <h2 className="text-[13px] font-bold text-white uppercase tracking-wider">Rename {item.itemType === "FOLDER" ? "Folder" : "File"}</h2>
           <button 
             onClick={onClose}
             type="button"
-            className="text-discord-text-muted hover:text-white transition-colors"
+            className="text-figma-text-muted hover:text-white transition-colors p-1 hover:bg-figma-hover rounded-md"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
         
         <form onSubmit={handleSubmit} className="p-4">
           <div className="mb-6">
             <Input
-              label="Name"
+              label="New Name"
               autoFocus
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. My Documents"
+              placeholder="Enter name..."
               required
             />
 
             {isMissingExtension && (
-              <div className="mt-2.5 flex flex-col gap-1.5 animate-in fade-in slide-in-from-top-1 duration-300">
-                <p className="text-[12px] text-amber-400 font-medium flex items-center gap-1.5">
-                  <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-                  If you change the extension, the file may become unreadable.
+              <div className="mt-3 p-2 rounded-md bg-amber-400/5 border border-amber-400/20 animate-in fade-in slide-in-from-top-1 duration-300">
+                <p className="text-[11px] text-amber-400 leading-normal mb-2">
+                  Changing the extension may make the file unreadable.
                 </p>
                 <button
                   type="button"
                   onClick={handleApplyExtension}
-                  className="text-[12px] text-blue-400 hover:text-blue-300 hover:underline transition-all w-fit text-left flex items-center gap-1.5 group"
+                  className="text-[11px] text-figma-blue hover:underline transition-all flex items-center gap-1.5 font-medium"
                 >
-                  <span className="opacity-90">Restore original extension</span>
-                  <span className="font-bold bg-blue-400/10 px-1.5 py-0.5 rounded transition-colors group-hover:bg-blue-400/20">
-                    {originalExtension}
-                  </span>
+                  Restore original extension ({originalExtension})
                 </button>
               </div>
             )}
           </div>
           
-          <div className="flex justify-end gap-3 mt-2">
+          <div className="flex justify-end gap-2 pt-2">
             <Button type="button" onClick={onClose} variant="ghost">
               Cancel
             </Button>
-            <Button type="submit" disabled={isSubmitDisabled} variant="primary">
+            <Button type="submit" disabled={isSubmitDisabled} variant="primary" className="px-6">
               {mutation.isPending ? "Renaming..." : "Rename"}
             </Button>
           </div>
           
           {mutation.isError && (
-            <p className="mt-4 text-discord-text-danger text-[14px]">
+            <p className="mt-3 text-discord-text-danger text-[11px] text-center">
               {(mutation.error as Error).message || "Failed to rename item."}
             </p>
           )}

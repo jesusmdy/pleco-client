@@ -1,6 +1,6 @@
 "use client";
 
-import { HardDrive, Activity, Trash2 } from "lucide-react";
+import { HardDrive, Activity, Trash2, Database } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useStorageUsage } from "@/app/hooks/useStorageUsage";
@@ -10,46 +10,32 @@ import { formatBytes } from "@/app/lib/utils";
 export function Sidebar() {
   const pathname = usePathname();
 
-  const isDriveActive = pathname === "/drive" || pathname.startsWith("/drive/folders");
-  const isActivityActive = pathname === "/drive/activity";
-  const isTrashActive = pathname === "/drive/trash";
+  const isDriveActive = (pathname === "/fm/drive" || pathname.startsWith("/fm/drive/folders")) && !pathname.includes("trash-bin");
+  const isTrashActive = pathname === "/fm/drive/trash-bin";
 
   return (
-    <div className="w-[240px] flex flex-col hidden md:flex bg-discord-bg-secondary h-screen">
-      <div className="p-4 h-14 flex items-center gap-3 shrink-0">
-        <div className="w-8 h-8 bg-discord-blurple rounded-lg flex items-center justify-center shrink-0 shadow-lg">
-          <HardDrive className="w-5 h-5 text-white transform -rotate-6" />
-        </div>
-        <h1 className="text-xl font-semibold text-white tracking-tight truncate">Pleco</h1>
-      </div>
-
-      <div className="flex-1 p-2 flex flex-col gap-1 mt-2">
+    <div className="w-[200px] flex flex-col hidden md:flex bg-figma-dark h-full border-r border-white/5">
+      <div className="flex-1 p-1.5 flex flex-col gap-0.5 mt-1">
         <Link
-          href="/drive"
-          className={`rounded p-2 flex items-center gap-3 text-white transition-colors hover:bg-discord-bg-modifier-hover ${isDriveActive ? 'bg-discord-bg-modal/50' : 'bg-transparent'}`}
+          href="/fm/drive"
+          className={`rounded-md px-2 py-1.5 flex items-center gap-2 text-white transition-all hover:bg-figma-hover group ${isDriveActive ? 'bg-figma-blue/10 text-figma-blue shadow-[inset_0_0_0_1px_rgba(24,160,251,0.2)]' : 'bg-transparent text-figma-text-muted hover:text-white'}`}
         >
-          <HardDrive className={`w-5 h-5 ${isDriveActive ? 'text-white' : 'text-discord-text-muted'}`} />
-          <span className="font-medium text-[15px]">My Drive</span>
+          <HardDrive className={`w-3.5 h-3.5 ${isDriveActive ? 'text-figma-blue' : 'text-figma-text-muted group-hover:text-white'}`} />
+          <span className={`text-[12px] ${isDriveActive ? 'font-semibold' : 'font-medium'}`}>My Drive</span>
         </Link>
 
-        <Link
-          href="/drive/activity"
-          className={`rounded p-2 flex items-center gap-3 text-white transition-colors hover:bg-discord-bg-modifier-hover ${isActivityActive ? 'bg-discord-bg-modal/50' : 'bg-transparent'}`}
-        >
-          <Activity className={`w-5 h-5 ${isActivityActive ? 'text-white' : 'text-discord-text-muted'}`} />
-          <span className="font-medium text-[15px]">Activity</span>
-        </Link>
+
 
         <Link
-          href="/drive/trash"
-          className={`rounded p-2 flex items-center gap-3 text-white transition-colors hover:bg-discord-bg-modifier-hover ${isTrashActive ? 'bg-discord-bg-modal/50' : 'bg-transparent'}`}
+          href="/fm/drive/trash-bin"
+          className={`rounded-md px-2 py-1.5 flex items-center gap-2 text-white transition-all hover:bg-figma-hover group ${isTrashActive ? 'bg-figma-blue/10 text-figma-blue shadow-[inset_0_0_0_1px_rgba(24,160,251,0.2)]' : 'bg-transparent text-figma-text-muted hover:text-white'}`}
         >
-          <Trash2 className={`w-5 h-5 ${isTrashActive ? 'text-white' : 'text-discord-text-muted'}`} />
-          <span className="font-medium text-[15px]">Trash</span>
+          <Trash2 className={`w-3.5 h-3.5 ${isTrashActive ? 'text-figma-blue' : 'text-figma-text-muted group-hover:text-white'}`} />
+          <span className={`text-[12px] ${isTrashActive ? 'font-semibold' : 'font-medium'}`}>Trash</span>
         </Link>
       </div>
 
-      <div className="p-4 mt-auto">
+      <div className="p-3 border-t border-white/5 bg-figma-bg/20">
         <StorageChip />
       </div>
     </div>
@@ -59,7 +45,7 @@ export function Sidebar() {
 function StorageChip() {
   const { data: usage } = useStorageUsage();
   const { data: profile } = useProfile();
-  
+
   if (!usage || !profile) return null;
 
   const used = usage.totalSize;
@@ -67,24 +53,26 @@ function StorageChip() {
   const percentage = Math.min(100, (used / limit) * 100);
 
   return (
-    <Link href="/drive/storage" className="block group">
-      <div className="bg-discord-bg-tertiary rounded-xl p-3 transition-colors group-hover:bg-discord-bg-modifier-hover border border-white/5">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-discord-text-muted text-xs font-bold uppercase tracking-wider">Storage</span>
-          <span className="text-white text-[10px] font-bold bg-discord-blurple px-1.5 py-0.5 rounded uppercase">
-            {profile.tierName}
-          </span>
+    <Link href="/fm/storage" className="block group">
+      <div className="space-y-3">
+        <div className="flex items-center justify-between text-figma-text-muted group-hover:text-white transition-colors">
+          <div className="flex items-center gap-2">
+            <Database className="w-3.5 h-3.5" />
+            <span className="text-[11px] font-bold uppercase tracking-wider">Storage</span>
+          </div>
+          <span className="text-[10px] font-bold text-figma-blue">{Math.round(percentage)}%</span>
         </div>
-        
-        <div className="h-2 bg-discord-bg-tertiary rounded-full overflow-hidden mb-2">
-          <div 
-            className="h-full bg-discord-blurple transition-all duration-500" 
+
+        <div className="h-1.5 bg-figma-bg rounded-full overflow-hidden border border-white/5">
+          <div
+            className="h-full bg-figma-blue transition-all duration-500 rounded-full shadow-[0_0_8px_rgba(24,160,251,0.4)]"
             style={{ width: `${percentage}%` }}
           />
         </div>
-        
-        <div className="text-discord-text-muted text-[11px] font-medium">
-          <span className="text-white font-bold">{formatBytes(used)}</span> of {formatBytes(limit)} used
+
+        <div className="text-[11px] text-figma-text-muted leading-tight">
+          Using <span className="text-white font-semibold">{formatBytes(used)}</span><br />
+          of {formatBytes(limit)}
         </div>
       </div>
     </Link>

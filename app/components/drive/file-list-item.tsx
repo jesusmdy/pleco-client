@@ -26,7 +26,7 @@ export function FileListItem({ item, context = "drive" }: FileListItemProps) {
 
   const handleOpen = () => {
     if (isTrash) return;
-    if (isFolder) router.push(`/drive/folders/${item.id}`);
+    if (isFolder) router.push(`/fm/drive/folders/${item.id}`);
   };
 
   const handleClick = () => {
@@ -45,41 +45,43 @@ export function FileListItem({ item, context = "drive" }: FileListItemProps) {
   return (
     <div
       onClick={handleClick}
-      className={`flex items-center gap-4 p-2 px-4 cursor-pointer group transition-all border-b border-white/5 ${
-        selected ? "bg-discord-blurple/10" : "hover:bg-white/5"
+      className={`flex items-center gap-3 py-1.5 px-3 cursor-pointer group transition-all border-b border-black/10 ${
+        selected ? "bg-figma-blue/10" : "hover:bg-figma-hover"
       }`}
     >
-      <div className="flex items-center gap-4 flex-1 min-w-0">
-        <div className="w-10 h-10 shrink-0 rounded flex items-center justify-center bg-discord-bg-tertiary border border-white/5 overflow-hidden">
+      <div className="flex items-center gap-3 flex-1 min-w-0">
+        <div className="w-8 h-8 shrink-0 rounded-md flex items-center justify-center bg-figma-bg border border-white/5 overflow-hidden">
           {isFolder ? (
-            <Folder className={`w-5 h-5 ${selected ? "text-discord-blurple" : "text-discord-text-muted"}`} />
+            <Folder className={`w-3.5 h-3.5 ${selected ? "text-figma-blue" : "text-figma-text-muted"}`} />
           ) : item.hasThumb200 ? (
-            <Thumbnail itemId={item.id} size={200} alt={item.name} className="w-full h-full" />
+            <Thumbnail itemId={item.id} size={200} alt={item.name} className="w-full h-full object-cover" />
           ) : (
-            <FileText className={`w-5 h-5 ${selected ? "text-discord-blurple" : "text-discord-text-muted"}`} />
+            <FileText className={`w-3.5 h-3.5 ${selected ? "text-figma-blue" : "text-figma-text-muted"}`} />
           )}
         </div>
         
         <div className="flex-1 min-w-0">
-          <div className="text-white text-[14px] font-medium truncate select-none">
+          <div className="text-white text-[12px] font-medium truncate select-none">
             {item.name}
           </div>
         </div>
       </div>
 
-      <div className="w-24 text-discord-text-muted text-[13px] font-medium hidden sm:block">
+      <div className="w-20 text-figma-text-muted text-[11px] font-medium hidden sm:block">
         {isFolder ? "--" : formatBytes(item.size || 0)}
       </div>
 
-      <div className="w-32 text-discord-text-muted text-[13px] font-medium hidden md:block">
+      <div className="w-28 text-figma-text-muted text-[11px] font-medium hidden md:block text-right pr-4">
         {new Date(item.createdAt).toLocaleDateString()}
       </div>
 
       <div className="flex items-center gap-2 shrink-0">
         {selected ? (
-          <CheckCircle2 className="w-5 h-5 text-discord-blurple shrink-0" />
+          <CheckCircle2 className="w-4 h-4 text-figma-blue shrink-0" />
         ) : !isTrash ? (
-          <FileCardMenu item={item} />
+          <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+            <FileCardMenu item={item} />
+          </div>
         ) : null}
       </div>
     </div>

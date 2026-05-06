@@ -27,7 +27,7 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
 
   const handleOpen = () => {
     if (isTrash) return; // no navigation in trash context
-    if (isFolder) router.push(`/drive/folders/${item.id}`);
+    if (isFolder) router.push(`/fm/drive/folders/${item.id}`);
   };
 
   const handleClick = () => {
@@ -49,24 +49,26 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
     return (
       <div
         onClick={handleClick}
-        className={`flex items-center justify-between rounded-lg p-3 cursor-pointer group transition-all border ${
+        className={`flex items-center justify-between rounded-md px-2 py-1.5 cursor-pointer group transition-all border ${
           selected
-            ? "bg-discord-blurple/10 border-discord-blurple"
-            : "bg-discord-bg-secondary hover:bg-white/5 border-transparent hover:border-white/10"
+            ? "bg-figma-blue/10 border-figma-blue"
+            : "bg-[#2c2c2c] hover:bg-figma-hover border-white/5"
         }`}
       >
-        <div className="flex items-center gap-3 overflow-hidden">
+        <div className="flex items-center gap-2 overflow-hidden">
           <Folder
-            className={`w-5 h-5 shrink-0 transition-colors ${
-              selected ? "text-discord-blurple" : "text-discord-text-muted group-hover:text-discord-blurple"
+            className={`w-3.5 h-3.5 shrink-0 transition-colors ${
+              selected ? "text-figma-blue" : "text-figma-text-muted group-hover:text-figma-blue"
             }`}
           />
-          <span className="text-white text-[14px] font-medium truncate select-none">{item.name}</span>
+          <span className="text-white text-[12px] font-medium truncate select-none">{item.name}</span>
         </div>
         {selected ? (
-          <CheckCircle2 className="w-5 h-5 text-discord-blurple shrink-0" />
+          <CheckCircle2 className="w-4 h-4 text-figma-blue shrink-0" />
         ) : !isTrash ? (
-          <FileCardMenu item={item} />
+          <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+            <FileCardMenu item={item} />
+          </div>
         ) : null}
       </div>
     );
@@ -76,36 +78,38 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
   return (
     <div
       onClick={handleClick}
-      className={`rounded-xl cursor-pointer group flex flex-col h-56 overflow-hidden transition-all border ${
+      className={`rounded-md cursor-pointer group flex flex-col h-44 overflow-hidden transition-all border ${
         selected
-          ? "bg-discord-blurple/10 border-discord-blurple"
-          : "bg-discord-bg-secondary hover:bg-white/5 border-transparent hover:border-white/10"
+          ? "bg-figma-blue/10 border-figma-blue"
+          : "bg-[#2c2c2c] hover:bg-figma-hover border-white/5"
       }`}
     >
       {/* File Header */}
-      <div className="flex items-center justify-between p-3 shrink-0">
-        <div className="flex items-center gap-3 overflow-hidden">
+      <div className="flex items-center justify-between px-2 py-1.5 shrink-0">
+        <div className="flex items-center gap-2 overflow-hidden">
           <FileText
-            className={`w-5 h-5 shrink-0 transition-colors ${
-              selected ? "text-discord-blurple" : "text-discord-text-muted group-hover:text-discord-blurple"
+            className={`w-3.5 h-3.5 shrink-0 transition-colors ${
+              selected ? "text-figma-blue" : "text-figma-text-muted group-hover:text-figma-blue"
             }`}
           />
-          <span className="text-white text-[14px] font-medium truncate select-none">{item.name}</span>
+          <span className="text-white text-[12px] font-medium truncate select-none">{item.name}</span>
         </div>
         <div className="flex items-center gap-1">
-          {item.encrypted && !selected && !isTrash && <Lock className="w-3.5 h-3.5 text-discord-text-muted" />}
+          {item.encrypted && !selected && !isTrash && <Lock className="w-3 h-3 text-figma-text-muted" />}
           {selected ? (
-            <CheckCircle2 className="w-5 h-5 text-discord-blurple shrink-0" />
+            <CheckCircle2 className="w-4 h-4 text-figma-blue shrink-0" />
           ) : !isTrash ? (
-            <FileCardMenu item={item} />
+            <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+              <FileCardMenu item={item} />
+            </div>
           ) : null}
         </div>
       </div>
 
-      {/* Future Preview Area */}
+      {/* Preview Area */}
       <div
-        className={`flex-1 mx-3 mb-3 rounded-lg border border-white/5 overflow-hidden flex items-center justify-center transition-colors ${
-          selected ? "bg-discord-blurple/5" : "bg-discord-bg-tertiary group-hover:bg-discord-bg-primary"
+        className={`flex-1 mx-1.5 mb-1.5 rounded-sm border border-white/5 overflow-hidden flex items-center justify-center transition-colors ${
+          selected ? "bg-figma-blue/5" : "bg-figma-bg"
         }`}
       >
         {item.hasThumb500 ? (
@@ -113,10 +117,10 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
             itemId={item.id} 
             size={500} 
             alt={item.name} 
-            className="w-full h-full"
+            className="w-full h-full object-cover"
           />
         ) : (
-          <FileText className="w-12 h-12 text-discord-text-muted/20" />
+          <FileText className="w-8 h-8 text-white/5" />
         )}
       </div>
     </div>

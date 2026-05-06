@@ -57,13 +57,13 @@ export interface BreadcrumbNode {
   name: string;
 }
 
-export const getRootFolders = (token: string) => 
+export const getRootFolders = (token: string) =>
   request<UnifiedDriveItem[]>("/drive/folders", { method: "GET", token });
 
-export const getFolderChildren = (folderId: string, token: string) => 
+export const getFolderChildren = (folderId: string, token: string) =>
   request<UnifiedDriveItem[]>(`/drive/folders/${folderId}`, { method: "GET", token });
 
-export const getBreadcrumb = (folderId: string, token: string) => 
+export const getBreadcrumb = (folderId: string, token: string) =>
   request<BreadcrumbNode[]>(`/drive/folders/${folderId}/breadcrumb`, { method: "GET", token });
 
 export const createFolder = (name: string, parentId: string | null, token: string) =>
@@ -77,7 +77,7 @@ export const uploadDriveFile = (file: File, parentId: string | null, token: stri
   const formData = new FormData();
   formData.append("file", file);
   if (parentId) formData.append("parentId", parentId);
-  
+
   return request<any>("/drive/upload", { method: "POST", body: formData, token });
 };
 
@@ -95,11 +95,11 @@ export const downloadFile = async (id: string, fileName: string, token: string) 
   const response = await fetch(`${API_BASE_URL}/drive/download/${id}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
-  
+
   if (!response.ok) {
     throw new Error("Download failed");
   }
-  
+
   const blob = await response.blob();
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
@@ -130,3 +130,9 @@ export const permanentlyDeleteItems = (itemIds: string[], token: string) =>
     body: JSON.stringify({ itemIds }),
     token,
   });
+
+export const searchDrive = (query: string, token: string, folderId?: string) => {
+  const params = new URLSearchParams({ query });
+  if (folderId) params.append("folderId", folderId);
+  return request<UnifiedDriveItem[]>(`/drive/search?${params.toString()}`, { method: "GET", token });
+};

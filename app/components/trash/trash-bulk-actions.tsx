@@ -17,17 +17,17 @@ export function TrashBulkActions() {
     <>
       <Button
         onClick={() => setIsRestoreOpen(true)}
-        className="bg-discord-blurple hover:bg-discord-blurple/80 text-white shadow-sm flex items-center gap-2 text-[14px]"
+        className="bg-figma-blue hover:bg-figma-blue/90 text-white shadow-sm flex items-center gap-1.5 h-7 px-3 rounded-md text-[12px] font-medium transition-all"
       >
-        <RotateCcw className="w-4 h-4" />
+        <RotateCcw className="w-3.5 h-3.5" />
         Restore ({count})
       </Button>
 
       <Button
         onClick={() => setIsDeleteOpen(true)}
-        className="bg-discord-red hover:bg-discord-red/80 text-white shadow-sm flex items-center gap-2 text-[14px]"
+        className="bg-figma-red hover:bg-figma-red/90 text-white shadow-sm flex items-center gap-1.5 h-7 px-3 rounded-md text-[12px] font-medium transition-all"
       >
-        <Trash2 className="w-4 h-4" />
+        <Trash2 className="w-3.5 h-3.5" />
         Delete Forever ({count})
       </Button>
 

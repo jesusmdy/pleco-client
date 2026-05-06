@@ -28,27 +28,31 @@ export function PermanentDeleteModal({ isOpen, onClose, selectedIds, onSuccess }
   });
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Delete Forever">
-      <p className="text-discord-text-primary text-[15px] mb-2 leading-relaxed">
-        Are you sure you want to permanently delete{" "}
-        <span className="text-white font-semibold">{count} item{count !== 1 ? "s" : ""}</span>?
-      </p>
-      <p className="text-discord-red text-[14px] mb-6">
-        ⚠ This action cannot be undone. These files will be gone forever.
-      </p>
+    <Modal isOpen={isOpen} onClose={onClose} title="Delete Forever" maxWidth="sm">
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <p className="text-[13px] text-figma-text-muted leading-relaxed">
+            Are you sure you want to permanently delete{" "}
+            <span className="text-white font-bold">{count} item{count !== 1 ? "s" : ""}</span>?
+          </p>
+          <p className="text-figma-red text-[12px] font-medium flex items-center gap-1.5 opacity-90">
+            <span>⚠</span> This action cannot be undone. These files will be gone forever.
+          </p>
+        </div>
 
-      <div className="flex justify-end gap-3">
-        <Button type="button" onClick={onClose} variant="ghost" disabled={mutation.isPending}>
-          Cancel
-        </Button>
-        <Button
-          type="button"
-          onClick={() => mutation.mutate()}
-          disabled={mutation.isPending}
-          className="bg-discord-red hover:bg-discord-red/80 text-white shadow-sm"
-        >
-          {mutation.isPending ? "Deleting..." : "Delete Forever"}
-        </Button>
+        <div className="flex justify-end gap-2 pt-2">
+          <Button type="button" onClick={onClose} variant="ghost" disabled={mutation.isPending}>
+            Cancel
+          </Button>
+          <Button
+            type="button"
+            onClick={() => mutation.mutate()}
+            disabled={mutation.isPending}
+            className="bg-figma-red hover:bg-figma-red/90 text-white shadow-sm px-6"
+          >
+            {mutation.isPending ? "Deleting..." : "Delete Forever"}
+          </Button>
+        </div>
       </div>
     </Modal>
   );

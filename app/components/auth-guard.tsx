@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import { Loader } from "@/app/components/ui/loader";
 
 interface AuthGuardProps {
   children: React.ReactNode;
@@ -21,15 +22,15 @@ export function AuthGuard({ children, isAuth }: AuthGuardProps) {
     }
 
     if (!isAuth && status === "authenticated") {
-      router.replace("/drive");
+      router.replace("/fm/drive");
     }
   }, [status, isAuth, router]);
 
   // Show spinner while session is resolving
   if (status === "loading") {
     return (
-      <div className="flex items-center justify-center min-h-screen bg-discord-bg-primary">
-        <div className="w-10 h-10 border-4 border-white/10 border-t-discord-blurple rounded-full animate-spin" />
+      <div className="flex items-center justify-center min-h-screen bg-figma-dark">
+        <Loader size="lg" label="Securing Session" />
       </div>
     );
   }

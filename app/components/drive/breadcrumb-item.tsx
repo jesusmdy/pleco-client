@@ -11,10 +11,14 @@ export function BreadcrumbItem({ href, label, isLast }: BreadcrumbItemProps) {
   return (
     <Link 
       href={href}
-      className="flex items-center gap-1 px-3 py-1.5 rounded-full transition-colors text-white hover:bg-white/10 text-[18px] font-medium shrink-0"
+      className={`
+        flex items-center gap-1 px-2 py-1 rounded-md transition-colors shrink-0
+        ${isLast ? 'text-white font-semibold' : 'text-figma-text-muted hover:bg-figma-hover hover:text-white'}
+        text-[13px]
+      `}
     >
-      <span className="truncate max-w-[200px]">{label}</span>
-      {isLast && <ChevronDown className="w-4 h-4 ml-1 text-discord-text-muted" />}
+      <span className="truncate max-w-[150px]">{label}</span>
+      {isLast && <ChevronDown className="w-3 h-3 ml-0.5 opacity-50" />}
     </Link>
   );
 }

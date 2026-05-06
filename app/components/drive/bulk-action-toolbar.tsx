@@ -6,22 +6,15 @@ import { useSelectionStore } from "@/app/store/selectionStore";
 import { Button } from "@/app/components/ui/button";
 import { BulkDeleteModal } from "./bulk-delete-modal";
 
-function DriveDeleteButton() {
-  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const { selectedIds } = useSelectionStore();
-  const count = selectedIds.size;
-
+function DriveDeleteButton({ onClick, count }: { onClick: () => void; count: number }) {
   return (
-    <>
-      <Button
-        onClick={() => setIsDeleteOpen(true)}
-        className="bg-discord-red hover:bg-discord-red/80 text-white shadow-sm flex items-center gap-2 text-[14px]"
-      >
-        <Trash2 className="w-4 h-4" />
-        Delete ({count})
-      </Button>
-      <BulkDeleteModal isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} />
-    </>
+    <button
+      onClick={onClick}
+      className="bg-figma-red hover:bg-figma-red/90 text-white shadow-sm flex items-center gap-1.5 px-3 h-7 rounded-md text-[12px] font-medium transition-all cursor-pointer"
+    >
+      <Trash2 className="w-3.5 h-3.5" />
+      Delete ({count})
+    </button>
   );
 }
 
@@ -31,27 +24,33 @@ interface BulkActionToolbarProps {
 
 export function BulkActionToolbar({ actions }: BulkActionToolbarProps) {
   const { selectedIds, clear } = useSelectionStore();
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const count = selectedIds.size;
 
   if (count === 0) return null;
 
   return (
-    <div className="flex items-center gap-4 mb-4 py-2 px-3 rounded-lg bg-discord-bg-secondary border border-white/10 animate-in fade-in duration-150">
-      <span className="text-white text-[14px] font-medium">
-        {count} item{count !== 1 ? "s" : ""} selected
-      </span>
+    <>
+      <div className="h-9 flex items-center justify-between px-3 rounded-md bg-figma-blue/10 border border-figma-blue/20 animate-in fade-in duration-200 mb-4">
+        <div className="flex items-center gap-3">
+          <button
+            onClick={clear}
+            className="p-1 hover:bg-figma-blue/20 rounded-md text-figma-blue transition-colors"
+            title="Deselect all"
+          >
+            <X className="w-3.5 h-3.5" />
+          </button>
+          <span className="text-figma-blue text-[12px] font-bold whitespace-nowrap">
+            {count} selected
+          </span>
+        </div>
 
-      <button
-        onClick={clear}
-        className="text-[13px] text-discord-text-muted hover:text-white transition-colors flex items-center gap-1"
-      >
-        <X className="w-3.5 h-3.5" />
-        Deselect all
-      </button>
-
-      <div className="ml-auto flex items-center gap-2">
-        {actions ?? <DriveDeleteButton />}
+        <div className="flex items-center gap-2">
+          {actions ?? <DriveDeleteButton onClick={() => setIsDeleteOpen(true)} count={count} />}
+        </div>
       </div>
-    </div>
+
+      <BulkDeleteModal isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} />
+    </>
   );
 }

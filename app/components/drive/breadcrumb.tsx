@@ -8,9 +8,9 @@ interface BreadcrumbProps {
 
 export function Breadcrumb({ path }: BreadcrumbProps) {
   return (
-    <div className="flex items-center gap-1 overflow-x-auto -ml-3">
+    <div className="flex items-center overflow-x-auto">
       <BreadcrumbItem 
-        href="/drive" 
+        href="/fm/drive" 
         label="My Drive" 
         isLast={path.length === 0} 
       />
@@ -18,10 +18,10 @@ export function Breadcrumb({ path }: BreadcrumbProps) {
       {path.map((node, index) => {
         const isLast = index === path.length - 1;
         return (
-          <div key={node.id} className="flex items-center gap-1 shrink-0">
+          <div key={node.id} className="flex items-center shrink-0">
             <BreadcrumbSeparator />
             <BreadcrumbItem 
-              href={`/drive/folders/${node.id}`} 
+              href={`/fm/drive/folders/${node.id}`} 
               label={node.name} 
               isLast={isLast} 
             />

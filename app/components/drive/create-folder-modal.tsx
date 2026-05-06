@@ -6,6 +6,7 @@ import { createFolder } from "@/app/lib/drive";
 import { useSession } from "next-auth/react";
 import { X } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
+import { Input } from "@/app/components/ui/input";
 
 interface CreateFolderModalProps {
   parentId: string | null;
@@ -20,7 +21,6 @@ export function CreateFolderModal({ parentId, onClose }: CreateFolderModalProps)
   const mutation = useMutation({
     mutationFn: () => createFolder(name, parentId, session!.backendToken),
     onSuccess: () => {
-      // Invalidate the current folder's cache to trigger a refetch
       queryClient.invalidateQueries({ 
         queryKey: ["folderContent", parentId || "root"] 
       });
@@ -36,36 +36,32 @@ export function CreateFolderModal({ parentId, onClose }: CreateFolderModalProps)
   };
 
   return (
-    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
-      <div className="bg-discord-bg-primary rounded-lg shadow-xl w-full max-w-md overflow-hidden">
-        <div className="p-4 flex items-center justify-between border-b border-white/10">
-          <h2 className="font-bold text-white">Create Folder</h2>
+    <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4 backdrop-blur-[2px] animate-in fade-in duration-200" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-figma-dark rounded-lg shadow-2xl w-full max-w-sm overflow-hidden border border-black/50 animate-in zoom-in-95 duration-200">
+        <div className="px-4 py-3 flex items-center justify-between border-b border-white/5 bg-figma-dark/50">
+          <h2 className="text-[13px] font-bold text-white uppercase tracking-wider">Create Folder</h2>
           <button 
             onClick={onClose}
-            className="text-discord-text-muted hover:text-white transition-colors"
+            className="text-figma-text-muted hover:text-white transition-colors p-1 hover:bg-figma-hover rounded-md"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         </div>
         
         <form onSubmit={handleSubmit} className="p-4">
           <div className="mb-6">
-            <label htmlFor="folderName" className="block text-discord-text-muted text-[12px] font-bold uppercase mb-2">
-              Folder Name
-            </label>
-            <input
+            <Input
+              label="Folder Name"
               id="folderName"
-              type="text"
               autoFocus
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full bg-discord-bg-tertiary text-white p-2.5 rounded border border-transparent focus:border-discord-blurple focus:outline-none transition-colors"
               placeholder="e.g. My Documents"
               required
             />
           </div>
           
-          <div className="flex justify-end gap-3 mt-2">
+          <div className="flex justify-end gap-2 pt-2">
             <Button
               type="button"
               onClick={onClose}
@@ -77,13 +73,14 @@ export function CreateFolderModal({ parentId, onClose }: CreateFolderModalProps)
               type="submit"
               disabled={!name.trim() || mutation.isPending}
               variant="primary"
+              className="px-6"
             >
               {mutation.isPending ? "Creating..." : "Create"}
             </Button>
           </div>
           
           {mutation.isError && (
-            <p className="mt-4 text-discord-text-danger text-[14px]">
+            <p className="mt-3 text-discord-text-danger text-[11px] text-center">
               {(mutation.error as Error).message || "Failed to create folder."}
             </p>
           )}
