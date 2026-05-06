@@ -13,7 +13,7 @@ export function BreadcrumbItem({ href, label, isLast }: BreadcrumbItemProps) {
       href={href}
       className={`
         flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg transition-all shrink-0 font-medium
-        ${isLast ? 'text-md-on-surface font-bold bg-md-surface-variant/10' : 'text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface'}
+        ${isLast ? 'text-md-on-surface font-semibold bg-md-surface-variant/10' : 'text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface'}
         text-[14px]
       `}
     >

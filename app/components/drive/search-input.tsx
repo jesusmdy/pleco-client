@@ -99,7 +99,7 @@ export function SearchInput({ variant = "default", className, autoFocus = false 
         placeholder="Search everything..."
         className={cn(
           "w-full bg-md-surface-container-highest text-md-on-surface rounded-full outline-none focus:ring-2 focus:ring-md-primary/20 border border-md-outline-variant/10 focus:border-md-primary transition-all placeholder:text-md-on-surface-variant/40",
-          variant === "page" ? "h-12 pl-12 pr-6 text-[15px]" : "h-10 pl-11 pr-4 text-[13px] font-bold"
+          variant === "page" ? "h-12 pl-12 pr-6 text-[15px]" : "h-10 pl-11 pr-4 text-[14px] font-medium"
         )}
       />
 

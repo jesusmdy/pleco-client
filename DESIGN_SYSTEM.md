@@ -27,11 +27,11 @@ This document outlines the core design principles, tokens, and component guideli
 
 ## 3. Typography Scale
 We use **Outfit** as the recommended font for Material Design Expressive.
-- **Display/H1**: `text-3xl font-bold tracking-tighter`
-- **Headline/H2**: `text-xl font-bold tracking-tight`
-- **Title/H3**: `text-[14px] font-bold uppercase tracking-widest`
-- **Body Large**: `text-[15px] font-medium`
-- **Label/Small**: `text-[11px] font-bold uppercase tracking-widest`
+- **Display** (Hero text): `text-4xl font-semibold tracking-tight` (Sentence case)
+- **Headline** (Page headers): `text-2xl font-medium tracking-normal` (Sentence case)
+- **Title** (Section/Card headers): `text-lg font-medium` (Sentence case)
+- **Body** (Standard reading): `text-[15px] font-normal` (Sentence case)
+- **Label** (Buttons, Badges, Overlines): `text-[12px] font-bold uppercase tracking-[0.1em]`
 
 ## 4. Spacing & Layout
 Standardized on an 8px grid with high-density overrides.

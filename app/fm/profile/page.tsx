@@ -21,7 +21,7 @@ export default function ProfilePage() {
       <section className="space-y-4">
         <div className="flex items-center gap-3 text-md-on-surface-variant px-1">
           <User className="w-5 h-5" />
-          <h2 className="text-[13px] font-bold uppercase tracking-widest">Account Details</h2>
+          <h2 className="text-lg font-medium">Account Details</h2>
         </div>
         <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-8 shadow-xl">
           <AccountDetails profile={profile} session={session} isLoading={isLoading} />

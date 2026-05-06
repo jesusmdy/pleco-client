@@ -17,8 +17,8 @@ export default function ChangePasswordPage() {
 
   if (isLoading) {
     return (
-      <div className="max-w-3xl bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-12 animate-pulse text-center font-bold uppercase tracking-widest text-[14px] text-md-on-surface-variant">
-        Loading security context...
+      <div className="max-w-3xl bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-12 animate-pulse text-center font-medium text-[14px] text-md-on-surface-variant">
+        Verifying security context...
       </div>
     );
   }
@@ -30,7 +30,7 @@ export default function ChangePasswordPage() {
       <section className="space-y-4">
         <div className="flex items-center gap-3 text-md-on-surface-variant px-1">
           <Lock className="w-5 h-5" />
-          <h2 className="text-[13px] font-bold uppercase tracking-widest">Security Settings</h2>
+          <h2 className="text-lg font-medium">Security Settings</h2>
         </div>
         <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-8 shadow-xl">
           <ChangePasswordSection 

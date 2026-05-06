@@ -54,7 +54,7 @@ export function RecentHistory({ title = "Historical Activity" }: RecentHistoryPr
     <section className="space-y-6">
       <div className="flex items-center gap-3 text-md-on-surface-variant px-1">
         <History className="w-5 h-5" />
-        <h2 className="text-[13px] font-bold uppercase tracking-widest">{title}</h2>
+        <h2 className="text-lg font-medium">{title}</h2>
       </div>
       
       <div className="space-y-10">
@@ -72,7 +72,7 @@ export function RecentHistory({ title = "Historical Activity" }: RecentHistoryPr
 
             return (
               <div key={groupName} className="space-y-4">
-                <h3 className="text-[11px] font-bold text-md-on-surface-variant uppercase tracking-widest pl-2">
+                <h3 className="text-[12px] font-bold text-md-on-surface-variant uppercase tracking-[0.1em] pl-2">
                   {groupName}
                 </h3>
                 <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 shadow-lg overflow-hidden divide-y divide-md-outline-variant/10">
@@ -92,11 +92,11 @@ export function RecentHistory({ title = "Historical Activity" }: RecentHistoryPr
                           <Icon className={`w-5.5 h-5.5 ${config.color} opacity-80 group-hover:opacity-100 transition-opacity`} />
                         </div>
                         <div className="flex-1 min-w-0">
-                          <div className="text-md-on-surface text-[15px] font-bold truncate transition-colors">
+                          <div className="text-md-on-surface text-[15px] font-semibold truncate transition-colors">
                             {file.name}
                           </div>
-                          <div className="text-md-on-surface-variant text-[12px] font-bold flex items-center gap-2 mt-1 uppercase tracking-wider">
-                            <span className="text-md-primary">{formatBytes(file.size || 0)}</span>
+                          <div className="text-md-on-surface-variant text-[12px] font-medium flex items-center gap-2 mt-1">
+                            <span className="text-md-primary font-semibold">{formatBytes(file.size || 0)}</span>
                             <span className="opacity-20">•</span>
                             <span>
                               {new Date(file.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}

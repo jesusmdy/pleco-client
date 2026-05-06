@@ -27,7 +27,7 @@ export default function StoragePage() {
   if (usageLoading || profileLoading) {
     return (
       <div className="h-full flex items-center justify-center">
-        <p className="text-md-on-surface-variant animate-pulse font-bold uppercase tracking-widest text-[12px]">Loading storage dashboard...</p>
+        <p className="text-md-on-surface-variant animate-pulse font-medium text-[13px]">Analyzing your storage usage...</p>
       </div>
     );
   }
@@ -56,7 +56,7 @@ export default function StoragePage() {
       <section className="space-y-4">
         <div className="flex items-center gap-3 text-md-on-surface-variant px-1">
           <Database className="w-4 h-4" />
-          <h2 className="text-[13px] font-bold uppercase tracking-widest">Usage Statistics</h2>
+          <h2 className="text-lg font-medium">Usage Statistics</h2>
         </div>
         <StorageUsageCard 
           used={used} 
