@@ -1,7 +1,7 @@
 import { request } from "./client";
 
-export const getProfile = (token: string) => 
-  request<any>("/user/me", { method: "GET", token });
+export const getProfile = (token: string) =>
+  request<any>("/users/user/me", { method: "GET", token });
 
 export interface StorageUsage {
   numberOfFolders: number;
@@ -11,17 +11,17 @@ export interface StorageUsage {
 }
 
 export const getStorageUsage = (token: string) =>
-  request<StorageUsage>("/user/usage", { method: "GET", token });
+  request<StorageUsage>("/users/user/usage", { method: "GET", token });
 
 export const changePassword = (data: any, token: string) =>
-  request<any>("/auth/change-password", {
+  request<any>("/users/auth/change-password", {
     method: "POST",
     body: JSON.stringify(data),
     token,
   });
 
 export const disableMfa = (data: any, token: string) =>
-  request<any>("/auth/mfa/disable", {
+  request<any>("/users/auth/mfa/disable", {
     method: "POST",
     body: JSON.stringify(data),
     token,

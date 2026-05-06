@@ -1,5 +1,6 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
+import { signIn as apiSignIn, verifyMfa as apiVerifyMfa } from "@/app/lib/auth";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: "jwt" },
@@ -23,30 +24,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           };
         }
 
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/signin`,
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              username: credentials?.username,
-              password: credentials?.password,
-            }),
-          }
-        );
+        try {
+          const data = await apiSignIn({
+            username: credentials?.username,
+            password: credentials?.password,
+          });
 
-        if (!res.ok) return null;
-
-        const data = await res.json();
-        if (!data?.token) return null;
-
-        return {
-          id: data.id ? String(data.id) : "temp",
-          name: data.username,
-          email: data.email,
-          backendToken: data.token,
-          status: data.status
-        };
+          return {
+            id: data.id ? String(data.id) : "temp",
+            name: data.username,
+            email: data.email,
+            backendToken: data.token,
+            status: data.status
+          };
+        } catch (error) {
+          return null;
+        }
       },
     }),
   ],
@@ -68,3 +61,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     signIn: "/auth/sign-in",
   },
 });
+
+export const verifyMfa = apiVerifyMfa;

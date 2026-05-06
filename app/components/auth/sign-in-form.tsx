@@ -6,6 +6,7 @@ import { signIn } from "next-auth/react";
 import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
 import Link from "next/link";
+import { signIn as apiSignIn, verifyMfa as apiVerifyMfa } from "@/app/lib/auth";
 
 export function SignInForm() {
   const router = useRouter();
@@ -20,7 +21,7 @@ export function SignInForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
-    
+
     if (isMfaRequired) {
       if (!mfaCode) {
         setError("Please enter the verification code");
@@ -28,22 +29,8 @@ export function SignInForm() {
       }
       setIsLoading(true);
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/mfa/verify`, {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${tempToken}`
-          },
-          body: JSON.stringify({ code: mfaCode }),
-        });
+        const data = await apiVerifyMfa(mfaCode, tempToken);
 
-        if (!res.ok) {
-          setError("Invalid verification code");
-          setIsLoading(false);
-          return;
-        }
-
-        const data = await res.json();
         const result = await signIn("credentials", {
           mfaToken: data.token,
           mfaUser: JSON.stringify(data),
@@ -55,8 +42,8 @@ export function SignInForm() {
         } else {
           router.push("/fm/drive");
         }
-      } catch (err) {
-        setError("An unexpected error occurred during verification");
+      } catch (err: any) {
+        setError(err.message || "An unexpected error occurred during verification");
       } finally {
         setIsLoading(false);
       }
@@ -70,19 +57,7 @@ export function SignInForm() {
 
     setIsLoading(true);
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/signin`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password }),
-      });
-
-      if (!res.ok) {
-        setError("Invalid username or password");
-        setIsLoading(false);
-        return;
-      }
-
-      const data = await res.json();
+      const data = await apiSignIn({ username, password });
 
       if (data.status === "MFA_REQUIRED") {
         setIsMfaRequired(true);
@@ -100,8 +75,8 @@ export function SignInForm() {
           router.push("/fm/drive");
         }
       }
-    } catch (err) {
-      setError("An unexpected error occurred");
+    } catch (err: any) {
+      setError(err.message || "An unexpected error occurred");
     } finally {
       setIsLoading(false);
     }
@@ -109,25 +84,25 @@ export function SignInForm() {
 
   return (
     <form onSubmit={handleSubmit} className="w-full flex flex-col gap-6">
-        {!isMfaRequired ? (
-          <>
-            <Input
-              label="Username"
-              required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              autoComplete="username"
-            />
+      {!isMfaRequired ? (
+        <>
+          <Input
+            label="Username"
+            required
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            autoComplete="username"
+          />
 
-            <div className="flex flex-col gap-2">
-              <Input
-                label="Password"
-                type="password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoComplete="current-password"
-              />
+          <div className="flex flex-col gap-2">
+            <Input
+              label="Password"
+              type="password"
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              autoComplete="current-password"
+            />
             <div className="flex justify-end">
               <button type="button" className="text-[12px] text-figma-blue hover:text-figma-blue/80 font-medium transition-colors">
                 Forgot password?
@@ -161,10 +136,10 @@ export function SignInForm() {
         </div>
       )}
 
-      <Button 
-        type="submit" 
-        variant="primary" 
-        isLoading={isLoading} 
+      <Button
+        type="submit"
+        variant="primary"
+        isLoading={isLoading}
         className="w-full h-11 bg-figma-blue hover:bg-figma-blue/90 text-white font-bold rounded-lg shadow-[0_8px_16px_rgba(24,160,251,0.2)] transition-all"
       >
         {isMfaRequired ? "Verify Identity" : "Sign In"}

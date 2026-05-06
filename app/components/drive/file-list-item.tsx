@@ -1,10 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Folder, FileText, CheckCircle2 } from "lucide-react";
 import { UnifiedDriveItem } from "@/app/lib/drive";
 import { useRouter } from "next/navigation";
-import { FileCardMenu } from "./file-card-menu";
+import { FileActionMenu, FileActionTrigger } from "./file-action-menu";
 import { useSelectionStore } from "@/app/store/selectionStore";
 import { Thumbnail } from "./thumbnail";
 import { formatBytes } from "@/app/lib/utils";
@@ -22,7 +22,13 @@ export function FileListItem({ item, context = "drive" }: FileListItemProps) {
   const isTrash = context === "trash";
   const { toggle, isSelected } = useSelectionStore();
   const selected = isSelected(item.id);
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
   const clickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleContextMenu = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setContextMenu({ x: e.clientX, y: e.clientY });
+  };
 
   const handleOpen = () => {
     if (isTrash) return;
@@ -45,6 +51,7 @@ export function FileListItem({ item, context = "drive" }: FileListItemProps) {
   return (
     <div
       onClick={handleClick}
+      onContextMenu={handleContextMenu}
       className={`flex items-center gap-3 py-1.5 px-3 cursor-pointer group transition-all border-b border-black/10 ${
         selected ? "bg-figma-blue/10" : "hover:bg-figma-hover"
       }`}
@@ -80,10 +87,20 @@ export function FileListItem({ item, context = "drive" }: FileListItemProps) {
           <CheckCircle2 className="w-4 h-4 text-figma-blue shrink-0" />
         ) : !isTrash ? (
           <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-            <FileCardMenu item={item} />
+            <FileActionTrigger item={item} context={context} />
           </div>
         ) : null}
       </div>
+
+      {contextMenu && (
+        <FileActionMenu 
+          item={item} 
+          x={contextMenu.x} 
+          y={contextMenu.y} 
+          context={context}
+          onClose={() => setContextMenu(null)} 
+        />
+      )}
     </div>
   );
 }

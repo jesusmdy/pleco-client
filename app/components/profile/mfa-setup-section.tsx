@@ -5,6 +5,8 @@ import { QRCodeSVG } from "qrcode.react";
 import { Button } from "@/app/components/ui/button";
 import { Input } from "@/app/components/ui/input";
 import { useSession } from "next-auth/react";
+import { setupMfa, verifyMfa } from "@/app/lib/auth";
+import { disableMfa } from "@/app/lib/user";
 
 interface MfaSetupSectionProps {
   mfaEnabled: boolean;
@@ -26,16 +28,7 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
     setIsLoading(true);
     setError("");
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/mfa/setup`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${session?.backendToken}`,
-        },
-      });
-
-      if (!res.ok) throw new Error("Failed to start MFA setup");
-
-      const data = await res.json();
+      const data = await setupMfa(session!.backendToken);
       setQrCodeData(data.qrCodeData);
       setSecret(data.secret);
       setIsSettingUp(true);
@@ -50,19 +43,7 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
     setIsLoading(true);
     setError("");
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/mfa/verify`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${session?.backendToken}`,
-        },
-        body: JSON.stringify({ code: verificationCode }),
-      });
-
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.message || "Invalid verification code");
-      }
+      const data = await verifyMfa(verificationCode, session!.backendToken);
 
       if (data.scratchCodes) {
         setScratchCodes(data.scratchCodes);
@@ -86,14 +67,7 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
     const data = Object.fromEntries(formData);
 
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/mfa/disable`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${session?.backendToken}`,
-        },
-        body: JSON.stringify(data),
-      });
+      await disableMfa(data, session!.backendToken);
       onRefresh();
       (e.target as HTMLFormElement).reset();
     } catch (err: any) {

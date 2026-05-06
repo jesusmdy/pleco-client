@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
-import { API_BASE_URL } from "@/app/lib/client";
+import { getFileThumbnail } from "@/app/lib/drive";
 import { FileText } from "lucide-react";
 
 interface ThumbnailProps {
@@ -68,13 +68,7 @@ export function Thumbnail({ itemId, size, alt, className }: ThumbnailProps) {
 
     thumbnailQueue.add(async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/drive/items/${itemId}/thumbnail?size=${size}`, {
-          headers: { Authorization: `Bearer ${(session as any).backendToken}` },
-        });
-
-        if (!response.ok) throw new Error("Failed to load thumbnail");
-
-        const blob = await response.blob();
+        const blob = await getFileThumbnail(itemId, size, session!.backendToken);
         if (isMounted) {
           const objectUrl = URL.createObjectURL(blob);
           setSrc(objectUrl);

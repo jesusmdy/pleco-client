@@ -50,7 +50,7 @@ export interface UnifiedDriveItem {
 }
 
 export const getRecentFiles = (token: string) =>
-  request<UnifiedDriveItem[]>("/drive/recent", { method: "GET", token });
+  request<UnifiedDriveItem[]>("/users/drive/recent", { method: "GET", token });
 
 export interface BreadcrumbNode {
   id: string;
@@ -58,16 +58,16 @@ export interface BreadcrumbNode {
 }
 
 export const getRootFolders = (token: string) =>
-  request<UnifiedDriveItem[]>("/drive/folders", { method: "GET", token });
+  request<UnifiedDriveItem[]>("/users/drive/folders", { method: "GET", token });
 
 export const getFolderChildren = (folderId: string, token: string) =>
-  request<UnifiedDriveItem[]>(`/drive/folders/${folderId}`, { method: "GET", token });
+  request<UnifiedDriveItem[]>(`/users/drive/folders/${folderId}`, { method: "GET", token });
 
 export const getBreadcrumb = (folderId: string, token: string) =>
-  request<BreadcrumbNode[]>(`/drive/folders/${folderId}/breadcrumb`, { method: "GET", token });
+  request<BreadcrumbNode[]>(`/users/drive/folders/${folderId}/breadcrumb`, { method: "GET", token });
 
 export const createFolder = (name: string, parentId: string | null, token: string) =>
-  request<UnifiedDriveItem>("/drive/folders", {
+  request<UnifiedDriveItem>("/users/drive/folders", {
     method: "POST",
     body: JSON.stringify({ name, parentId }),
     token,
@@ -78,21 +78,21 @@ export const uploadDriveFile = (file: File, parentId: string | null, token: stri
   formData.append("file", file);
   if (parentId) formData.append("parentId", parentId);
 
-  return request<any>("/drive/upload", { method: "POST", body: formData, token });
+  return request<any>("/users/drive/upload", { method: "POST", body: formData, token });
 };
 
 export const renameItem = (id: string, name: string, token: string) =>
-  request<UnifiedDriveItem>(`/drive/items/${id}/rename`, {
+  request<UnifiedDriveItem>(`/users/drive/items/${id}/rename`, {
     method: "PATCH",
     body: JSON.stringify({ name }),
     token,
   });
 
 export const deleteItem = (id: string, token: string) =>
-  request<void>(`/drive/items/${id}`, { method: "DELETE", token });
+  request<void>(`/users/drive/items/${id}`, { method: "DELETE", token });
 
 export const downloadFile = async (id: string, fileName: string, token: string) => {
-  const response = await fetch(`${API_BASE_URL}/drive/download/${id}`, {
+  const response = await fetch(`${API_BASE_URL}/users/drive/download/${id}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 
@@ -112,20 +112,20 @@ export const downloadFile = async (id: string, fileName: string, token: string) 
 };
 
 export const listTrash = (token: string) =>
-  request<TrashItem[]>("/trash", { method: "GET", token });
+  request<TrashItem[]>("/users/trash", { method: "GET", token });
 
 export const searchTrash = (query: string, token: string) =>
   request<TrashItem[]>(`/trash/search?query=${encodeURIComponent(query)}`, { method: "GET", token });
 
 export const restoreItems = (itemIds: string[], token: string) =>
-  request<void>("/trash/restore", {
+  request<void>("/users/trash/restore", {
     method: "POST",
     body: JSON.stringify({ itemIds }),
     token,
   });
 
 export const permanentlyDeleteItems = (itemIds: string[], token: string) =>
-  request<void>("/trash/permanent", {
+  request<void>("/users/trash/permanent", {
     method: "DELETE",
     body: JSON.stringify({ itemIds }),
     token,
@@ -134,5 +134,8 @@ export const permanentlyDeleteItems = (itemIds: string[], token: string) =>
 export const searchDrive = (query: string, token: string, folderId?: string) => {
   const params = new URLSearchParams({ query });
   if (folderId) params.append("folderId", folderId);
-  return request<UnifiedDriveItem[]>(`/drive/search?${params.toString()}`, { method: "GET", token });
+  return request<UnifiedDriveItem[]>(`/users/drive/search?${params.toString()}`, { method: "GET", token });
 };
+
+export const getFileThumbnail = (itemId: string, size: number, token: string) =>
+  request<Blob>(`/users/drive/items/${itemId}/thumbnail?size=${size}`, { method: "GET", token });
