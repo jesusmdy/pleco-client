@@ -80,7 +80,7 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
         <div 
           ref={menuRef}
           className={cn(
-            "fixed z-[100] w-56 bg-md-surface-container rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] border border-md-outline-variant/10 py-2 px-1.5 animate-in fade-in zoom-in-95 duration-100",
+            "fixed z-[100] w-56 bg-md-surface-container rounded-xl shadow-xl border border-md-outline-variant/10 py-2 px-1.5 animate-in fade-in zoom-in-95 duration-100",
             variant === "dropdown" ? "origin-top-right" : "origin-top-left"
           )}
           style={{ top: adjustedY, left: adjustedX }}
@@ -88,7 +88,7 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
           onContextMenu={(e) => e.preventDefault()}
         >
           <div className="px-3 py-2 mb-1 border-b border-md-outline-variant/10">
-            <p className="text-[11px] font-bold text-md-on-surface-variant uppercase tracking-widest truncate">
+            <p className="text-[13px] font-semibold text-md-on-surface-variant tracking-tight truncate">
               {item.name}
             </p>
           </div>
@@ -98,15 +98,15 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
               <button
                 type="button"
                 onClick={handleOpen}
-                className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
+                className="w-full text-left px-3 py-2 text-[13px] font-semibold tracking-tight text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
               >
                 {item.itemType === "FOLDER" ? (
                   <>
-                    <FolderOpen className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Open Folder
+                    <FolderOpen className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Open folder
                   </>
                 ) : (
                   <>
-                    <ExternalLink className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Open File
+                    <ExternalLink className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Open file
                   </>
                 )}
               </button>
@@ -114,7 +114,7 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
               <button
                 type="button"
                 onClick={() => setIsRenameOpen(true)}
-                className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
+                className="w-full text-left px-3 py-2 text-[13px] font-semibold tracking-tight text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
               >
                 <Edit2 className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Rename
               </button>
@@ -123,7 +123,7 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
                 <button
                   type="button"
                   onClick={handleDownload}
-                  className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
+                  className="w-full text-left px-3 py-2 text-[13px] font-semibold tracking-tight text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
                 >
                   <Download className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Download
                 </button>
@@ -134,7 +134,7 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
               <button
                 type="button"
                 onClick={() => setIsDeleteOpen(true)}
-                className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-error hover:bg-md-error/10 flex items-center gap-3 rounded-lg transition-all group"
+                className="w-full text-left px-3 py-2 text-[13px] font-semibold tracking-tight text-md-error hover:bg-md-error/10 flex items-center gap-3 rounded-lg transition-all group"
               >
                 <Trash2 className="w-4 h-4 text-md-error group-hover:text-md-error" /> Delete
               </button>
@@ -144,7 +144,7 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
               <button
                 type="button"
                 onClick={handleRestore}
-                className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
+                className="w-full text-left px-3 py-2 text-[13px] font-semibold tracking-tight text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
               >
                 <RotateCcw className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Restore
               </button>
@@ -154,9 +154,9 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
               <button
                 type="button"
                 onClick={() => setIsPermanentDeleteOpen(true)}
-                className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-error hover:bg-md-error/10 flex items-center gap-3 rounded-lg transition-all group"
+                className="w-full text-left px-3 py-2 text-[13px] font-semibold tracking-tight text-md-error hover:bg-md-error/10 flex items-center gap-3 rounded-lg transition-all group"
               >
-                <ShieldAlert className="w-4 h-4 text-md-error group-hover:text-md-error" /> Delete Permanently
+                <ShieldAlert className="w-4 h-4 text-md-error group-hover:text-md-error" /> Delete permanently
               </button>
             </>
           )}
@@ -229,30 +229,30 @@ function PermanentDeleteModal({ item, onClose }: { item: UnifiedDriveItem; onClo
 
   return (
     <div className="fixed inset-0 bg-black/40 z-[200] flex items-center justify-center p-4 backdrop-blur-[4px]">
-      <div className="bg-md-surface-container-high rounded-[28px] shadow-[0_12px_48px_rgba(0,0,0,0.4)] w-full max-w-sm overflow-hidden">
+      <div className="bg-md-surface-container-high rounded-[28px] shadow-xl w-full max-w-sm overflow-hidden border border-md-outline-variant/10">
         <div className="p-8">
           <div className="flex items-center gap-4 mb-6 text-md-error">
             <ShieldAlert className="w-8 h-8" />
-            <h2 className="text-[18px] font-bold">Permanent Delete</h2>
+            <h2 className="text-[18px] font-bold">Permanent delete</h2>
           </div>
           <p className="text-[14px] text-md-on-surface-variant leading-relaxed">
             Are you sure you want to permanently delete <span className="text-md-on-surface font-bold">"{item.name}"</span>? 
-            This action <span className="text-md-error font-bold uppercase underline decoration-2 underline-offset-4">cannot be undone</span>.
+            This action <span className="text-md-error font-bold underline decoration-2 underline-offset-4">cannot be undone</span>.
           </p>
         </div>
         <div className="flex items-center justify-end gap-3 p-6 bg-md-surface-container-highest/50 border-t border-md-outline-variant/10">
           <button
             onClick={onClose}
-            className="px-5 py-2 text-[13px] font-bold text-md-on-surface-variant hover:text-md-on-surface transition-colors"
+            className="px-5 py-2 text-[13px] font-semibold tracking-tight text-md-on-surface-variant hover:text-md-on-surface transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleDelete}
             disabled={isLoading}
-            className="px-6 py-2.5 text-[13px] font-bold text-md-on-error bg-md-error hover:bg-md-error/90 rounded-full shadow-lg transition-all disabled:opacity-50 active:scale-95"
+            className="px-6 py-2.5 text-[13px] font-semibold tracking-tight text-md-on-error bg-md-error hover:bg-md-error/90 rounded-full border border-md-error/10 transition-all disabled:opacity-50 active:scale-95"
           >
-            {isLoading ? "Deleting..." : "Delete Permanently"}
+            {isLoading ? "Deleting..." : "Delete permanently"}
           </button>
         </div>
       </div>

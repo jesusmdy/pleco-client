@@ -28,7 +28,7 @@ export function TrashToolbar({
         <div className="min-w-0 flex items-baseline gap-3">
           <h1 className="text-[18px] font-bold text-md-on-surface truncate">{title}</h1>
           {subtitle && (
-            <span className="text-[12px] text-md-on-surface-variant uppercase tracking-widest font-bold truncate opacity-80">
+            <span className="text-[13px] text-md-on-surface-variant tracking-tight font-semibold truncate opacity-80">
               {subtitle}
             </span>
           )}

@@ -29,8 +29,8 @@ export function ActivityItem({ item, onCancel }: ActivityItemProps) {
         {getStatusIcon(item.status)}
         <div>
           <p className="text-md-on-surface text-[15px] font-bold leading-tight">{item.file.name}</p>
-          <p className="text-md-on-surface-variant text-[11px] mt-1 uppercase tracking-widest font-bold">
-            {formatSize(item.file.size)} • {item.status.replace("_", " ")}
+          <p className="text-md-on-surface-variant text-[12px] mt-1 font-semibold tracking-tight">
+            {formatSize(item.file.size)} • {item.status.charAt(0).toUpperCase() + item.status.slice(1).replace("_", " ")}
           </p>
         </div>
       </div>
@@ -38,7 +38,7 @@ export function ActivityItem({ item, onCancel }: ActivityItemProps) {
       {(item.status === "queue" || item.status === "in_progress") && (
         <button
           onClick={() => onCancel(item.id)}
-          className="text-md-on-surface-variant hover:text-md-error text-[12px] font-bold uppercase tracking-widest px-3 py-1.5 hover:bg-md-error/10 rounded-xl transition-all"
+          className="text-md-on-surface-variant hover:text-md-error text-[13px] font-semibold tracking-tight px-3 py-1.5 hover:bg-md-error/10 rounded-xl transition-all"
         >
           Cancel
         </button>

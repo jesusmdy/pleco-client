@@ -77,7 +77,7 @@ export function ChangePasswordSection({ token, mfaEnabled }: ChangePasswordSecti
         <Button 
           type="submit"
           isLoading={pwLoading}
-          className="w-full bg-md-primary text-md-on-primary h-12 text-[14px] font-bold uppercase tracking-widest rounded-xl shadow-lg shadow-md-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all"
+          className="w-full bg-md-primary text-md-on-primary h-12 text-[15px] font-semibold tracking-tight rounded-xl border border-md-primary/10 hover:scale-[1.02] active:scale-[0.98] transition-all"
         >
           Update Account Password
         </Button>

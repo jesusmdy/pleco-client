@@ -51,7 +51,7 @@ export function FileCardMenu({ item }: FileCardMenuProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-48 bg-md-surface-container rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] border border-md-outline-variant/10 py-1.5 px-1.5 z-40 animate-in fade-in zoom-in-95 duration-200">
+        <div className="absolute right-0 top-full mt-2 w-48 bg-md-surface-container rounded-xl shadow-md border border-md-outline-variant/10 py-1.5 px-1.5 z-40 animate-in fade-in zoom-in-95 duration-200">
           <button
             type="button"
             onClick={() => { setIsOpen(false); setIsRenameOpen(true); }}

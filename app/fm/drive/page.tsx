@@ -34,7 +34,7 @@ export default function DriveRootPage() {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      <div className="flex-1 overflow-y-auto p-3 scrollbar-thin scrollbar-thumb-white/5 hover:scrollbar-thumb-white/10">
+      <div className="flex-1 overflow-y-auto p-container scrollbar-thin scrollbar-thumb-white/5 hover:scrollbar-thumb-white/10">
         <BulkActionToolbar />
         <FileGrid items={folderContent || []} isLoading={isLoading} />
       </div>

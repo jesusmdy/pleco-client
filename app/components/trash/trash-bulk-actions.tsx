@@ -26,7 +26,7 @@ export function TrashBulkActions() {
 
       <Button
         onClick={() => setIsDeleteOpen(true)}
-        className="h-9 px-4 text-[13px] font-bold bg-md-error text-md-on-error hover:bg-md-error/90 shadow-lg shadow-md-error/20"
+        className="h-9 px-4 text-[13px] font-semibold tracking-tight bg-md-error text-md-on-error hover:bg-md-error/90 border border-md-error/10"
       >
         <Trash2 className="w-4 h-4" />
         Delete Forever ({count})

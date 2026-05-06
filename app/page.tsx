@@ -16,7 +16,7 @@ export default function Home() {
 
         <div className="flex flex-col gap-5 mt-12 sm:flex-row w-full sm:w-auto">
           <a
-            className="flex h-14 items-center justify-center gap-3 rounded-2xl bg-md-primary px-8 text-md-on-primary font-bold uppercase tracking-[0.1em] transition-all hover:bg-md-primary/90 shadow-lg shadow-md-primary/20 active:scale-95"
+            className="flex h-14 items-center justify-center gap-3 rounded-2xl bg-md-primary px-8 text-md-on-primary font-bold uppercase tracking-[0.1em] transition-all hover:bg-md-primary/90 shadow-sm border border-md-primary/10 active:scale-95"
             href="/fm/drive"
           >
             Go to Drive

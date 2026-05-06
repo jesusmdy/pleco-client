@@ -37,7 +37,7 @@ export function PermanentDeleteModal({ isOpen, onClose, selectedIds, onSuccess }
           </p>
           <div className="flex items-center gap-3 p-3 rounded-xl bg-md-error/10 border border-md-error/20">
             <span className="text-md-error font-bold">⚠</span>
-            <p className="text-md-error text-[13px] font-bold uppercase tracking-wider">
+            <p className="text-md-error text-[13px] font-semibold tracking-tight">
               Critical: This action cannot be undone.
             </p>
           </div>
@@ -51,7 +51,7 @@ export function PermanentDeleteModal({ isOpen, onClose, selectedIds, onSuccess }
             type="button"
             onClick={() => mutation.mutate()}
             disabled={mutation.isPending}
-            className="bg-md-error text-md-on-error hover:bg-md-error/90 px-8 h-10 font-bold shadow-lg shadow-md-error/20"
+            className="bg-md-error text-md-on-error hover:bg-md-error/90 px-8 h-10 font-semibold tracking-tight border border-md-error/10"
           >
             {mutation.isPending ? "Deleting..." : "Delete Forever"}
           </Button>

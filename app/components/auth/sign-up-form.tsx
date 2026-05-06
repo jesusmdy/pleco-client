@@ -84,7 +84,7 @@ export function SignUpForm() {
         type="submit" 
         variant="primary" 
         isLoading={mutation.isPending} 
-        className="w-full h-12 bg-md-primary text-md-on-primary font-bold rounded-xl shadow-lg shadow-md-primary/25 transition-all hover:scale-[1.02] active:scale-[0.98] text-[14px] uppercase tracking-widest"
+        className="w-full h-12 bg-md-primary text-md-on-primary font-semibold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] text-[15px] tracking-tight border border-md-primary/10"
       >
         Initialize Account
       </Button>
@@ -94,7 +94,7 @@ export function SignUpForm() {
           Already a member?{" "}
           <Link
             href="/auth/sign-in"
-            className="text-md-primary hover:underline font-bold uppercase tracking-widest ml-1"
+            className="text-md-primary hover:underline font-semibold tracking-tight ml-1"
           >
             Sign In
           </Link>

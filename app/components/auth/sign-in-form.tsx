@@ -104,8 +104,8 @@ export function SignInForm() {
               autoComplete="current-password"
             />
             <div className="flex justify-end px-1">
-              <button type="button" className="text-[12px] text-md-primary hover:text-md-on-surface font-bold uppercase tracking-widest transition-all">
-                Forgot access?
+              <button type="button" className="text-[13px] text-md-primary hover:text-md-on-surface font-semibold tracking-tight transition-all">
+                Forgot password?
               </button>
             </div>
           </div>
@@ -141,7 +141,7 @@ export function SignInForm() {
         type="submit"
         variant="primary"
         isLoading={isLoading}
-        className="w-full h-12 bg-md-primary text-md-on-primary font-bold rounded-xl shadow-lg shadow-md-primary/25 transition-all hover:scale-[1.02] active:scale-[0.98] text-[14px] uppercase tracking-widest"
+        className="w-full h-12 bg-md-primary text-md-on-primary font-semibold rounded-xl transition-all hover:scale-[1.02] active:scale-[0.98] text-[15px] tracking-tight border border-md-primary/10"
       >
         {isMfaRequired ? "Confirm Identity" : "Access Workspace"}
       </Button>
@@ -151,7 +151,7 @@ export function SignInForm() {
           New to Pleco?{" "}
           <Link
             href="/auth/sign-up"
-            className="text-md-primary hover:underline font-bold uppercase tracking-widest ml-1"
+            className="text-md-primary hover:underline font-semibold tracking-tight ml-1"
           >
             Create Workspace
           </Link>

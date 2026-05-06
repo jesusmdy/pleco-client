@@ -21,10 +21,10 @@ export default function AuthLayout({
         <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-md-secondary/5 rounded-full blur-[140px] animate-pulse duration-[15s]" />
         
         <div className="z-10 w-full max-w-[460px] mx-4">
-          <div className="bg-md-surface-container border border-md-outline-variant/10 rounded-[32px] shadow-[0_32px_80px_-16px_rgba(0,0,0,0.6)] p-12 flex flex-col items-center relative overflow-hidden">
+          <div className="bg-md-surface-container border border-md-outline-variant/10 rounded-[32px] shadow-sm p-12 flex flex-col items-center relative overflow-hidden">
             {/* Header / Logo */}
             <div className="flex flex-col items-center mb-12 gap-5">
-              <div className="w-16 h-16 bg-md-primary rounded-[22px] flex items-center justify-center shadow-[0_12px_24px_rgba(var(--color-md-primary-rgb),0.3)] transform hover:rotate-3 transition-transform">
+              <div className="w-16 h-16 bg-md-primary rounded-[22px] flex items-center justify-center shadow-sm border border-md-primary/10 transform hover:rotate-3 transition-transform">
                 <HardDrive className="w-8 h-8 text-md-on-primary" />
               </div>
               <div className="text-center">

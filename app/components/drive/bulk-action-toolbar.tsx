@@ -10,7 +10,7 @@ function DriveDeleteButton({ onClick, count }: { onClick: () => void; count: num
   return (
     <button
       onClick={onClick}
-      className="bg-md-error text-md-on-error hover:bg-md-error/90 shadow-lg shadow-md-error/20 flex items-center gap-2 px-4 h-8 rounded-lg text-[13px] font-bold uppercase tracking-wider transition-all cursor-pointer active:scale-95"
+      className="bg-md-error text-md-on-error hover:bg-md-error/90 flex items-center gap-2 px-4 h-8 rounded-lg text-[13px] font-semibold tracking-tight transition-all cursor-pointer active:scale-95 border border-md-error/10"
     >
       <Trash2 className="w-4 h-4" />
       Delete ({count})
@@ -31,7 +31,7 @@ export function BulkActionToolbar({ actions }: BulkActionToolbarProps) {
 
   return (
     <>
-      <div className="h-12 flex items-center justify-between px-4 rounded-xl bg-md-primary-container border border-md-primary/10 animate-in slide-in-from-top-2 duration-300 mb-6 shadow-md">
+      <div className="h-12 flex items-center justify-between px-4 rounded-xl bg-md-primary-container border border-md-primary/10 animate-in slide-in-from-top-2 duration-300 mb-6">
         <div className="flex items-center gap-4">
           <button
             onClick={clear}
@@ -40,7 +40,7 @@ export function BulkActionToolbar({ actions }: BulkActionToolbarProps) {
           >
             <X className="w-4.5 h-4.5" />
           </button>
-          <span className="text-md-on-primary-container text-[14px] font-bold uppercase tracking-widest whitespace-nowrap">
+          <span className="text-md-on-primary-container text-[14px] font-semibold tracking-tight whitespace-nowrap">
             {count} items selected
           </span>
         </div>

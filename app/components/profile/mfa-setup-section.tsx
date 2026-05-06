@@ -81,7 +81,7 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
     return (
       <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-400">
         <div className="flex items-center gap-3 text-md-primary">
-          <div className="w-2 h-2 rounded-full bg-current shadow-[0_0_12px_rgba(var(--color-md-primary-rgb),0.5)]"></div>
+          <div className="w-2 h-2 rounded-full bg-current"></div>
           <span className="font-bold text-[15px] uppercase tracking-wider">MFA Protection Enabled</span>
         </div>
         
@@ -101,7 +101,7 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
 
         <Button 
           onClick={() => { setShowCodes(false); setIsSettingUp(false); onRefresh(); }} 
-          className="w-full bg-md-primary text-md-on-primary h-12 text-[14px] font-bold uppercase tracking-widest rounded-xl shadow-lg shadow-md-primary/20"
+          className="w-full bg-md-primary text-md-on-primary h-12 text-[15px] font-semibold tracking-tight rounded-xl border border-md-primary/10"
         >
           I have saved these codes
         </Button>
@@ -113,7 +113,7 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
     return (
       <div className="space-y-6">
         <div className="flex items-center gap-3 text-md-primary">
-          <div className="w-2 h-2 rounded-full bg-current shadow-[0_0_12px_rgba(var(--color-md-primary-rgb),0.5)]"></div>
+          <div className="w-2 h-2 rounded-full bg-current"></div>
           <span className="font-bold text-[14px] uppercase tracking-widest">Active Protection</span>
         </div>
 
@@ -138,7 +138,7 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
           <Button 
             type="submit"
             isLoading={isLoading}
-            className="w-full bg-md-error/10 hover:bg-md-error text-md-error hover:text-md-on-error border border-md-error/30 h-10 text-[12px] font-bold uppercase tracking-widest rounded-xl transition-all"
+            className="w-full bg-md-error/10 hover:bg-md-error text-md-error hover:text-md-on-error border border-md-error/30 h-10 text-[13px] font-semibold tracking-tight rounded-xl transition-all"
           >
             Deactivate 2FA Protection
           </Button>
@@ -150,17 +150,17 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
   if (isSettingUp) {
     return (
       <div className="space-y-8 animate-in fade-in duration-300">
-        <div className="flex flex-col items-center gap-6 p-8 bg-white rounded-[28px] shadow-2xl border border-md-outline-variant/10 mx-auto w-fit">
+        <div className="flex flex-col items-center gap-6 p-8 bg-md-surface-container-highest rounded-[28px] shadow-xl border border-md-outline-variant/10 mx-auto w-fit">
           <QRCodeSVG value={qrCodeData} size={180} />
           <div className="text-center">
-            <p className="text-slate-900 text-[14px] font-bold">Scan with Authenticator</p>
-            <p className="text-slate-500 text-[12px] font-medium mt-1">Google, Authy, or Ente</p>
+            <p className="text-md-on-surface text-[14px] font-bold">Scan with Authenticator</p>
+            <p className="text-md-on-surface-variant text-[12px] font-medium mt-1">Google, Authy, or Ente</p>
           </div>
         </div>
         
         <div className="space-y-3">
           <span className="text-md-on-surface-variant text-[11px] font-bold uppercase tracking-widest px-1">Manual Setup Key</span>
-          <code className="block bg-md-surface-container-highest p-4 rounded-2xl text-md-primary text-[14px] font-mono break-all uppercase border border-md-outline-variant/10 text-center tracking-[0.2em] font-bold shadow-inner">
+          <code className="block bg-md-surface-container-highest p-4 rounded-2xl text-md-primary text-[14px] font-mono break-all uppercase border border-md-outline-variant/10 text-center tracking-[0.2em] font-bold">
             {secret}
           </code>
         </div>
@@ -179,7 +179,7 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
             <Button 
               onClick={handleVerify} 
               isLoading={isLoading} 
-              className="flex-1 bg-md-primary text-md-on-primary h-12 text-[14px] font-bold uppercase tracking-widest rounded-xl shadow-lg shadow-md-primary/20"
+              className="flex-1 bg-md-primary text-md-on-primary h-12 text-[15px] font-semibold tracking-tight rounded-xl border border-md-primary/10"
             >
               Verify & Link
             </Button>
@@ -202,7 +202,7 @@ export function MfaSetupSection({ mfaEnabled, onRefresh }: MfaSetupSectionProps)
       <Button 
         onClick={handleStartSetup} 
         isLoading={isLoading} 
-        className="w-full bg-md-primary text-md-on-primary h-12 text-[14px] font-bold uppercase tracking-widest rounded-xl shadow-lg shadow-md-primary/25 hover:scale-[1.02] active:scale-[0.98] transition-all"
+        className="w-full bg-md-primary text-md-on-primary h-12 text-[15px] font-semibold tracking-tight rounded-xl border border-md-primary/10 hover:scale-[1.02] active:scale-[0.98] transition-all"
       >
         Configure Two-Factor Auth
       </Button>

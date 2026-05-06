@@ -42,8 +42,8 @@ export function EmptyTrash({ itemIds, disabled }: EmptyTrashProps) {
         className={`
           flex items-center gap-2 h-9 px-4
           bg-md-error text-md-on-error hover:bg-md-error/90 
-          font-bold text-[13px] uppercase tracking-widest
-          rounded-xl shadow-lg shadow-md-error/20 transition-all duration-200 active:scale-95
+          font-semibold text-[13px] tracking-tight
+          rounded-xl border border-md-error/10 transition-all duration-200 active:scale-95
           disabled:opacity-50 disabled:cursor-not-allowed disabled:scale-100
           cursor-pointer
         `}
@@ -62,11 +62,11 @@ export function EmptyTrash({ itemIds, disabled }: EmptyTrashProps) {
           onClick={() => setShowConfirm(false)}
         >
           <div 
-            className="bg-md-surface-container-high rounded-[28px] shadow-[0_24px_64px_rgba(0,0,0,0.6)] w-full max-w-md overflow-hidden border border-md-outline-variant/10 animate-in zoom-in-95 duration-300"
+            className="bg-md-surface-container-high rounded-[28px] shadow-xl w-full max-w-md overflow-hidden border border-md-outline-variant/10 animate-in zoom-in-95 duration-300"
             onClick={e => e.stopPropagation()}
           >
             <div className="px-6 py-4 flex items-center justify-between border-b border-md-outline-variant/10 bg-md-surface-container-high/50">
-              <h2 className="text-[14px] font-bold text-md-on-surface uppercase tracking-widest flex items-center gap-3">
+              <h2 className="text-[15px] font-semibold text-md-on-surface tracking-tight flex items-center gap-3">
                 <AlertTriangle className="w-5 h-5 text-md-error" />
                 Empty Trash
               </h2>
@@ -97,7 +97,7 @@ export function EmptyTrash({ itemIds, disabled }: EmptyTrashProps) {
                   variant="primary"
                   onClick={() => handleEmpty()}
                   disabled={isPending}
-                  className="bg-md-error text-md-on-error hover:bg-md-error/90 px-8 h-10 font-bold shadow-lg shadow-md-error/20 rounded-xl"
+                  className="bg-md-error text-md-on-error hover:bg-md-error/90 px-8 h-10 font-bold shadow-sm border border-md-error/10 rounded-xl"
                 >
                   {isPending ? "Emptying..." : "Empty Trash"}
                 </Button>

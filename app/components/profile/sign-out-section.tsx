@@ -44,7 +44,7 @@ export function SignOutSection() {
           <Button
             type="button"
             onClick={handleSignOut}
-            className="bg-md-error text-md-on-error hover:bg-md-error/90 h-10 text-[14px] font-bold px-6 shadow-lg shadow-md-error/20"
+            className="bg-md-error text-md-on-error hover:bg-md-error/90 h-10 text-[14px] font-semibold tracking-tight px-6 border border-md-error/10 transition-all active:scale-95"
           >
             Sign Out
           </Button>

@@ -72,10 +72,10 @@ export function RecentHistory({ title = "Historical Activity" }: RecentHistoryPr
 
             return (
               <div key={groupName} className="space-y-4">
-                <h3 className="text-[12px] font-bold text-md-on-surface-variant uppercase tracking-[0.1em] pl-2">
+                <h3 className="text-[13px] font-semibold text-md-on-surface-variant tracking-tight pl-2">
                   {groupName}
                 </h3>
-                <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 shadow-lg overflow-hidden divide-y divide-md-outline-variant/10">
+                <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 overflow-hidden divide-y divide-md-outline-variant/10">
                   {groupFiles.map((file) => {
                     let config = { icon: File, color: "text-md-on-surface-variant" };
                     for (const [key, c] of Object.entries(FILE_TYPE_CONFIG)) {
@@ -88,7 +88,7 @@ export function RecentHistory({ title = "Historical Activity" }: RecentHistoryPr
 
                     return (
                       <div key={file.id} className="p-4 flex items-center gap-5 hover:bg-md-primary/10 transition-all group">
-                        <div className="w-11 h-11 rounded-xl bg-md-surface-container-highest border border-md-outline-variant/10 flex items-center justify-center shrink-0 shadow-sm">
+                        <div className="w-11 h-11 rounded-xl bg-md-surface-container-highest border border-md-outline-variant/10 flex items-center justify-center shrink-0">
                           <Icon className={`w-5.5 h-5.5 ${config.color} opacity-80 group-hover:opacity-100 transition-opacity`} />
                         </div>
                         <div className="flex-1 min-w-0">
@@ -107,7 +107,7 @@ export function RecentHistory({ title = "Historical Activity" }: RecentHistoryPr
                         </div>
                         <Link 
                           href={`/fm/drive/folders/${file.parentId || ''}`}
-                          className="w-10 h-10 rounded-full bg-md-surface-container-highest flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-md-primary hover:text-md-on-primary hover:scale-110 shadow-sm"
+                          className="w-10 h-10 rounded-full bg-md-surface-container-highest flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all hover:bg-md-primary hover:text-md-on-primary hover:scale-110"
                         >
                           <ChevronRight className="w-5 h-5" />
                         </Link>

@@ -40,7 +40,7 @@ export function ProfileSidebar() {
         className={cn(
           "flex items-center gap-3 px-4 py-2.5 rounded-full text-[14px] font-bold transition-all group",
           isActive 
-            ? "bg-md-primary-container text-md-on-primary-container shadow-sm" 
+            ? "bg-md-primary-container text-md-on-primary-container border border-md-primary/10" 
             : "text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface"
         )}
       >
@@ -57,8 +57,8 @@ export function ProfileSidebar() {
     <div className="w-64 shrink-0 flex flex-col gap-10 pr-8 border-r border-md-outline-variant/10 h-full">
       <div className="space-y-8">
         <div className="space-y-2">
-          <h2 className="px-4 text-[11px] font-bold text-md-on-surface-variant uppercase tracking-widest mb-3">
-            Personal Information
+          <h2 className="px-4 text-[13px] font-semibold text-md-on-surface-variant tracking-tight mb-3">
+            Personal information
           </h2>
           <nav className="space-y-1">
             {PERSONAL_ITEMS.map(renderItem)}
@@ -66,7 +66,7 @@ export function ProfileSidebar() {
         </div>
 
         <div className="space-y-2">
-          <h2 className="px-4 text-[11px] font-bold text-md-on-surface-variant uppercase tracking-widest mb-3">
+          <h2 className="px-4 text-[13px] font-semibold text-md-on-surface-variant tracking-tight mb-3">
             Security
           </h2>
           <nav className="space-y-1">

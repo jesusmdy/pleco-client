@@ -43,7 +43,7 @@ export function RestoreModal({ isOpen, onClose, selectedIds, onSuccess }: Restor
           type="button"
           onClick={() => mutation.mutate()}
           disabled={mutation.isPending}
-          className="bg-discord-blurple hover:bg-discord-blurple/80 text-white shadow-sm"
+          className="bg-discord-blurple hover:bg-discord-blurple/80 text-white font-semibold tracking-tight border border-white/10"
         >
           {mutation.isPending ? "Restoring..." : "Restore"}
         </Button>

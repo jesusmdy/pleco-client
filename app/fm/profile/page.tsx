@@ -23,7 +23,7 @@ export default function ProfilePage() {
           <User className="w-5 h-5" />
           <h2 className="text-lg font-medium">Account Details</h2>
         </div>
-        <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-8 shadow-xl">
+        <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-8 shadow-sm">
           <AccountDetails profile={profile} session={session} isLoading={isLoading} />
         </div>
       </section>

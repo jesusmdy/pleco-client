@@ -35,7 +35,7 @@ export default function ManageMfaPage() {
           <ShieldCheck className="w-5 h-5" />
           <h2 className="text-lg font-medium">Two-Factor Authentication</h2>
         </div>
-        <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-8 shadow-xl">
+        <div className="bg-md-surface-container rounded-2xl border border-md-outline-variant/10 p-8 shadow-sm">
           <p className="text-md-on-surface-variant text-[15px] mb-8 leading-relaxed">
             Secure your account with an extra layer of protection. Once enabled, you'll need to provide a code from your authenticator app to sign in.
           </p>

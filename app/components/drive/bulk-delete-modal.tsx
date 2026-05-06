@@ -51,7 +51,7 @@ export function BulkDeleteModal({ isOpen, onClose }: BulkDeleteModalProps) {
             type="button"
             onClick={() => mutation.mutate()}
             disabled={mutation.isPending}
-            className="bg-md-error text-md-on-error hover:bg-md-error/90 px-8 h-10 font-bold shadow-lg shadow-md-error/20 rounded-xl"
+            className="bg-md-error text-md-on-error hover:bg-md-error/90 px-8 h-10 font-bold shadow-sm border border-md-error/10 rounded-xl"
           >
             {mutation.isPending ? "Deleting..." : `Delete Items`}
           </Button>

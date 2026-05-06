@@ -5,6 +5,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 
+import { SettingsProvider } from "./components/providers/settings-provider";
+
 export function Providers({ children }: { children: React.ReactNode }) {
   const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
@@ -17,17 +19,19 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <SessionProvider>
       <QueryClientProvider client={queryClient}>
-        {children}
+        <SettingsProvider>
+          {children}
+        </SettingsProvider>
         <Toaster 
           position="bottom-right"
           toastOptions={{
+            className: "bg-md-surface-container-highest text-md-on-surface border border-md-outline-variant/10 rounded-2xl text-[13px] font-medium shadow-md",
             style: {
-              background: '#1e1e1e',
-              color: '#ffffff',
-              fontSize: '13px',
-              border: '1px solid rgba(255,255,255,0.05)',
-              borderRadius: '8px',
-            },
+              background: 'var(--md-surface-container-highest)',
+              color: 'var(--md-on-surface)',
+              borderRadius: '16px',
+              border: '1px solid var(--md-outline-variant)',
+            }
           }}
         />
       </QueryClientProvider>

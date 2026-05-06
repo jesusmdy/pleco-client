@@ -50,7 +50,7 @@ export default function StoragePage() {
   }, {} as Record<string, number>);
 
   return (
-    <div className="h-full overflow-y-auto p-8 w-full max-w-5xl mx-auto space-y-12 bg-md-background scrollbar-thin scrollbar-thumb-md-outline-variant/10">
+    <div className="h-full overflow-y-auto p-container w-full max-w-5xl mx-auto space-y-12 bg-md-background scrollbar-thin scrollbar-thumb-md-outline-variant/10">
       <StorageHeader />
 
       <section className="space-y-4">

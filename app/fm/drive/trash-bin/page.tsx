@@ -43,7 +43,7 @@ export default function TrashPage() {
           itemIds={items.map(i => i.id)}
         />
 
-        <div className="space-y-4 p-3">
+        <div className="space-y-4 p-container">
           <BulkActionToolbar actions={<TrashBulkActions />} />
           <FileGrid items={driveItems} isLoading={isLoading} context="trash" />
         </div>

@@ -37,7 +37,7 @@ export function FileGrid({ items, isLoading, context = "drive" }: FileGridProps)
     return (
       <div className="flex flex-col">
         {/* Table Header */}
-        <div className="flex items-center gap-4 px-4 py-3 text-md-on-surface-variant text-[11px] font-bold uppercase tracking-[0.05em] border-b border-md-outline-variant/10">
+        <div className="flex items-center gap-4 px-4 py-3 text-md-on-surface-variant text-[12px] font-semibold tracking-tight border-b border-md-outline-variant/10">
           <div className="flex-1">Name</div>
           <div className="w-24 hidden sm:block">Size</div>
           <div className="w-32 hidden md:block">Created</div>
@@ -53,7 +53,7 @@ export function FileGrid({ items, isLoading, context = "drive" }: FileGridProps)
     <div className="flex flex-col gap-8">
       {folders.length > 0 && (
         <section>
-          <h3 className="text-[13px] font-bold text-md-on-surface-variant mb-4 uppercase tracking-widest px-1">Folders</h3>
+          <h3 className="text-[13px] font-semibold text-md-on-surface-variant mb-4 tracking-tight px-1">Folders</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4">
             {folders.map(folder => <FileCard key={folder.id} item={folder} context={context} />)}
           </div>
@@ -62,7 +62,7 @@ export function FileGrid({ items, isLoading, context = "drive" }: FileGridProps)
 
       {files.length > 0 && (
         <section>
-          <h3 className="text-[13px] font-bold text-md-on-surface-variant mb-4 uppercase tracking-widest px-1">Files</h3>
+          <h3 className="text-[13px] font-semibold text-md-on-surface-variant mb-4 tracking-tight px-1">Files</h3>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4">
             {files.map(file => <FileCard key={file.id} item={file} context={context} />)}
           </div>

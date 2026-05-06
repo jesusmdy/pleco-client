@@ -37,9 +37,9 @@ export function CreateFolderModal({ parentId, onClose }: CreateFolderModalProps)
 
   return (
     <div className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 backdrop-blur-[4px] animate-in fade-in duration-300" onClick={(e) => e.stopPropagation()}>
-      <div className="bg-md-surface-container-high rounded-[28px] shadow-[0_24px_64px_rgba(0,0,0,0.6)] w-full max-w-md overflow-hidden border border-md-outline-variant/10 animate-in zoom-in-95 duration-300">
+      <div className="bg-md-surface-container-high rounded-[28px] shadow-xl w-full max-w-md overflow-hidden border border-md-outline-variant/10 animate-in zoom-in-95 duration-300">
         <div className="px-6 py-4 flex items-center justify-between border-b border-md-outline-variant/10 bg-md-surface-container-high/50">
-          <h2 className="text-[14px] font-bold text-md-on-surface uppercase tracking-widest">New Folder</h2>
+          <h2 className="text-[15px] font-semibold text-md-on-surface tracking-tight">New folder</h2>
           <button 
             onClick={onClose}
             className="text-md-on-surface-variant hover:text-md-on-surface transition-all p-1.5 hover:bg-md-surface-variant/20 rounded-full"
@@ -74,7 +74,7 @@ export function CreateFolderModal({ parentId, onClose }: CreateFolderModalProps)
               type="submit"
               disabled={!name.trim() || mutation.isPending}
               variant="primary"
-              className="px-8 h-10 font-bold shadow-lg shadow-md-primary/20"
+              className="px-8 h-10 font-semibold tracking-tight border border-md-primary/10"
             >
               {mutation.isPending ? "Creating..." : "Create"}
             </Button>

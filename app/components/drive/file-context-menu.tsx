@@ -59,7 +59,7 @@ export function FileContextMenu({ item, x, y, onClose }: FileContextMenuProps) {
     <>
       <div 
         ref={menuRef}
-        className="fixed z-[100] w-56 bg-md-surface-container rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] border border-md-outline-variant/10 py-2 px-2 animate-in fade-in zoom-in-95 duration-200"
+        className="fixed z-[100] w-56 bg-md-surface-container rounded-2xl shadow-xl border border-md-outline-variant/10 py-2 px-2 animate-in fade-in zoom-in-95 duration-200"
         style={{ top: adjustedY, left: adjustedX }}
         onClick={(e) => e.stopPropagation()}
         onContextMenu={(e) => e.preventDefault()}

@@ -31,7 +31,7 @@ export function Loader({ className, size = "md", label }: LoaderProps) {
         )} />
       </div>
       {label && (
-        <p className="text-[12px] font-bold text-md-on-surface-variant tracking-wide uppercase opacity-80">
+        <p className="text-[13px] font-semibold text-md-on-surface-variant tracking-tight opacity-80">
           {label}
         </p>
       )}
