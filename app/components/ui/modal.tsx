@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { X } from "lucide-react";
+import { Button } from "./button";
 
 export interface ModalProps {
   isOpen: boolean;
@@ -24,12 +25,14 @@ export function Modal({ isOpen, onClose, title, children, maxWidth = "md" }: Mod
       <div className={`bg-md-surface-container-high rounded-[28px] shadow-xl w-full ${maxWidthClass} max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-300 border border-md-outline-variant/10`} onClick={e => e.stopPropagation()}>
         <div className="px-6 py-5 flex items-center justify-between">
           <h2 className="text-[18px] font-bold text-md-on-surface leading-tight">{title}</h2>
-          <button 
+          <Button 
+            variant="text"
+            size="icon"
             onClick={onClose}
-            className="text-md-on-surface-variant hover:bg-md-surface-variant/20 transition-all p-2 rounded-full active:scale-95"
+            aria-label="Close modal"
           >
             <X className="w-5 h-5" />
-          </button>
+          </Button>
         </div>
         
         <div className="px-6 pb-6 pt-1 text-md-on-surface-variant">
