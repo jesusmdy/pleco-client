@@ -15,13 +15,14 @@ export interface UploadItem {
   relativePath?: string;
   children?: UploadItem[];
   error?: string;
+  remoteId?: string;
 }
 
 interface UploadState {
   queue: UploadItem[];
   addFilesToQueue: (files: File[], parentId: string | null, isFolder?: boolean) => void;
-  updateItemStatus: (id: string, status: UploadStatus, progress?: number, error?: string) => void;
-  updateChildStatus: (parentId: string, childId: string, status: UploadStatus, progress?: number) => void;
+  updateItemStatus: (id: string, status: UploadStatus, progress?: number, error?: string, remoteId?: string) => void;
+  updateChildStatus: (parentId: string, childId: string, status: UploadStatus, progress?: number, remoteId?: string, resolvedParentId?: string) => void;
   cancelItem: (id: string) => void;
   dismissItem: (id: string) => void;
   clearCompleted: () => void;
@@ -73,19 +74,33 @@ export const useUploadStore = create<UploadState>()(
         return { queue: [...state.queue, group] };
       }),
 
-      updateItemStatus: (id, status, progress, error) => set((state) => ({
+      updateItemStatus: (id, status, progress, error, remoteId) => set((state) => ({
         queue: state.queue.map(item => 
           item.id === id 
-            ? { ...item, status, ...(progress !== undefined ? { progress } : {}), ...(error ? { error } : {}) } 
+            ? { 
+                ...item, 
+                status, 
+                ...(progress !== undefined ? { progress } : {}), 
+                ...(error ? { error } : {}),
+                ...(remoteId ? { remoteId } : {})
+              } 
             : item
         )
       })),
 
-      updateChildStatus: (parentId, childId, status, progress) => set((state) => ({
+      updateChildStatus: (parentId, childId, status, progress, remoteId, resolvedParentId) => set((state) => ({
         queue: state.queue.map(item => {
           if (item.id === parentId && item.children) {
             const newChildren = item.children.map(child =>
-              child.id === childId ? { ...child, status, progress: progress ?? child.progress } : child
+              child.id === childId 
+                ? { 
+                    ...child, 
+                    status, 
+                    progress: progress ?? child.progress,
+                    ...(remoteId ? { remoteId } : {}),
+                    ...(resolvedParentId ? { parentId: resolvedParentId } : {})
+                  } 
+                : child
             );
             // Calculate overall progress for parent
             const totalProgress = newChildren.reduce((acc, c) => acc + c.progress, 0) / newChildren.length;

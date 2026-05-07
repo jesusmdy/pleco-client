@@ -25,8 +25,8 @@ export function UploadManager() {
       try {
         if (nextItem.type === "file") {
           if (!nextItem.file) throw new Error("File missing");
-          await uploadDriveFile(nextItem.file, nextItem.parentId, session.backendToken);
-          updateItemStatus(nextItem.id, "completed", 100);
+          const uploadedFile = await uploadDriveFile(nextItem.file, nextItem.parentId, session.backendToken);
+          updateItemStatus(nextItem.id, "completed", 100, undefined, uploadedFile.id);
         } else {
           // Folder upload
           const folderCache: Record<string, string> = {};
@@ -60,8 +60,8 @@ export function UploadManager() {
               }
               
               if (!child.file) throw new Error("File missing in child");
-              await uploadDriveFile(child.file, currentParentId, session.backendToken!);
-              updateChildStatus(nextItem.id, child.id, "completed", 100);
+              const uploadedChild = await uploadDriveFile(child.file, currentParentId, session.backendToken!);
+              updateChildStatus(nextItem.id, child.id, "completed", 100, uploadedChild.id, currentParentId);
             } catch (err) {
               updateChildStatus(nextItem.id, child.id, "error", 0);
               // We continue with other files in the folder

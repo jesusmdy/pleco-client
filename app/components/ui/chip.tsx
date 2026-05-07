@@ -3,7 +3,7 @@ import { cn } from "@/app/lib/utils";
 
 interface ChipProps {
   children: ReactNode;
-  variant?: "primary" | "secondary" | "surface" | "error";
+  variant?: "primary" | "secondary" | "surface" | "error" | "success";
   icon?: ReactNode;
   className?: string;
   onClick?: () => void;
@@ -25,6 +25,7 @@ export function Chip({
     secondary: "bg-md-primary-container/30 text-md-on-primary-container border-md-primary-container/20",
     surface: "bg-md-surface-container-high text-md-on-surface-variant border-md-outline-variant/10",
     error: "bg-md-error/10 text-md-error border-md-error/20",
+    success: "bg-green-500/10 text-green-500 border-green-500/20",
   };
 
   const Component = onClick ? "button" : "div";
