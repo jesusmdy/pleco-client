@@ -2,15 +2,19 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useParams } from "next/navigation";
-import { Plus, FolderPlus, FileUp, ChevronDown } from "lucide-react";
+import { Plus, FolderPlus, FileUp, FolderUp, ChevronDown } from "lucide-react";
 import { useUploadStore } from "@/app/store/useUploadStore";
 import { CreateFolderModal } from "./create-folder-modal";
+import { FolderUploadConfirmModal } from "./folder-upload-confirm-modal";
 
 export function NewItemDropdown() {
   const [isOpen, setIsOpen] = useState(false);
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [pendingFolder, setPendingFolder] = useState<{ files: File[], name: string, count: number, size: number } | null>(null);
+  
   const menuRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const folderInputRef = useRef<HTMLInputElement>(null);
   
   const params = useParams();
   const folderId = (params?.folderId as string) || null;
@@ -28,18 +32,90 @@ export function NewItemDropdown() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOpen]);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>, isFolder = false) => {
     if (e.target.files && e.target.files.length > 0) {
-      addFilesToQueue(Array.from(e.target.files), folderId);
+      const files = Array.from(e.target.files);
+      
+      if (isFolder) {
+        // Show confirmation modal for folders
+        const folderName = files[0].webkitRelativePath.split('/')[0];
+        const totalSize = files.reduce((acc, f) => acc + f.size, 0);
+        setPendingFolder({ files, name: folderName, count: files.length, size: totalSize });
+      } else {
+        // Direct upload for single/multiple files
+        addFilesToQueue(files, folderId, false);
+      }
     }
+    // Clear inputs
     if (fileInputRef.current) fileInputRef.current.value = "";
+    if (folderInputRef.current) folderInputRef.current.value = "";
     setIsOpen(false);
+  };
+
+  const handleConfirmFolderUpload = () => {
+    if (pendingFolder) {
+      addFilesToQueue(pendingFolder.files, folderId, true);
+      setPendingFolder(null);
+    }
+  };
+
+  const handleFolderUploadClick = async () => {
+    // Use modern File System Access API if available to avoid the native "Are you sure you want to upload..." alert
+    if (typeof window !== 'undefined' && 'showDirectoryPicker' in window) {
+      try {
+        const handle = await (window as any).showDirectoryPicker();
+        const files: File[] = [];
+        
+        async function walk(dirHandle: any, path: string) {
+          for await (const entry of dirHandle.values()) {
+            if (entry.kind === 'file') {
+              const file = await entry.getFile();
+              // Inject the relative path for our store parsing logic
+              Object.defineProperty(file, 'webkitRelativePath', {
+                value: `${path}${entry.name}`,
+                configurable: true,
+                enumerable: true,
+                writable: true
+              });
+              files.push(file);
+            } else if (entry.kind === 'directory') {
+              await walk(entry, `${path}${entry.name}/`);
+            }
+          }
+        }
+        
+        await walk(handle, `${handle.name}/`);
+        
+        const totalSize = files.reduce((acc, f) => acc + f.size, 0);
+        setPendingFolder({ files, name: handle.name, count: files.length, size: totalSize });
+        setIsOpen(false);
+      } catch (err) {
+        // User cancelled or permission denied
+        console.error("Folder picker error:", err);
+      }
+    } else {
+      // Fallback for browsers without File System Access API (will show native alert)
+      folderInputRef.current?.click();
+    }
   };
 
 
   return (
     <div className="relative" ref={menuRef}>
-      <input type="file" multiple className="hidden" ref={fileInputRef} onChange={handleFileChange} />
+      <input 
+        type="file" 
+        multiple 
+        className="hidden" 
+        ref={fileInputRef} 
+        onChange={(e) => handleFileChange(e, false)} 
+      />
+      <input 
+        type="file" 
+        className="hidden" 
+        ref={folderInputRef} 
+        onChange={(e) => handleFileChange(e, true)}
+        {...{ webkitdirectory: "", directory: "" } as any}
+      />
 
       <button
         onClick={() => setIsOpen(!isOpen)}
@@ -61,12 +137,23 @@ export function NewItemDropdown() {
         <DropdownMenu 
           onNewFolder={() => { setIsCreateModalOpen(true); setIsOpen(false); }}
           onFileUpload={() => fileInputRef.current?.click()}
+          onFolderUpload={handleFolderUploadClick}
         />
       )}
 
 
       {isCreateModalOpen && (
         <CreateFolderModal parentId={folderId} onClose={() => setIsCreateModalOpen(false)} />
+      )}
+
+      {pendingFolder && (
+        <FolderUploadConfirmModal 
+          folderName={pendingFolder.name}
+          fileCount={pendingFolder.count}
+          totalSize={pendingFolder.size}
+          onConfirm={handleConfirmFolderUpload}
+          onClose={() => setPendingFolder(null)}
+        />
       )}
     </div>
   );
@@ -77,10 +164,12 @@ export function NewItemDropdown() {
  */
 function DropdownMenu({ 
   onNewFolder, 
-  onFileUpload 
+  onFileUpload,
+  onFolderUpload
 }: { 
   onNewFolder: () => void; 
   onFileUpload: () => void; 
+  onFolderUpload: () => void;
 }) {
   return (
     <div className="absolute right-0 top-full mt-3 w-56 bg-md-surface-container rounded-2xl shadow-xl border border-md-outline-variant/10 py-2 z-50 animate-in fade-in zoom-in-95 duration-200">
@@ -96,6 +185,12 @@ function DropdownMenu({
         label="File upload" 
         onClick={onFileUpload} 
         hint="Upload files from your computer"
+      />
+      <MenuButton 
+        icon={<FolderUp className="w-5 h-5" />} 
+        label="Folder upload" 
+        onClick={onFolderUpload} 
+        hint="Upload an entire folder"
       />
     </div>
   );

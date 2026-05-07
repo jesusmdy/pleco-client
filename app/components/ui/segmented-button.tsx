@@ -46,7 +46,7 @@ export function SegmentedButtonItem({
       onClick={onClick}
       title={title}
       className={cn(
-        "flex items-center justify-center gap-2 px-3 h-9 rounded-xl text-[13px] font-medium transition-all duration-200 select-none active:scale-95 min-w-[36px] border border-transparent",
+        "flex items-center justify-center gap-2 px-3 h-9 rounded-xl text-[13px] font-medium transition-all duration-200 select-none active:scale-[0.98] min-w-[36px] border border-transparent",
         active
           ? "bg-md-primary text-md-on-primary shadow-sm border-md-primary/10"
           : "text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface active:bg-md-surface-variant/30",

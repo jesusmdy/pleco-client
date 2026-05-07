@@ -47,7 +47,7 @@ export function ListItem({
       onClick={onClick}
       onContextMenu={onContextMenu}
       className={cn(
-        "flex items-center gap-4 py-3 px-4 cursor-pointer group transition-all duration-300 rounded-2xl active:scale-[0.99] select-none mx-2 my-0.5",
+        "flex items-center gap-4 py-3 px-4 cursor-pointer group transition-all duration-300 rounded-2xl active:scale-[0.98] select-none mx-2 my-0.5",
         selected 
           ? "bg-md-primary-container text-md-on-primary-container" 
           : "hover:bg-md-surface-container-low text-md-on-surface",

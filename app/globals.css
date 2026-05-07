@@ -138,3 +138,33 @@ body {
 input:focus {
   outline: none;
 }
+
+/* Material Design 3 Expressive Circular Loading Animations */
+@keyframes md-circular-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes md-circular-dash {
+  0% {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -35px;
+  }
+  100% {
+    stroke-dasharray: 89, 200;
+    stroke-dashoffset: -124px;
+  }
+}
+
+.animate-md-circular {
+  animation: md-circular-rotate 2s linear infinite;
+}
+
+.animate-md-circular-dash {
+  animation: md-circular-dash 1.5s ease-in-out infinite;
+}

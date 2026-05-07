@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Folder, FileText, Lock, CheckCircle2 } from "lucide-react";
+import { Folder, FileText, Lock } from "lucide-react";
 import { UnifiedDriveItem } from "@/app/lib/drive";
 import { useRouter } from "next/navigation";
 import { FileActionMenu, FileActionTrigger } from "./file-action-menu";
@@ -69,15 +69,12 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
           />
           <span className="text-[14px] font-semibold tracking-tight truncate">{item.name}</span>
         </div>
-        {selected ? (
-          <div className="w-5 h-5 rounded-full bg-md-primary flex items-center justify-center shrink-0">
-            <CheckCircle2 className="w-3.5 h-3.5 text-md-on-primary" />
-          </div>
-        ) : (
-          <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-            <FileActionTrigger item={item} context={context} />
-          </div>
-        )}
+        <div className={cn(
+          "transition-opacity duration-200",
+          selected ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+        )}>
+          <FileActionTrigger item={item} context={context} />
+        </div>
 
         {contextMenu && (
           <FileActionMenu 
@@ -114,23 +111,20 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
         </div>
         <div className="flex items-center gap-2">
           {item.encrypted && !selected && !isTrash && <Lock className="w-3.5 h-3.5 text-md-on-surface-variant/60" />}
-          {selected ? (
-            <div className="w-5 h-5 rounded-full bg-md-primary flex items-center justify-center shrink-0">
-              <CheckCircle2 className="w-3.5 h-3.5 text-md-on-primary" />
-            </div>
-          ) : (
-            <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-              <FileActionTrigger item={item} context={context} />
-            </div>
-          )}
+          <div className={cn(
+            "transition-opacity duration-200",
+            selected ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+          )}>
+            <FileActionTrigger item={item} context={context} />
+          </div>
         </div>
       </div>
 
       {/* Preview Area */}
       <div
         className={cn(
-          "flex-1 mx-4 mb-4 rounded-2xl border border-md-outline-variant/10 overflow-hidden flex items-center justify-center transition-colors",
-          selected ? "bg-md-primary-container/20" : "bg-md-surface-container-highest/50"
+          "flex-1 mx-4 mb-4 rounded-2xl border border-md-outline-variant/10 overflow-hidden flex items-center justify-center transition-all duration-300",
+          selected ? "bg-md-surface-container-low shadow-inner" : "bg-md-surface-container-highest/50"
         )}
       >
         {item.hasThumb500 ? (
@@ -138,10 +132,16 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
             itemId={item.id} 
             size={500} 
             alt={item.name} 
-            className="w-full h-full object-cover"
+            className={cn(
+              "w-full h-full object-cover transition-opacity duration-300",
+              selected ? "opacity-90" : "opacity-100"
+            )}
           />
         ) : (
-          <div className="flex flex-col items-center gap-2 opacity-20">
+          <div className={cn(
+            "flex flex-col items-center gap-2 transition-colors duration-300",
+            selected ? "text-md-primary opacity-60" : "opacity-20"
+          )}>
             <FileText className="w-10 h-10" />
             <span className="text-[11px] font-bold uppercase tracking-wider hidden group-hover:block">No preview</span>
           </div>

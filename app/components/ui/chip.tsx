@@ -34,7 +34,7 @@ export function Chip({
       onClick={onClick}
       className={cn(
         "inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border text-[13px] font-bold tracking-tight transition-all select-none",
-        onClick && "cursor-pointer active:scale-95 hover:bg-opacity-80",
+        onClick && "cursor-pointer active:scale-[0.98] hover:bg-opacity-80",
         variants[variant],
         className
       )}

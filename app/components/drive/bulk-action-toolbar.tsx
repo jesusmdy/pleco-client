@@ -21,7 +21,7 @@ export function BulkActionToolbar({ actions, showDefaultDelete = true }: BulkAct
 
   return (
     <>
-      <div className="w-full h-16 flex items-center justify-between px-4 rounded-2xl bg-md-surface-container border border-md-outline-variant/10 animate-in fade-in slide-in-from-top-2 duration-300">
+      <div className="w-full h-16 flex items-center justify-between px-4 rounded-2xl bg-md-surface-container border border-md-outline-variant/10 animate-in fade-in slide-in-from-top-2 duration-300 mb-6">
         <div className="flex items-center gap-3">
           <Button
             variant="text"

@@ -27,14 +27,14 @@ export function Card({
 
   const variants = {
     elevated: selected
-      ? "bg-md-primary-container text-md-on-primary-container border-md-primary/30"
+      ? "bg-md-primary-container text-md-on-primary-container border-md-primary shadow-md"
       : "bg-md-surface-container-low hover:bg-md-surface-container-high border-md-outline-variant/10 shadow-sm hover:shadow-md text-md-on-surface",
     filled: selected
-      ? "bg-md-primary-container text-md-on-primary-container border-md-primary/30"
+      ? "bg-md-primary-container text-md-on-primary-container border-md-primary"
       : "bg-md-surface-container-highest border-transparent hover:bg-opacity-80 text-md-on-surface",
     outlined: selected
-      ? "bg-md-primary-container text-md-on-primary-container border-md-primary/30"
-      : "bg-md-surface border-md-outline-variant/20 hover:bg-md-surface-variant/10 text-md-on-surface",
+      ? "bg-md-primary-container text-md-on-primary-container border-md-primary"
+      : "bg-md-surface border-md-outline-variant/30 hover:bg-md-surface-variant/10 text-md-on-surface",
   };
 
   return (
