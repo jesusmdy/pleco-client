@@ -11,7 +11,7 @@ export interface StorageUsage {
 }
 
 export const getStorageUsage = (token: string) =>
-  request<StorageUsage>("/users/user/usage", { method: "GET", token });
+  request<StorageUsage>("/drive/usage", { method: "GET", token });
 
 export const changePassword = (data: any, token: string) =>
   request<any>("/users/auth/change-password", {
