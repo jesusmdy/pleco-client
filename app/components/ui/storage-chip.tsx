@@ -37,7 +37,7 @@ export function StorageChip({ used, limit, percentage }: StorageChipProps) {
                 style={{ width: `${percentage}%` }}
               />
             </div>
-            
+
             <div className="flex justify-between items-baseline px-0.5">
               <div className="text-[12px] text-md-on-surface-variant leading-none">
                 <span className="text-md-on-surface font-bold">{formatBytes(used)}</span>

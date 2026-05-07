@@ -44,7 +44,7 @@ export default function TrashPage() {
         />
 
         <div className="space-y-4 p-container">
-          <BulkActionToolbar actions={<TrashBulkActions />} />
+          <BulkActionToolbar actions={<TrashBulkActions />} showDefaultDelete={false} />
           <FileGrid items={driveItems} isLoading={isLoading} context="trash" />
         </div>
       </div>

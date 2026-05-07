@@ -21,7 +21,7 @@ export function Modal({ isOpen, onClose, title, children, maxWidth = "md" }: Mod
 
   return (
     <div className="fixed inset-0 bg-black/40 z-[200] flex items-center justify-center p-4 backdrop-blur-[4px] animate-in fade-in duration-300" onClick={onClose}>
-      <div className={`bg-md-surface-container-high rounded-[28px] shadow-xl w-full ${maxWidthClass} overflow-hidden animate-in zoom-in-95 duration-300 border border-md-outline-variant/10`} onClick={e => e.stopPropagation()}>
+      <div className={`bg-md-surface-container-high rounded-[28px] shadow-xl w-full ${maxWidthClass} max-h-[90vh] overflow-y-auto animate-in zoom-in-95 duration-300 border border-md-outline-variant/10`} onClick={e => e.stopPropagation()}>
         <div className="px-6 py-5 flex items-center justify-between">
           <h2 className="text-[18px] font-bold text-md-on-surface leading-tight">{title}</h2>
           <button 
