@@ -36,17 +36,19 @@ export function ChangePasswordSection({ token, mfaEnabled }: ChangePasswordSecti
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="space-y-4">
+      <div className="space-y-5">
         <Input 
           label="Current Password"
           name="oldPassword"
           type="password" 
+          placeholder="••••••••"
           required
         />
         <Input 
           label="New Password"
           name="newPassword"
           type="password" 
+          placeholder="Min. 8 characters"
           required
         />
         {mfaEnabled && (
