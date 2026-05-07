@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
@@ -6,6 +8,7 @@ import { Search } from "lucide-react";
 import { searchDrive } from "@/app/lib/drive";
 import { SearchResultsDropdown } from "./search-results-dropdown";
 import { cn } from "@/app/lib/utils";
+import { Input } from "../ui/input";
 
 interface SearchInputProps {
   variant?: "default" | "page";
@@ -80,13 +83,11 @@ export function SearchInput({ variant = "default", className, autoFocus = false 
     router.push(`/fm/drive/search?q=${encodeURIComponent(query)}`);
   };
 
+  const isPage = variant === "page";
+
   return (
-    <div ref={containerRef} className={cn("relative group w-full", className)}>
-      <Search className={cn(
-        "absolute left-3.5 top-1/2 -translate-y-1/2 text-md-on-surface-variant group-focus-within:text-md-primary transition-colors",
-        variant === "page" ? "w-5 h-5 left-4" : "w-4 h-4"
-      )} />
-      <input
+    <div ref={containerRef} className={cn("relative w-full", className)}>
+      <Input
         type="text"
         value={query}
         autoFocus={autoFocus}
@@ -97,9 +98,14 @@ export function SearchInput({ variant = "default", className, autoFocus = false 
         onFocus={() => setIsOpen(true)}
         onKeyDown={handleKeyDown}
         placeholder="Search everything..."
+        leading={
+          <Search className={cn(
+            "transition-colors",
+            isPage ? "w-6 h-6" : "w-4.5 h-4.5"
+          )} />
+        }
         className={cn(
-          "w-full bg-md-surface-container-highest text-md-on-surface rounded-full outline-none focus:ring-2 focus:ring-md-primary/20 border border-md-outline-variant/10 focus:border-md-primary/50 transition-all placeholder:text-md-on-surface-variant/40",
-          variant === "page" ? "h-14 pl-14 pr-8 text-[15px] font-semibold" : "h-11 pl-12 pr-4 text-[14px] font-semibold tracking-tight"
+          isPage ? "h-14 pl-14 text-[16px]" : "h-12 pl-12"
         )}
       />
 

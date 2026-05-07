@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Download, Edit2, Trash2, FolderOpen, ExternalLink, MoreVertical, RotateCcw, ShieldAlert } from "lucide-react";
 import { UnifiedDriveItem, downloadFile, restoreItems, permanentlyDeleteItems } from "@/app/lib/drive";
 import { useSession } from "next-auth/react";
@@ -9,6 +10,8 @@ import { DeleteModal } from "./delete-modal";
 import { useRouter } from "next/navigation";
 import { cn } from "@/app/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
+
+import { Menu, MenuItem, MenuSeparator } from "../ui/menu";
 
 interface FileActionMenuProps {
   item: UnifiedDriveItem;
@@ -20,6 +23,8 @@ interface FileActionMenuProps {
 }
 
 export function FileActionMenu({ item, x, y, onClose, variant = "context", context = "drive" }: FileActionMenuProps) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const [isRenameOpen, setIsRenameOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isPermanentDeleteOpen, setIsPermanentDeleteOpen] = useState(false);
@@ -69,106 +74,96 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
   };
 
   // Adjust position if menu goes off screen
-  const menuWidth = 180;
-  const menuHeight = isTrash ? 120 : 180;
+  const menuWidth = 224;
+  const menuHeight = isTrash ? 140 : 220;
   const adjustedX = x + menuWidth > window.innerWidth ? x - menuWidth : x;
   const adjustedY = y + menuHeight > window.innerHeight ? y - menuHeight : y;
 
-  return (
-    <>
-      {!isRenameOpen && !isDeleteOpen && !isPermanentDeleteOpen && (
-        <div 
-          ref={menuRef}
-          className={cn(
-            "fixed z-[100] w-56 bg-md-surface-container rounded-xl shadow-xl border border-md-outline-variant/10 py-2 px-1.5 animate-in fade-in zoom-in-95 duration-100",
-            variant === "dropdown" ? "origin-top-right" : "origin-top-left"
-          )}
-          style={{ top: adjustedY, left: adjustedX }}
-          onClick={(e) => e.stopPropagation()}
-          onContextMenu={(e) => e.preventDefault()}
-        >
-          <div className="px-3 py-2 mb-1 border-b border-md-outline-variant/10">
-            <p className="text-[13px] font-semibold text-md-on-surface-variant tracking-tight truncate">
-              {item.name}
-            </p>
-          </div>
-
-          {!isTrash ? (
-            <>
-              <button
-                type="button"
-                onClick={handleOpen}
-                className="w-full text-left px-3 py-2 text-[13px] font-semibold tracking-tight text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
-              >
-                {item.itemType === "FOLDER" ? (
-                  <>
-                    <FolderOpen className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Open folder
-                  </>
-                ) : (
-                  <>
-                    <ExternalLink className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Open file
-                  </>
-                )}
-              </button>
-
-              <button
-                type="button"
-                onClick={() => setIsRenameOpen(true)}
-                className="w-full text-left px-3 py-2 text-[13px] font-semibold tracking-tight text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
-              >
-                <Edit2 className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Rename
-              </button>
-              
-              {item.itemType === "FILE" && (
-                <button
-                  type="button"
-                  onClick={handleDownload}
-                  className="w-full text-left px-3 py-2 text-[13px] font-semibold tracking-tight text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
-                >
-                  <Download className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Download
-                </button>
-              )}
-
-              <div className="h-[1px] bg-md-outline-variant/10 my-1 mx-[-6px]" />
-
-              <button
-                type="button"
-                onClick={() => setIsDeleteOpen(true)}
-                className="w-full text-left px-3 py-2 text-[13px] font-semibold tracking-tight text-md-error hover:bg-md-error/10 flex items-center gap-3 rounded-lg transition-all group"
-              >
-                <Trash2 className="w-4 h-4 text-md-error group-hover:text-md-error" /> Delete
-              </button>
-            </>
-          ) : (
-            <>
-              <button
-                type="button"
-                onClick={handleRestore}
-                className="w-full text-left px-3 py-2 text-[13px] font-semibold tracking-tight text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
-              >
-                <RotateCcw className="w-4 h-4 text-md-on-surface-variant group-hover:text-md-primary" /> Restore
-              </button>
-
-              <div className="h-[1px] bg-md-outline-variant/10 my-1 mx-[-6px]" />
-
-              <button
-                type="button"
-                onClick={() => setIsPermanentDeleteOpen(true)}
-                className="w-full text-left px-3 py-2 text-[13px] font-semibold tracking-tight text-md-error hover:bg-md-error/10 flex items-center gap-3 rounded-lg transition-all group"
-              >
-                <ShieldAlert className="w-4 h-4 text-md-error group-hover:text-md-error" /> Delete permanently
-              </button>
-            </>
-          )}
-        </div>
+  const renderMenu = () => (
+    <Menu
+      ref={menuRef}
+      className={cn(
+        "fixed z-[500] w-56",
+        variant === "dropdown" ? "origin-top-right" : "origin-top-left"
       )}
+      style={{ top: adjustedY, left: adjustedX }}
+    >
+      <div className="px-3 py-2 mb-1 border-b border-md-outline-variant/10">
+        <p className="text-[13px] font-semibold text-md-on-surface-variant tracking-tight truncate">
+          {item.name}
+        </p>
+      </div>
 
+      {!isTrash ? (
+        <>
+          <MenuItem
+            onClick={handleOpen}
+            icon={item.itemType === "FOLDER" ? <FolderOpen /> : <ExternalLink />}
+          >
+            {item.itemType === "FOLDER" ? "Open folder" : "Open file"}
+          </MenuItem>
+
+          <MenuItem
+            onClick={() => setIsRenameOpen(true)}
+            icon={<Edit2 />}
+          >
+            Rename
+          </MenuItem>
+          
+          {item.itemType === "FILE" && (
+            <MenuItem
+              onClick={handleDownload}
+              icon={<Download />}
+            >
+              Download
+            </MenuItem>
+          )}
+
+          <MenuSeparator />
+
+          <MenuItem
+            onClick={() => setIsDeleteOpen(true)}
+            icon={<Trash2 />}
+            variant="error"
+          >
+            Delete
+          </MenuItem>
+        </>
+      ) : (
+        <>
+          <MenuItem
+            onClick={handleRestore}
+            icon={<RotateCcw />}
+          >
+            Restore
+          </MenuItem>
+
+          <MenuSeparator />
+
+          <MenuItem
+            onClick={() => setIsPermanentDeleteOpen(true)}
+            icon={<ShieldAlert />}
+            variant="error"
+          >
+            Delete permanently
+          </MenuItem>
+        </>
+      )}
+    </Menu>
+  );
+
+  if (!mounted) return null;
+
+  return createPortal(
+    <>
+      {!isRenameOpen && !isDeleteOpen && !isPermanentDeleteOpen && renderMenu()}
       {isRenameOpen && <RenameModal item={item} onClose={onClose} />}
       {isDeleteOpen && <DeleteModal item={item} onClose={onClose} />}
       {isPermanentDeleteOpen && (
         <PermanentDeleteModal item={item} onClose={onClose} />
       )}
-    </>
+    </>,
+    document.body
   );
 }
 
@@ -181,7 +176,7 @@ export function FileActionTrigger({ item, context = "drive" }: { item: UnifiedDr
     e.stopPropagation();
     if (buttonRef.current) {
       const rect = buttonRef.current.getBoundingClientRect();
-      setMenuPos({ x: rect.right - 192, y: rect.bottom + 4 }); // 192 is w-48
+      setMenuPos({ x: rect.right - 224, y: rect.bottom + 4 }); // 224 is w-56
     }
   };
 

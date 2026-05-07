@@ -23,6 +23,8 @@
 
   --md-outline: #919282;
   --md-outline-variant: #47483b;
+  --md-error: #ffb4ab;
+  --md-on-error: #690005;
 
   /* Density Defaults */
   --sidebar-width: 240px;
@@ -53,6 +55,8 @@
 
   --md-outline: #77786a;
   --md-outline-variant: #c8c8b6;
+  --md-error: #ba1a1a;
+  --md-on-error: #ffffff;
 }
 
 :root[data-density="compact"] {
@@ -87,6 +91,8 @@
 
   --color-md-outline: var(--md-outline);
   --color-md-outline-variant: var(--md-outline-variant);
+  --color-md-error: var(--md-error);
+  --color-md-on-error: var(--md-on-error);
 
   /* Spacing Tokens */
   --spacing-sidebar: var(--sidebar-width);

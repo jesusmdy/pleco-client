@@ -9,6 +9,8 @@ import { useSelectionStore } from "@/app/store/selectionStore";
 import { Thumbnail } from "./thumbnail";
 import { cn } from "@/app/lib/utils";
 
+import { Card } from "../ui/card";
+
 export type FileCardContext = "drive" | "trash";
 
 interface FileCardProps {
@@ -52,24 +54,20 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
 
   if (isFolder) {
     return (
-      <div
+      <Card
         onClick={handleClick}
         onContextMenu={handleContextMenu}
-        className={cn(
-          "flex items-center justify-between rounded-2xl px-4 py-3 cursor-pointer group transition-all duration-300 border active:scale-[0.98]",
-          selected
-            ? "bg-md-primary-container text-md-on-primary-container border-md-primary/30"
-            : "bg-md-surface-container-low hover:bg-md-surface-container-high border-md-outline-variant/10 text-md-on-surface"
-        )}
+        selected={selected}
+        className="flex items-center justify-between px-4 h-14 group"
       >
-        <div className="flex items-center gap-4 overflow-hidden">
+        <div className="flex items-center gap-3 overflow-hidden">
           <Folder
             className={cn(
               "w-5 h-5 shrink-0 transition-colors",
               selected ? "text-md-primary" : "text-md-on-surface-variant group-hover:text-md-primary"
             )}
           />
-          <span className="text-[14px] font-semibold tracking-tight truncate select-none">{item.name}</span>
+          <span className="text-[14px] font-semibold tracking-tight truncate">{item.name}</span>
         </div>
         {selected ? (
           <div className="w-5 h-5 rounded-full bg-md-primary flex items-center justify-center shrink-0">
@@ -90,20 +88,16 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
             onClose={() => setContextMenu(null)} 
           />
         )}
-      </div>
+      </Card>
     );
   }
 
   return (
-    <div
+    <Card
       onClick={handleClick}
       onContextMenu={handleContextMenu}
-      className={cn(
-        "rounded-[24px] cursor-pointer group flex flex-col h-48 overflow-hidden transition-all duration-300 border active:scale-[0.98]",
-        selected
-          ? "bg-md-primary-container border-md-primary/30"
-          : "bg-md-surface-container-low hover:bg-md-surface-container-high border-md-outline-variant/10"
-      )}
+      selected={selected}
+      className="flex flex-col h-60 group"
     >
       {/* File Header */}
       <div className="flex items-center justify-between px-4 py-3 shrink-0">
@@ -114,7 +108,7 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
               selected ? "text-md-primary" : "text-md-on-surface-variant group-hover:text-md-primary"
             )}
           />
-          <span className="text-md-on-surface text-[13px] font-semibold tracking-tight truncate select-none">
+          <span className="text-[13px] font-semibold tracking-tight truncate">
             {item.name}
           </span>
         </div>
@@ -135,7 +129,7 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
       {/* Preview Area */}
       <div
         className={cn(
-          "flex-1 mx-3 mb-3 rounded-2xl border border-md-outline-variant/10 overflow-hidden flex items-center justify-center transition-colors",
+          "flex-1 mx-4 mb-4 rounded-2xl border border-md-outline-variant/10 overflow-hidden flex items-center justify-center transition-colors",
           selected ? "bg-md-primary-container/20" : "bg-md-surface-container-highest/50"
         )}
       >
@@ -163,6 +157,6 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
           onClose={() => setContextMenu(null)} 
         />
       )}
-    </div>
+    </Card>
   );
 }

@@ -1,45 +1,46 @@
-"use client";
+import React, { InputHTMLAttributes, ReactNode } from "react";
+import { cn } from "@/app/lib/utils";
 
-import React from "react";
-
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string;
-  error?: string;
-  required?: boolean;
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  leading?: ReactNode;
+  trailing?: ReactNode;
+  className?: string;
+  containerClassName?: string;
 }
 
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, error, required, ...props }, ref) => {
-    return (
-      <div className="flex flex-col gap-2 w-full group">
-        <label className="text-[12px] font-bold text-md-on-surface-variant select-none tracking-wide group-focus-within:text-md-primary transition-colors">
-          {label}
-          {required && <span className="text-md-error ml-1">*</span>}
-        </label>
-        <input
-          ref={ref}
-          className={`
-            w-full h-10 px-3.5 
-            bg-md-surface-container-highest 
-            text-md-on-surface 
-            text-[14px]
-            rounded-xl
-            transition-all duration-200
-            border border-md-outline-variant
-            focus:border-md-primary focus:ring-2 focus:ring-md-primary/20
-            outline-none
-            placeholder:text-md-on-surface-variant/40
-          `}
-          {...props}
-        />
-        {error && (
-          <span className="text-[12px] text-md-error font-bold">
-            {error}
-          </span>
+/**
+ * Material Design 3 Expressive Input
+ * Supports leading/trailing icons and stadium rounding.
+ */
+export function Input({
+  leading,
+  trailing,
+  className,
+  containerClassName,
+  ...props
+}: InputProps) {
+  return (
+    <div className={cn("relative group w-full", containerClassName)}>
+      {leading && (
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-md-on-surface-variant group-focus-within:text-md-primary transition-colors pointer-events-none">
+          {leading}
+        </div>
+      )}
+      <input
+        {...props}
+        className={cn(
+          "w-full bg-md-surface-container-highest text-md-on-surface rounded-full outline-none border border-transparent focus:border-md-primary/30 focus:ring-4 focus:ring-md-primary/10 transition-all placeholder:text-md-on-surface-variant/40 font-semibold tracking-tight",
+          leading ? "pl-12" : "pl-6",
+          trailing ? "pr-12" : "pr-6",
+          "h-11 text-[14px]",
+          className
         )}
-      </div>
-    );
-  }
-);
-
-Input.displayName = "Input";
+      />
+      {trailing && (
+        <div className="absolute right-4 top-1/2 -translate-y-1/2 text-md-on-surface-variant">
+          {trailing}
+        </div>
+      )}
+    </div>
+  );
+}

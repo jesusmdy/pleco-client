@@ -1,12 +1,15 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { Download, Edit2, Trash2, FolderOpen, ExternalLink } from "lucide-react";
 import { UnifiedDriveItem, downloadFile } from "@/app/lib/drive";
 import { useSession } from "next-auth/react";
 import { RenameModal } from "./rename-modal";
 import { DeleteModal } from "./delete-modal";
 import { useRouter } from "next/navigation";
+
+import { Menu, MenuItem, MenuSeparator } from "../ui/menu";
 
 interface FileContextMenuProps {
   item: UnifiedDriveItem;
@@ -16,6 +19,8 @@ interface FileContextMenuProps {
 }
 
 export function FileContextMenu({ item, x, y, onClose }: FileContextMenuProps) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
   const [isRenameOpen, setIsRenameOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -50,67 +55,60 @@ export function FileContextMenu({ item, x, y, onClose }: FileContextMenuProps) {
   };
 
   // Adjust position if menu goes off screen
-  const menuWidth = 160;
-  const menuHeight = 180;
+  const menuWidth = 224;
+  const menuHeight = 220;
   const adjustedX = x + menuWidth > window.innerWidth ? x - menuWidth : x;
   const adjustedY = y + menuHeight > window.innerHeight ? y - menuHeight : y;
 
-  return (
-    <>
-      <div 
-        ref={menuRef}
-        className="fixed z-[100] w-56 bg-md-surface-container rounded-2xl shadow-xl border border-md-outline-variant/10 py-2 px-2 animate-in fade-in zoom-in-95 duration-200"
-        style={{ top: adjustedY, left: adjustedX }}
-        onClick={(e) => e.stopPropagation()}
-        onContextMenu={(e) => e.preventDefault()}
+  const renderMenu = () => (
+    <Menu 
+      ref={menuRef}
+      className="fixed z-[500] w-56"
+      style={{ top: adjustedY, left: adjustedX }}
+    >
+      <MenuItem
+        onClick={handleOpen}
+        icon={item.itemType === "FOLDER" ? <FolderOpen /> : <ExternalLink />}
       >
-        <button
-          type="button"
-          onClick={handleOpen}
-          className="w-full text-left px-4 py-2.5 text-[14px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3.5 rounded-xl transition-all group"
+        {item.itemType === "FOLDER" ? "Open Folder" : "Open File"}
+      </MenuItem>
+
+      <MenuItem
+        onClick={() => setIsRenameOpen(true)}
+        icon={<Edit2 />}
+      >
+        Rename
+      </MenuItem>
+      
+      {item.itemType === "FILE" && (
+        <MenuItem
+          onClick={handleDownload}
+          icon={<Download />}
         >
-          {item.itemType === "FOLDER" ? (
-            <>
-              <FolderOpen className="w-5 h-5 text-md-on-surface-variant group-hover:text-md-primary" /> Open Folder
-            </>
-          ) : (
-            <>
-              <ExternalLink className="w-5 h-5 text-md-on-surface-variant group-hover:text-md-primary" /> Open File
-            </>
-          )}
-        </button>
+          Download
+        </MenuItem>
+      )}
 
-        <button
-          type="button"
-          onClick={() => setIsRenameOpen(true)}
-          className="w-full text-left px-4 py-2.5 text-[14px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3.5 rounded-xl transition-all group"
-        >
-          <Edit2 className="w-5 h-5 text-md-on-surface-variant group-hover:text-md-primary" /> Rename
-        </button>
-        
-        {item.itemType === "FILE" && (
-          <button
-            type="button"
-            onClick={handleDownload}
-            className="w-full text-left px-4 py-2.5 text-[14px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3.5 rounded-xl transition-all group"
-          >
-            <Download className="w-5 h-5 text-md-on-surface-variant group-hover:text-md-primary" /> Download
-          </button>
-        )}
+      <MenuSeparator />
 
-        <div className="h-[1px] bg-md-outline-variant/10 my-2 mx-2" />
+      <MenuItem
+        onClick={() => setIsDeleteOpen(true)}
+        icon={<Trash2 />}
+        variant="error"
+      >
+        Delete
+      </MenuItem>
+    </Menu>
+  );
 
-        <button
-          type="button"
-          onClick={() => setIsDeleteOpen(true)}
-          className="w-full text-left px-4 py-2.5 text-[14px] font-bold text-md-error hover:bg-md-error hover:text-md-on-error flex items-center gap-3.5 rounded-xl transition-all group"
-        >
-          <Trash2 className="w-5 h-5 group-hover:text-md-on-error" /> Delete
-        </button>
-      </div>
+  if (!mounted) return null;
 
+  return createPortal(
+    <>
+      {renderMenu()}
       {isRenameOpen && <RenameModal item={item} onClose={onClose} />}
       {isDeleteOpen && <DeleteModal item={item} onClose={onClose} />}
-    </>
+    </>,
+    document.body
   );
 }

@@ -7,6 +7,8 @@ import { useSession } from "next-auth/react";
 import { RenameModal } from "./rename-modal";
 import { DeleteModal } from "./delete-modal";
 
+import { Menu, MenuItem, MenuSeparator } from "../ui/menu";
+
 interface FileCardMenuProps {
   item: UnifiedDriveItem;
 }
@@ -51,35 +53,33 @@ export function FileCardMenu({ item }: FileCardMenuProps) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 top-full mt-2 w-48 bg-md-surface-container rounded-xl shadow-md border border-md-outline-variant/10 py-1.5 px-1.5 z-40 animate-in fade-in zoom-in-95 duration-200">
-          <button
-            type="button"
+        <Menu className="absolute right-0 top-full mt-2 w-48 z-40">
+          <MenuItem
             onClick={() => { setIsOpen(false); setIsRenameOpen(true); }}
-            className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
+            icon={<Edit2 />}
           >
-            <Edit2 className="w-4.5 h-4.5 text-md-on-surface-variant group-hover:text-md-primary" /> Rename
-          </button>
+            Rename
+          </MenuItem>
           
           {item.itemType === "FILE" && (
-            <button
-              type="button"
+            <MenuItem
               onClick={handleDownload}
-              className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-on-surface hover:bg-md-primary/10 hover:text-md-primary flex items-center gap-3 rounded-lg transition-all group"
+              icon={<Download />}
             >
-              <Download className="w-4.5 h-4.5 text-md-on-surface-variant group-hover:text-md-primary" /> Download
-            </button>
+              Download
+            </MenuItem>
           )}
 
-          <div className="h-[1px] bg-md-outline-variant/10 my-1.5 mx-1" />
+          <MenuSeparator />
 
-          <button
-            type="button"
+          <MenuItem
             onClick={() => { setIsOpen(false); setIsDeleteOpen(true); }}
-            className="w-full text-left px-3 py-2 text-[13px] font-bold text-md-error hover:bg-md-error hover:text-md-on-error flex items-center gap-3 rounded-lg transition-all group"
+            icon={<Trash2 />}
+            variant="error"
           >
-            <Trash2 className="w-4.5 h-4.5 group-hover:text-md-on-error" /> Delete
-          </button>
-        </div>
+            Delete
+          </MenuItem>
+        </Menu>
       )}
 
       {isRenameOpen && <RenameModal item={item} onClose={() => setIsRenameOpen(false)} />}

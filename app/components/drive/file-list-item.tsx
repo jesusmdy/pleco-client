@@ -9,6 +9,8 @@ import { useSelectionStore } from "@/app/store/selectionStore";
 import { Thumbnail } from "./thumbnail";
 import { formatBytes, cn } from "@/app/lib/utils";
 
+import { ListItem } from "../ui/list";
+
 interface FileListItemProps {
   item: UnifiedDriveItem;
   context?: "drive" | "trash";
@@ -49,17 +51,12 @@ export function FileListItem({ item, context = "drive" }: FileListItemProps) {
   };
 
   return (
-    <div
+    <ListItem
       onClick={handleClick}
       onContextMenu={handleContextMenu}
-      className={cn(
-        "flex items-center gap-5 py-3 px-6 cursor-pointer group transition-all duration-300 mx-2 my-1 rounded-2xl active:scale-[0.99]",
-        selected 
-          ? "bg-md-primary-container text-md-on-primary-container" 
-          : "hover:bg-md-surface-container-low text-md-on-surface"
-      )}
-    >
-      <div className="flex items-center gap-5 flex-1 min-w-0">
+      selected={selected}
+      className="px-6"
+      leading={
         <div className={cn(
           "w-12 h-12 shrink-0 rounded-[18px] flex items-center justify-center border transition-colors overflow-hidden",
           selected 
@@ -74,55 +71,53 @@ export function FileListItem({ item, context = "drive" }: FileListItemProps) {
             <FileText className="w-5 h-5" />
           )}
         </div>
-        
-        <div className="flex-1 min-w-0">
-          <div className="text-[15px] font-semibold tracking-tight truncate select-none">
-            {item.name}
-          </div>
+      }
+      supportingText={
+        <span className="sm:hidden">
+          {isFolder ? "Folder" : formatBytes(item.size || 0)}
+        </span>
+      }
+      trailing={
+        <>
           <div className={cn(
-            "text-[12px] font-medium opacity-60 sm:hidden",
-            selected ? "text-md-on-primary-container/80" : "text-md-on-surface-variant"
+            "w-32 text-[13px] font-medium hidden sm:block",
+            selected ? "text-md-on-primary-container/70" : "text-md-on-surface-variant"
           )}>
             {isFolder ? "Folder" : formatBytes(item.size || 0)}
           </div>
-        </div>
-      </div>
 
-      <div className={cn(
-        "w-32 text-[13px] font-medium hidden sm:block",
-        selected ? "text-md-on-primary-container/70" : "text-md-on-surface-variant"
-      )}>
-        {isFolder ? "Folder" : formatBytes(item.size || 0)}
-      </div>
-
-      <div className={cn(
-        "w-40 text-[13px] font-medium hidden md:block text-right pr-8",
-        selected ? "text-md-on-primary-container/70" : "text-md-on-surface-variant"
-      )}>
-        {new Date(item.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
-      </div>
-
-      <div className="flex items-center gap-2 shrink-0">
-        {selected ? (
-          <div className="w-6 h-6 rounded-full bg-md-primary flex items-center justify-center shrink-0">
-            <CheckCircle2 className="w-4 h-4 text-md-on-primary" />
+          <div className={cn(
+            "w-40 text-[13px] font-medium hidden md:block text-right pr-8",
+            selected ? "text-md-on-primary-container/70" : "text-md-on-surface-variant"
+          )}>
+            {new Date(item.createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })}
           </div>
-        ) : !isTrash ? (
-          <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-            <FileActionTrigger item={item} context={context} />
-          </div>
-        ) : null}
-      </div>
 
-      {contextMenu && (
-        <FileActionMenu 
-          item={item} 
-          x={contextMenu.x} 
-          y={contextMenu.y} 
-          context={context}
-          onClose={() => setContextMenu(null)} 
-        />
-      )}
-    </div>
+          <div className="flex items-center gap-2 shrink-0 min-w-[24px]">
+            {selected ? (
+              <div className="w-6 h-6 rounded-full bg-md-primary flex items-center justify-center shrink-0">
+                <CheckCircle2 className="w-4 h-4 text-md-on-primary" />
+              </div>
+            ) : !isTrash ? (
+              <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                <FileActionTrigger item={item} context={context} />
+              </div>
+            ) : null}
+          </div>
+
+          {contextMenu && (
+            <FileActionMenu 
+              item={item} 
+              x={contextMenu.x} 
+              y={contextMenu.y} 
+              context={context}
+              onClose={() => setContextMenu(null)} 
+            />
+          )}
+        </>
+      }
+    >
+      {item.name}
+    </ListItem>
   );
 }

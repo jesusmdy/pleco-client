@@ -4,19 +4,8 @@ import { useState } from "react";
 import { Trash2, X } from "lucide-react";
 import { useSelectionStore } from "@/app/store/selectionStore";
 import { Button } from "@/app/components/ui/button";
+import { Chip } from "@/app/components/ui/chip";
 import { BulkDeleteModal } from "./bulk-delete-modal";
-
-function DriveDeleteButton({ onClick, count }: { onClick: () => void; count: number }) {
-  return (
-    <button
-      onClick={onClick}
-      className="bg-md-error text-md-on-error hover:bg-md-error/90 flex items-center gap-2 px-4 h-8 rounded-lg text-[13px] font-semibold tracking-tight transition-all cursor-pointer active:scale-95 border border-md-error/10"
-    >
-      <Trash2 className="w-4 h-4" />
-      Delete ({count})
-    </button>
-  );
-}
 
 interface BulkActionToolbarProps {
   actions?: React.ReactNode;
@@ -31,26 +20,38 @@ export function BulkActionToolbar({ actions }: BulkActionToolbarProps) {
 
   return (
     <>
-      <div className="h-12 flex items-center justify-between px-4 rounded-xl bg-md-primary-container border border-md-primary/10 animate-in slide-in-from-top-2 duration-300 mb-6">
-        <div className="flex items-center gap-4">
-          <button
+      <div className="fixed bottom-12 left-[calc(50%+var(--sidebar-width)/2)] -translate-x-1/2 z-[100] h-16 flex items-center gap-8 pl-3 pr-6 rounded-full bg-md-surface-container-highest shadow-2xl border border-md-outline-variant/10 animate-in fade-in slide-in-from-bottom-8 duration-500 backdrop-blur-xl bg-opacity-90 min-w-max">
+        <div className="flex items-center gap-3">
+          <Button
+            variant="text"
+            size="icon"
             onClick={clear}
-            className="p-1.5 hover:bg-md-on-primary-container/10 rounded-full text-md-on-primary-container transition-all active:scale-90"
             title="Deselect all"
           >
-            <X className="w-4.5 h-4.5" />
-          </button>
-          <span className="text-md-on-primary-container text-[14px] font-semibold tracking-tight whitespace-nowrap">
-            {count} items selected
-          </span>
+            <X className="w-5 h-5" />
+          </Button>
+          
+          <Chip variant="primary">
+            {count} {count === 1 ? "item" : "items"} selected
+          </Chip>
         </div>
 
         <div className="flex items-center gap-3">
-          {actions ?? <DriveDeleteButton onClick={() => setIsDeleteOpen(true)} count={count} />}
+          {actions}
+          <Button
+            variant="error"
+            onClick={() => setIsDeleteOpen(true)}
+          >
+            <Trash2 className="w-4.5 h-4.5" />
+            Delete items
+          </Button>
         </div>
       </div>
 
-      <BulkDeleteModal isOpen={isDeleteOpen} onClose={() => setIsDeleteOpen(false)} />
+      <BulkDeleteModal 
+        isOpen={isDeleteOpen} 
+        onClose={() => setIsDeleteOpen(false)} 
+      />
     </>
   );
 }

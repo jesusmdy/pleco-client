@@ -4,6 +4,7 @@ import { UnifiedDriveItem } from "@/app/lib/drive";
 import { useViewStore } from "@/app/store/viewStore";
 
 import { Loader } from "@/app/components/ui/loader";
+import { List } from "@/app/components/ui/list";
 
 interface FileGridProps {
   items: UnifiedDriveItem[];
@@ -35,17 +36,17 @@ export function FileGrid({ items, isLoading, context = "drive" }: FileGridProps)
 
   if (viewMode === "list") {
     return (
-      <div className="flex flex-col">
+      <List>
         {/* Table Header */}
-        <div className="flex items-center gap-4 px-4 py-3 text-md-on-surface-variant text-[12px] font-semibold tracking-tight border-b border-md-outline-variant/10">
-          <div className="flex-1">Name</div>
-          <div className="w-24 hidden sm:block">Size</div>
-          <div className="w-32 hidden md:block">Created</div>
+        <div className="flex items-center gap-4 px-10 py-3 text-md-on-surface-variant text-[12px] font-semibold tracking-tight border-b border-md-outline-variant/10">
+          <div className="flex-1 pl-16">Name</div>
+          <div className="w-32 hidden sm:block">Size</div>
+          <div className="w-40 hidden md:block text-right pr-8">Created</div>
           <div className="w-8"></div>
         </div>
         {folders.map(folder => <FileListItem key={folder.id} item={folder} context={context} />)}
         {files.map(file => <FileListItem key={file.id} item={file} context={context} />)}
-      </div>
+      </List>
     );
   }
 
@@ -54,7 +55,7 @@ export function FileGrid({ items, isLoading, context = "drive" }: FileGridProps)
       {folders.length > 0 && (
         <section>
           <h3 className="text-[13px] font-semibold text-md-on-surface-variant mb-4 tracking-tight px-1">Folders</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
             {folders.map(folder => <FileCard key={folder.id} item={folder} context={context} />)}
           </div>
         </section>
@@ -63,7 +64,7 @@ export function FileGrid({ items, isLoading, context = "drive" }: FileGridProps)
       {files.length > 0 && (
         <section>
           <h3 className="text-[13px] font-semibold text-md-on-surface-variant mb-4 tracking-tight px-1">Files</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8 gap-4">
+          <div className="grid grid-cols-[repeat(auto-fill,minmax(200px,1fr))] gap-4">
             {files.map(file => <FileCard key={file.id} item={file} context={context} />)}
           </div>
         </section>
