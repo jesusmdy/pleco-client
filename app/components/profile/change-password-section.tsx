@@ -63,23 +63,23 @@ export function ChangePasswordSection({ token, mfaEnabled }: ChangePasswordSecti
 
       {pwStatus && (
         <div className={cn(
-          "p-4 rounded-xl flex items-center gap-3 border text-[13px] font-bold transition-all animate-in fade-in slide-in-from-top-1 duration-200",
+          "p-4 rounded-2xl flex items-center gap-3 border text-[14px] font-semibold transition-all animate-in fade-in slide-in-from-top-1 duration-300",
           pwStatus.type === 'success' 
             ? 'bg-md-primary/10 text-md-primary border-md-primary/20' 
             : 'bg-md-error/10 text-md-error border-md-error/20'
         )}>
           {pwStatus.type === 'success' ? <CheckCircle2 className="w-5 h-5 shrink-0" /> : <AlertCircle className="w-5 h-5 shrink-0" />}
-          <span className="leading-tight uppercase tracking-wider">{pwStatus.msg}</span>
+          <span className="leading-tight tracking-tight">{pwStatus.msg}</span>
         </div>
       )}
 
-      <div className="pt-4">
+      <div className="pt-2">
         <Button 
           type="submit"
           isLoading={pwLoading}
-          className="w-full bg-md-primary text-md-on-primary h-12 text-[15px] font-semibold tracking-tight rounded-xl border border-md-primary/10 hover:scale-[1.02] active:scale-[0.98] transition-all"
+          className="w-full bg-md-primary text-md-on-primary h-12 text-[15px] font-semibold tracking-tight rounded-full border border-md-primary/10 hover:scale-[1.01] active:scale-[0.98] transition-all"
         >
-          Update Account Password
+          Update account password
         </Button>
       </div>
     </form>

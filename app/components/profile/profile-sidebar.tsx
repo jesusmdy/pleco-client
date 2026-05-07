@@ -38,7 +38,7 @@ export function ProfileSidebar() {
         key={item.href}
         href={item.href}
         className={cn(
-          "flex items-center gap-3 px-4 py-2.5 rounded-full text-[14px] font-bold transition-all group",
+          "flex items-center gap-3 px-4 py-2.5 rounded-full text-[14px] font-semibold tracking-tight transition-all group",
           isActive 
             ? "bg-md-primary-container text-md-on-primary-container border border-md-primary/10" 
             : "text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface"

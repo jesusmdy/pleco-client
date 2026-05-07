@@ -12,12 +12,14 @@ export function Header() {
   const pathname = usePathname();
   const isDriveRoot = pathname === "/fm/drive";
   const isFolderView = pathname.startsWith("/fm/drive/folders/");
-  const hasActions = isDriveRoot || isFolderView;
+  const isActivity = pathname === "/fm/activity";
+  const isStorage = pathname === "/fm/storage";
+  const hasActions = isDriveRoot || isFolderView || isActivity || isStorage;
 
   if (!hasActions) return <Fragment />
 
   return (
-    <header className="h-header flex items-center px-6 justify-between shrink-0 bg-md-surface-container-low border-b border-md-outline-variant/10 gap-8 z-20 transition-all duration-300 ease-in-out">
+    <header className="h-16 flex items-center px-8 justify-between shrink-0 bg-md-surface-container-low border-b border-md-outline-variant/10 gap-8 z-20 transition-all duration-300 ease-in-out">
       <div className="flex-1 min-w-0">
         <DriveBreadcrumb />
       </div>

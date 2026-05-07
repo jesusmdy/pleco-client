@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { FileActionMenu, FileActionTrigger } from "./file-action-menu";
 import { useSelectionStore } from "@/app/store/selectionStore";
 import { Thumbnail } from "./thumbnail";
+import { cn } from "@/app/lib/utils";
 
 export type FileCardContext = "drive" | "trash";
 
@@ -32,19 +33,17 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
   };
 
   const handleOpen = () => {
-    if (isTrash) return; // no navigation in trash context
+    if (isTrash) return;
     if (isFolder) router.push(`/fm/drive/folders/${item.id}`);
   };
 
   const handleClick = () => {
     if (clickTimer.current) {
-      // Second click within window → double-click → open
       clearTimeout(clickTimer.current);
       clickTimer.current = null;
       handleOpen();
       return;
     }
-    // First click → wait to see if second comes
     clickTimer.current = setTimeout(() => {
       clickTimer.current = null;
       toggle(item.id);
@@ -56,22 +55,26 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
       <div
         onClick={handleClick}
         onContextMenu={handleContextMenu}
-        className={`flex items-center justify-between rounded-xl px-3 py-2 cursor-pointer group transition-all border ${
+        className={cn(
+          "flex items-center justify-between rounded-2xl px-4 py-3 cursor-pointer group transition-all duration-300 border active:scale-[0.98]",
           selected
-            ? "bg-md-primary-container/40 border-md-primary"
-            : "bg-md-surface-container-low hover:bg-md-surface-container-high border-md-outline-variant/30"
-        }`}
+            ? "bg-md-primary-container text-md-on-primary-container border-md-primary/30"
+            : "bg-md-surface-container-low hover:bg-md-surface-container-high border-md-outline-variant/10 text-md-on-surface"
+        )}
       >
-        <div className="flex items-center gap-3 overflow-hidden">
+        <div className="flex items-center gap-4 overflow-hidden">
           <Folder
-            className={`w-4 h-4 shrink-0 transition-colors ${
+            className={cn(
+              "w-5 h-5 shrink-0 transition-colors",
               selected ? "text-md-primary" : "text-md-on-surface-variant group-hover:text-md-primary"
-            }`}
+            )}
           />
-          <span className="text-md-on-surface text-[13px] font-bold truncate select-none">{item.name}</span>
+          <span className="text-[14px] font-semibold tracking-tight truncate select-none">{item.name}</span>
         </div>
         {selected ? (
-          <CheckCircle2 className="w-4 h-4 text-md-primary shrink-0" />
+          <div className="w-5 h-5 rounded-full bg-md-primary flex items-center justify-center shrink-0">
+            <CheckCircle2 className="w-3.5 h-3.5 text-md-on-primary" />
+          </div>
         ) : (
           <div className="opacity-0 group-hover:opacity-100 transition-opacity">
             <FileActionTrigger item={item} context={context} />
@@ -91,31 +94,36 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
     );
   }
 
-  // File Layout
   return (
     <div
       onClick={handleClick}
       onContextMenu={handleContextMenu}
-      className={`rounded-2xl cursor-pointer group flex flex-col h-44 overflow-hidden transition-all border ${
+      className={cn(
+        "rounded-[24px] cursor-pointer group flex flex-col h-48 overflow-hidden transition-all duration-300 border active:scale-[0.98]",
         selected
-          ? "bg-md-primary-container/40 border-md-primary"
-          : "bg-md-surface-container-low hover:bg-md-surface-container-high border-md-outline-variant/30"
-      }`}
+          ? "bg-md-primary-container border-md-primary/30"
+          : "bg-md-surface-container-low hover:bg-md-surface-container-high border-md-outline-variant/10"
+      )}
     >
       {/* File Header */}
-      <div className="flex items-center justify-between px-3 py-2 shrink-0">
-        <div className="flex items-center gap-2 overflow-hidden">
+      <div className="flex items-center justify-between px-4 py-3 shrink-0">
+        <div className="flex items-center gap-3 overflow-hidden">
           <FileText
-            className={`w-4 h-4 shrink-0 transition-colors ${
+            className={cn(
+              "w-4 h-4 shrink-0 transition-colors",
               selected ? "text-md-primary" : "text-md-on-surface-variant group-hover:text-md-primary"
-            }`}
+            )}
           />
-          <span className="text-md-on-surface text-[12px] font-bold truncate select-none">{item.name}</span>
+          <span className="text-md-on-surface text-[13px] font-semibold tracking-tight truncate select-none">
+            {item.name}
+          </span>
         </div>
-        <div className="flex items-center gap-1">
-          {item.encrypted && !selected && !isTrash && <Lock className="w-3.5 h-3.5 text-md-on-surface-variant" />}
+        <div className="flex items-center gap-2">
+          {item.encrypted && !selected && !isTrash && <Lock className="w-3.5 h-3.5 text-md-on-surface-variant/60" />}
           {selected ? (
-            <CheckCircle2 className="w-4 h-4 text-md-primary shrink-0" />
+            <div className="w-5 h-5 rounded-full bg-md-primary flex items-center justify-center shrink-0">
+              <CheckCircle2 className="w-3.5 h-3.5 text-md-on-primary" />
+            </div>
           ) : (
             <div className="opacity-0 group-hover:opacity-100 transition-opacity">
               <FileActionTrigger item={item} context={context} />
@@ -126,9 +134,10 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
 
       {/* Preview Area */}
       <div
-        className={`flex-1 mx-2 mb-2 rounded-xl border border-md-outline-variant/10 overflow-hidden flex items-center justify-center transition-colors ${
-          selected ? "bg-md-primary-container/20" : "bg-md-surface-container"
-        }`}
+        className={cn(
+          "flex-1 mx-3 mb-3 rounded-2xl border border-md-outline-variant/10 overflow-hidden flex items-center justify-center transition-colors",
+          selected ? "bg-md-primary-container/20" : "bg-md-surface-container-highest/50"
+        )}
       >
         {item.hasThumb500 ? (
           <Thumbnail 
@@ -138,7 +147,10 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
             className="w-full h-full object-cover"
           />
         ) : (
-          <FileText className="w-8 h-8 text-white/5" />
+          <div className="flex flex-col items-center gap-2 opacity-20">
+            <FileText className="w-10 h-10" />
+            <span className="text-[11px] font-bold uppercase tracking-wider hidden group-hover:block">No preview</span>
+          </div>
         )}
       </div>
 

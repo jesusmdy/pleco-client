@@ -17,7 +17,7 @@ export function SignOutSection() {
     <>
       <button
         onClick={() => setIsSignOutOpen(true)}
-        className="flex items-center gap-3 text-md-on-surface-variant text-[13px] font-bold uppercase tracking-widest transition-all rounded-lg hover:text-md-error cursor-pointer group px-2 py-1"
+        className="flex items-center gap-4 text-md-on-surface-variant text-[14px] font-semibold tracking-tight transition-all rounded-full hover:text-md-error cursor-pointer group px-4 py-2 hover:bg-md-error/5"
       >
         <LogOut className="w-5 h-5 opacity-60 group-hover:opacity-100 transition-opacity" />
         Sign out of this device
@@ -26,7 +26,7 @@ export function SignOutSection() {
       <Modal
         isOpen={isSignOutOpen}
         onClose={() => setIsSignOutOpen(false)}
-        title="Confirm Sign Out"
+        title="Confirm sign out"
       >
         <p className="text-md-on-surface-variant text-[15px] mb-8 leading-relaxed font-medium">
           Are you sure you want to sign out of this device? You will need to log in again to access your drive.
@@ -37,16 +37,16 @@ export function SignOutSection() {
             type="button" 
             variant="ghost"
             onClick={() => setIsSignOutOpen(false)} 
-            className="h-10 text-[14px] font-bold"
+            className="h-10 text-[14px] font-semibold rounded-full"
           >
             Cancel
           </Button>
           <Button
             type="button"
             onClick={handleSignOut}
-            className="bg-md-error text-md-on-error hover:bg-md-error/90 h-10 text-[14px] font-semibold tracking-tight px-6 border border-md-error/10 transition-all active:scale-95"
+            className="bg-md-error text-md-on-error hover:bg-md-error/90 h-10 text-[14px] font-semibold tracking-tight px-8 rounded-full border border-md-error/10 transition-all active:scale-95"
           >
-            Sign Out
+            Sign out
           </Button>
         </div>
       </Modal>

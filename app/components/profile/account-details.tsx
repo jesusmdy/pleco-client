@@ -29,19 +29,19 @@ interface InfoRowProps {
 
 function InfoRow({ icon: Icon, label, value, canCopy }: InfoRowProps) {
   return (
-    <div className="flex items-center justify-between group py-3 px-1 rounded-xl hover:bg-md-primary/5 transition-all">
-      <div className="flex items-center gap-4">
-        <div className="w-10 h-10 rounded-xl bg-md-surface-container-highest border border-md-outline-variant/10 flex items-center justify-center shrink-0">
-          <Icon className="w-5 h-5 text-md-on-surface-variant group-hover:text-md-primary transition-colors" />
+    <div className="flex items-center justify-between group py-3 px-2 rounded-2xl hover:bg-md-primary/5 transition-all">
+      <div className="flex items-center gap-5">
+        <div className="w-12 h-12 rounded-full bg-md-surface-container-highest border border-md-outline-variant/10 flex items-center justify-center shrink-0">
+          <Icon className="w-5.5 h-5.5 text-md-on-surface-variant group-hover:text-md-primary transition-colors" />
         </div>
         <div className="flex flex-col min-w-0">
-          <span className="text-md-on-surface-variant text-[11px] font-bold uppercase tracking-widest leading-none mb-1.5">{label}</span>
-          <div className="text-md-on-surface font-bold text-[15px] leading-tight truncate">{value}</div>
+          <span className="text-md-on-surface-variant text-[12px] font-semibold tracking-tight leading-none mb-1.5">{label}</span>
+          <div className="text-md-on-surface font-semibold text-[15px] leading-tight truncate">{value}</div>
         </div>
       </div>
       {canCopy && (
         <button 
-          className="w-9 h-9 rounded-full hover:bg-md-primary/10 text-md-on-surface-variant hover:text-md-primary transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center"
+          className="w-10 h-10 rounded-full hover:bg-md-primary/10 text-md-on-surface-variant hover:text-md-primary transition-all opacity-0 group-hover:opacity-100 flex items-center justify-center"
           title={`Copy ${label}`}
           onClick={() => typeof value === 'string' && navigator.clipboard.writeText(value)}
         >
@@ -57,11 +57,11 @@ export function AccountDetails({ profile, session, isLoading }: AccountDetailsPr
     return (
       <div className="space-y-4">
         {[1, 2, 3, 4].map((i) => (
-          <div key={i} className="flex items-center gap-4 animate-pulse py-3">
-            <div className="w-10 h-10 rounded-xl bg-md-surface-container-highest shrink-0" />
+          <div key={i} className="flex items-center gap-5 animate-pulse py-3 px-2">
+            <div className="w-12 h-12 rounded-full bg-md-surface-container-highest shrink-0" />
             <div className="space-y-2">
-              <div className="h-3 w-16 bg-md-surface-container-highest rounded" />
-              <div className="h-4 w-40 bg-md-surface-container-highest/60 rounded" />
+              <div className="h-3 w-16 bg-md-surface-container-highest rounded-full" />
+              <div className="h-4 w-40 bg-md-surface-container-highest/60 rounded-full" />
             </div>
           </div>
         ))}
@@ -69,18 +69,18 @@ export function AccountDetails({ profile, session, isLoading }: AccountDetailsPr
     );
   }
 
-  const username = profile?.username || session?.user?.name || session?.username || "Guest User";
+  const username = profile?.username || session?.user?.name || session?.username || "Guest user";
   const email = profile?.email || session?.user?.email || "No email linked";
 
   return (
-    <div className="flex flex-col gap-2">
-      <InfoRow icon={User} label="Display Name" value={username} canCopy />
-      <InfoRow icon={Mail} label="Email Address" value={email} canCopy />
+    <div className="flex flex-col gap-1">
+      <InfoRow icon={User} label="Display name" value={username} canCopy />
+      <InfoRow icon={Mail} label="Email address" value={email} canCopy />
       <InfoRow 
         icon={Crown} 
         label="Membership" 
         value={
-          <span className="text-md-primary font-bold">{profile?.tierName || "Free Tier"}</span>
+          <span className="text-md-primary font-bold">{profile?.tierName || "Free tier"}</span>
         } 
       />
       <InfoRow 
@@ -88,8 +88,8 @@ export function AccountDetails({ profile, session, isLoading }: AccountDetailsPr
         label="Verification" 
         value={
           <div className="flex items-center gap-2">
-            <span className="text-md-primary text-[14px] font-bold">Verified Professional</span>
-            <div className="w-1.5 h-1.5 rounded-full bg-md-primary shadow-sm" />
+            <span className="text-md-primary text-[14px] font-bold">Verified professional</span>
+            <div className="w-1.5 h-1.5 rounded-full bg-md-primary" />
           </div>
         } 
       />

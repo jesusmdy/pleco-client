@@ -8,7 +8,7 @@ export default function FmLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <AuthGuard isAuth={true}>
-      <div className="flex min-h-screen bg-md-background overflow-hidden">
+      <div className="flex h-screen bg-md-background overflow-hidden">
         <VerticalToolbar />
         <UploadManager />
         <main className="flex-1 flex flex-col min-w-0 border-l border-md-outline-variant/10">

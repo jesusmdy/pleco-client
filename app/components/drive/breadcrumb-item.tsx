@@ -12,9 +12,9 @@ export function BreadcrumbItem({ href, label, isLast }: BreadcrumbItemProps) {
     <Link 
       href={href}
       className={`
-        flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg transition-all shrink-0 font-medium
-        ${isLast ? 'text-md-on-surface font-semibold bg-md-surface-variant/10' : 'text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface'}
-        text-[14px]
+        flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all shrink-0 font-semibold tracking-tight
+        ${isLast ? 'text-md-on-surface bg-md-surface-variant/20' : 'text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface'}
+        text-[15px]
       `}
     >
       <span className="truncate max-w-[200px]">{label}</span>

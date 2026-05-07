@@ -50,13 +50,13 @@ export default function StoragePage() {
   }, {} as Record<string, number>);
 
   return (
-    <div className="h-full overflow-y-auto p-container w-full max-w-5xl mx-auto space-y-12 bg-md-background scrollbar-thin scrollbar-thumb-md-outline-variant/10">
+    <div className="w-full max-w-5xl mx-auto px-8 py-10 space-y-16 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <StorageHeader />
 
-      <section className="space-y-4">
-        <div className="flex items-center gap-3 text-md-on-surface-variant px-1">
-          <Database className="w-4 h-4" />
-          <h2 className="text-lg font-medium">Usage Statistics</h2>
+      <section className="space-y-6">
+        <div className="flex items-center gap-4 text-md-on-surface-variant px-1">
+          <Database className="w-6 h-6 text-md-primary" />
+          <h2 className="text-2xl font-medium tracking-tight text-md-on-surface">Usage statistics</h2>
         </div>
         <StorageUsageCard 
           used={used} 
@@ -66,7 +66,7 @@ export default function StoragePage() {
         />
       </section>
 
-      <RecentHistory title="Recent Distributions" />
+      <RecentHistory title="Recent distributions" />
     </div>
   );
 }
