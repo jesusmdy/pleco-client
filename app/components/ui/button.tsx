@@ -20,7 +20,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center gap-2.5 rounded-full font-bold tracking-tight transition-all duration-200 cursor-pointer select-none active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed outline-none focus-visible:ring-2 focus-visible:ring-md-primary/50 border";
+    "inline-flex items-center justify-center gap-2.5 rounded-full font-medium tracking-tight transition-all duration-200 cursor-pointer select-none active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed outline-none focus-visible:ring-2 focus-visible:ring-md-primary/50 border";
 
   const variants = {
     primary: "bg-md-primary text-md-on-primary hover:shadow-md hover:bg-opacity-90 border-md-primary/10",

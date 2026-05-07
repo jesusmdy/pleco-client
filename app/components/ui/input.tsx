@@ -43,7 +43,7 @@ export function Input({
         <input
           {...props}
           className={cn(
-            "w-full bg-md-surface-container-highest text-md-on-surface rounded-full outline-none border transition-all placeholder:text-md-on-surface-variant/40 font-semibold tracking-tight",
+            "w-full bg-md-surface-container-highest text-md-on-surface rounded-full outline-none border transition-all placeholder:text-md-on-surface-variant/40 font-medium tracking-tight",
             error 
               ? "border-md-error/50 focus:ring-4 focus:ring-md-error/10" 
               : "border-transparent focus:border-md-primary/30 focus:ring-4 focus:ring-md-primary/10",
