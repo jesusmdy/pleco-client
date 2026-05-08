@@ -57,14 +57,11 @@ export async function encryptData(data: ArrayBuffer, key: CryptoKey): Promise<{ 
 /**
  * Decrypts data using AES-GCM.
  */
-export async function decryptData(ciphertext: ArrayBuffer, key: CryptoKey, iv: Uint8Array): Promise<ArrayBuffer> {
-  return window.crypto.subtle.decrypt(
-    {
-      name: ALGORITHM,
-      iv: iv,
-    },
+export async function decryptData(data: ArrayBuffer, key: CryptoKey, iv: Uint8Array): Promise<ArrayBuffer> {
+  return await window.crypto.subtle.decrypt(
+    { name: ALGORITHM, iv },
     key,
-    ciphertext
+    data
   );
 }
 
@@ -207,4 +204,57 @@ export function generateRecoveryPhrase(): string {
   }
   
   return words.join(" ");
+}
+
+/**
+ * Generates a thumbnail blob from an image file using Canvas.
+ */
+export async function generateThumbnail(file: File, size: number): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      let width = img.width;
+      let height = img.height;
+
+      if (width > height) {
+        if (width > size) {
+          height *= size / width;
+          width = size;
+        }
+      } else {
+        if (height > size) {
+          width *= size / height;
+          height = size;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx?.drawImage(img, 0, 0, width, height);
+
+      canvas.toBlob((blob) => {
+        if (blob) {
+          URL.revokeObjectURL(img.src);
+          resolve(blob);
+        } else {
+          reject(new Error('Canvas toBlob failed'));
+        }
+      }, 'image/jpeg', 0.85);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(img.src);
+      reject(new Error('Image load failed'));
+    };
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+/**
+ * Encrypts a blob of data using a CryptoKey.
+ */
+export async function encryptBlob(blob: Blob, key: CryptoKey, iv?: Uint8Array): Promise<{ ciphertext: ArrayBuffer, iv: Uint8Array }> {
+  const buffer = await blob.arrayBuffer();
+  return encryptData(buffer, key, iv);
 }

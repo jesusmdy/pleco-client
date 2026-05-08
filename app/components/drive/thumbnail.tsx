@@ -74,9 +74,14 @@ export function Thumbnail({ item, size, className }: ThumbnailProps) {
         let blob: Blob;
 
         if (item.encrypted && item.mimeType?.startsWith("image/")) {
-          // Zero-Knowledge image: download and decrypt the whole file for preview
-          // Note: In a production app, we would have small encrypted thumbnails
-          blob = await downloadFileToBlob(item, session!.backendToken, masterKey);
+          // Zero-Knowledge image: download and decrypt
+          const hasServerThumb = size === 200 ? item.hasThumb200 : item.hasThumb500;
+          blob = await downloadFileToBlob(
+            item, 
+            session!.backendToken, 
+            masterKey,
+            hasServerThumb ? size : undefined
+          );
         } else {
           // Regular file: fetch server-generated thumbnail
           blob = await getFileThumbnail(item.id, size, session!.backendToken);

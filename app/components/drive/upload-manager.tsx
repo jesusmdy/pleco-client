@@ -6,7 +6,16 @@ import { uploadDriveFile, createFolder } from "@/app/lib/drive";
 import { useSession } from "next-auth/react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCryptoStore } from "@/app/store/useCryptoStore";
-import { generateFileKey, encryptData, exportKey, importKey, hashData, encryptString } from "@/app/lib/crypto";
+import { 
+  generateFileKey, 
+  encryptData, 
+  exportKey, 
+  importKey, 
+  hashData, 
+  encryptString,
+  generateThumbnail,
+  encryptBlob
+} from "@/app/lib/crypto";
 
 export function UploadManager() {
   const { queue, updateItemStatus, updateChildStatus } = useUploadStore();
@@ -51,29 +60,69 @@ export function UploadManager() {
             fileHash = await hashData(ciphertext);
             
             // 4. Encrypt File Key with Master Key
-            // We export the key as 'raw' (ArrayBuffer) to avoid base64/text encoding issues
             const rawFileKeyBuffer = await window.crypto.subtle.exportKey('raw', fileKey);
             const { ciphertext: encryptedKeyBuffer, iv: keyIv } = await encryptData(
               rawFileKeyBuffer, 
               masterKey
             );
             
+            // 5. Generate and Encrypt Thumbnails (for images)
+            let thumb200: Blob | undefined;
+            let thumb500: Blob | undefined;
+
+            if (nextItem.file.type.startsWith("image/")) {
+              try {
+                // Generate
+                const t200Raw = await generateThumbnail(nextItem.file, 200);
+                const t500Raw = await generateThumbnail(nextItem.file, 500);
+
+                // Encrypt using unique IVs for each thumbnail (Required for AES-GCM)
+                const t200Enc = await encryptBlob(t200Raw, fileKey);
+                const t500Enc = await encryptBlob(t500Raw, fileKey);
+
+                // We prepend the IV to the ciphertext so the thumbnail is self-contained
+                const t200Combined = new Uint8Array(t200Enc.iv.length + t200Enc.ciphertext.byteLength);
+                t200Combined.set(t200Enc.iv);
+                t200Combined.set(new Uint8Array(t200Enc.ciphertext), t200Enc.iv.length);
+
+                const t500Combined = new Uint8Array(t500Enc.iv.length + t500Enc.ciphertext.byteLength);
+                t500Combined.set(t500Enc.iv);
+                t500Combined.set(new Uint8Array(t500Enc.ciphertext), t500Enc.iv.length);
+
+                thumb200 = new Blob([t200Combined], { type: 'application/octet-stream' });
+                thumb500 = new Blob([t500Combined], { type: 'application/octet-stream' });
+              } catch (err) {
+                console.error("ZK Thumbnail generation failed:", err);
+              }
+            }
+            
             // We combine Encrypted Key + Key IV for storage
             const combinedKey = btoa(String.fromCharCode(...new Uint8Array(encryptedKeyBuffer))) + ":" + btoa(String.fromCharCode(...keyIv));
             encryptedFileKey = combinedKey;
             ivString = btoa(String.fromCharCode(...iv));
-          }
 
-          const uploadedFile = await uploadDriveFile(
-            fileToUpload, 
-            fileNameToUpload,
-            nextItem.parentId, 
-            session.backendToken,
-            encryptedFileKey,
-            ivString,
-            fileHash
-          );
-          updateItemStatus(nextItem.id, "completed", 100, undefined, uploadedFile.id);
+            const uploadedFile = await uploadDriveFile(
+              fileToUpload, 
+              fileNameToUpload,
+              nextItem.parentId, 
+              session.backendToken,
+              encryptedFileKey,
+              ivString,
+              fileHash,
+              thumb200,
+              thumb500
+            );
+            updateItemStatus(nextItem.id, "completed", 100, undefined, uploadedFile.id);
+          } else {
+            // Non-encrypted file upload
+            const uploadedFile = await uploadDriveFile(
+              fileToUpload, 
+              fileNameToUpload,
+              nextItem.parentId, 
+              session.backendToken,
+            );
+            updateItemStatus(nextItem.id, "completed", 100, undefined, uploadedFile.id);
+          }
         } else {
           // Folder upload
           const folderCache: Record<string, string> = {};
@@ -115,6 +164,8 @@ export function UploadManager() {
               let encryptedFileKey: string | undefined;
               let ivString: string | undefined;
               let fileHash: string | undefined;
+              let thumb200: Blob | undefined;
+              let thumb500: Blob | undefined;
 
               if (masterKey) {
                 fileNameToUpload = await encryptString(child.name, masterKey);
@@ -131,6 +182,30 @@ export function UploadManager() {
                   masterKey
                 );
                 
+                // Generate and Encrypt Thumbnails
+                if (child.file.type.startsWith("image/")) {
+                  try {
+                    const t200Raw = await generateThumbnail(child.file, 200);
+                    const t500Raw = await generateThumbnail(child.file, 500);
+
+                    const t200Enc = await encryptBlob(t200Raw, fileKey);
+                    const t500Enc = await encryptBlob(t500Raw, fileKey);
+
+                    const t200Combined = new Uint8Array(t200Enc.iv.length + t200Enc.ciphertext.byteLength);
+                    t200Combined.set(t200Enc.iv);
+                    t200Combined.set(new Uint8Array(t200Enc.ciphertext), t200Enc.iv.length);
+
+                    const t500Combined = new Uint8Array(t500Enc.iv.length + t500Enc.ciphertext.byteLength);
+                    t500Combined.set(t500Enc.iv);
+                    t500Combined.set(new Uint8Array(t500Enc.ciphertext), t500Enc.iv.length);
+
+                    thumb200 = new Blob([t200Combined], { type: 'application/octet-stream' });
+                    thumb500 = new Blob([t500Combined], { type: 'application/octet-stream' });
+                  } catch (err) {
+                    console.error("ZK Thumbnail generation failed:", err);
+                  }
+                }
+
                 encryptedFileKey = btoa(String.fromCharCode(...new Uint8Array(encryptedKeyBuffer))) + ":" + btoa(String.fromCharCode(...keyIv));
                 ivString = btoa(String.fromCharCode(...iv));
               }
@@ -142,7 +217,9 @@ export function UploadManager() {
                 session.backendToken!,
                 encryptedFileKey,
                 ivString,
-                fileHash
+                fileHash,
+                thumb200,
+                thumb500
               );
               updateChildStatus(nextItem.id, child.id, "completed", 100, uploadedChild.id, currentParentId);
             } catch (err) {

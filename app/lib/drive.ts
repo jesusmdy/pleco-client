@@ -98,7 +98,9 @@ export const uploadDriveFile = (
   token: string, 
   encryptedFileKey?: string, 
   iv?: string,
-  fileHash?: string
+  fileHash?: string,
+  thumb200?: Blob,
+  thumb500?: Blob
 ) => {
   const formData = new FormData();
   formData.append("file", file, name);
@@ -106,6 +108,8 @@ export const uploadDriveFile = (
   if (encryptedFileKey) formData.append("encryptedFileKey", encryptedFileKey);
   if (iv) formData.append("iv", iv);
   if (fileHash) formData.append("fileHash", fileHash);
+  if (thumb200) formData.append("thumb200", thumb200, "thumb200.jpg");
+  if (thumb500) formData.append("thumb500", thumb500, "thumb500.jpg");
 
   return request<any>("/drive/upload", { method: "POST", body: formData, token });
 };
@@ -123,9 +127,14 @@ export const deleteItem = (id: string, token: string) =>
 export const downloadFileToBlob = async (
   item: UnifiedDriveItem, 
   token: string, 
-  masterKey?: CryptoKey | null
+  masterKey?: CryptoKey | null,
+  thumbnailSize?: number
 ): Promise<Blob> => {
-  const response = await fetch(`${API_BASE_URL}/drive/download/${item.id}`, {
+  const url = thumbnailSize 
+    ? `${API_BASE_URL}/drive/items/${item.id}/thumbnail?size=${thumbnailSize}`
+    : `${API_BASE_URL}/drive/download/${item.id}`;
+
+  const response = await fetch(url, {
     headers: { Authorization: `Bearer ${token}` },
   });
 
@@ -150,13 +159,24 @@ export const downloadFileToBlob = async (
       const decryptedKeyBuffer = await decryptData(encKeyBuffer, masterKey, keyIv);
       const fileKey = await importKey(decryptedKeyBuffer);
       
-      const fileIv = base64ToBytes(item.encryptionIv);
-      const encryptedFileBuffer = await blob.arrayBuffer();
-      const decryptedFileBuffer = await decryptData(encryptedFileBuffer, fileKey, fileIv);
-      
-      blob = new Blob([decryptedFileBuffer], { type: item.mimeType || "application/octet-stream" });
+      const fullBuffer = await blob.arrayBuffer();
+      let fileIv: Uint8Array;
+      let ciphertext: ArrayBuffer;
+
+      if (thumbnailSize) {
+        // Thumbnail Fast Path: IV is prepended (first 12 bytes)
+        fileIv = new Uint8Array(fullBuffer.slice(0, 12));
+        ciphertext = fullBuffer.slice(12);
+      } else {
+        // Full File Path: IV is in metadata
+        fileIv = base64ToBytes(item.encryptionIv);
+        ciphertext = fullBuffer;
+      }
+
+      const decryptedDataBuffer = await decryptData(ciphertext, fileKey, fileIv);
+      blob = new Blob([decryptedDataBuffer], { type: thumbnailSize ? "image/jpeg" : (item.mimeType || "application/octet-stream") });
     } catch (error) {
-      throw new Error("Failed to decrypt file.");
+      throw new Error("Failed to decrypt.");
     }
   }
   return blob;
