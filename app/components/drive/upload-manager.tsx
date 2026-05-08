@@ -51,9 +51,10 @@ export function UploadManager() {
             fileHash = await hashData(ciphertext);
             
             // 4. Encrypt File Key with Master Key
-            const rawFileKey = await exportKey(fileKey);
+            // We export the key as 'raw' (ArrayBuffer) to avoid base64/text encoding issues
+            const rawFileKeyBuffer = await window.crypto.subtle.exportKey('raw', fileKey);
             const { ciphertext: encryptedKeyBuffer, iv: keyIv } = await encryptData(
-              new TextEncoder().encode(rawFileKey), 
+              rawFileKeyBuffer, 
               masterKey
             );
             
@@ -124,9 +125,9 @@ export function UploadManager() {
                 
                 fileHash = await hashData(ciphertext);
                 
-                const rawFileKey = await exportKey(fileKey);
+                const rawFileKeyBuffer = await window.crypto.subtle.exportKey('raw', fileKey);
                 const { ciphertext: encryptedKeyBuffer, iv: keyIv } = await encryptData(
-                  new TextEncoder().encode(rawFileKey), 
+                  rawFileKeyBuffer, 
                   masterKey
                 );
                 

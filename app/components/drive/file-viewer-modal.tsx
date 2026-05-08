@@ -3,13 +3,14 @@
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { X, Download, Edit2, Trash2, FileText, Info, Calendar, HardDrive, File as FileIcon } from "lucide-react";
-import { UnifiedDriveItem, downloadFile, API_BASE_URL } from "@/app/lib/drive";
+import { UnifiedDriveItem, downloadFile, downloadFileToBlob, API_BASE_URL } from "@/app/lib/drive";
 import { useSession } from "next-auth/react";
 import { getPreviewType } from "@/app/lib/preview";
 import { PreviewRenderer } from "./preview-renderer";
 import { formatBytes } from "@/app/lib/utils";
 import { RenameModal } from "./rename-modal";
 import { DeleteModal } from "./delete-modal";
+import { useCryptoStore } from "@/app/store/useCryptoStore";
 import { cn } from "@/app/lib/utils";
 
 interface FileViewerModalProps {
@@ -23,6 +24,7 @@ export function FileViewerModal({ item, onClose }: FileViewerModalProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const { data: session } = useSession();
+  const masterKey = useCryptoStore(state => state.masterKey);
   
   const [isRenameOpen, setIsRenameOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -32,13 +34,8 @@ export function FileViewerModal({ item, onClose }: FileViewerModalProps) {
       if (!session?.backendToken) return;
       
       try {
-        const response = await fetch(`${API_BASE_URL}/drive/download/${item.id}`, {
-          headers: { Authorization: `Bearer ${session.backendToken}` },
-        });
-
-        if (!response.ok) throw new Error("Failed to load file content");
-
-        const b = await response.blob();
+        setLoading(true);
+        const b = await downloadFileToBlob(item, session.backendToken, masterKey);
         setBlob(b);
         const url = window.URL.createObjectURL(b);
         setBlobUrl(url);
@@ -59,7 +56,7 @@ export function FileViewerModal({ item, onClose }: FileViewerModalProps) {
   const previewType = getPreviewType(item.mimeType);
 
   const handleDownload = () => {
-    downloadFile(item.id, item.name, session!.backendToken);
+    downloadFile(item, session!.backendToken, masterKey);
   };
 
   return createPortal(

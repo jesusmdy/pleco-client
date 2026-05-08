@@ -72,8 +72,8 @@ export function FileListItem({ item, context = "drive" }: FileListItemProps) {
         )}>
           {isFolder ? (
             <Folder className="w-5 h-5" />
-          ) : item.hasThumb200 ? (
-            <Thumbnail itemId={item.id} size={200} alt={item.name} className="w-full h-full object-cover" />
+          ) : item.hasThumb200 || (item.encrypted && item.mimeType?.startsWith("image/")) ? (
+            <Thumbnail item={item} size={200} className="w-full h-full object-cover" />
           ) : (
             <FileText className="w-5 h-5" />
           )}

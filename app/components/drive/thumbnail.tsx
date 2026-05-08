@@ -2,13 +2,13 @@
 
 import { useEffect, useState, useRef } from "react";
 import { useSession } from "next-auth/react";
-import { getFileThumbnail } from "@/app/lib/drive";
-import { FileText } from "lucide-react";
+import { UnifiedDriveItem, getFileThumbnail, downloadFileToBlob } from "@/app/lib/drive";
+import { FileText, Loader2 } from "lucide-react";
+import { useCryptoStore } from "@/app/store/useCryptoStore";
 
 interface ThumbnailProps {
-  itemId: string;
+  item: UnifiedDriveItem;
   size: 200 | 500;
-  alt: string;
   className?: string;
 }
 
@@ -39,10 +39,12 @@ class ThumbnailQueue {
 
 const thumbnailQueue = new ThumbnailQueue();
 
-export function Thumbnail({ itemId, size, alt, className }: ThumbnailProps) {
+export function Thumbnail({ item, size, className }: ThumbnailProps) {
   const { data: session } = useSession();
+  const masterKey = useCryptoStore(state => state.masterKey);
   const [src, setSrc] = useState<string | null>(null);
   const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [visible, setVisible] = useState(false);
   const imgRef = useRef<HTMLDivElement>(null);
 
@@ -68,13 +70,26 @@ export function Thumbnail({ itemId, size, alt, className }: ThumbnailProps) {
 
     thumbnailQueue.add(async () => {
       try {
-        const blob = await getFileThumbnail(itemId, size, session!.backendToken);
+        setIsLoading(true);
+        let blob: Blob;
+
+        if (item.encrypted && item.mimeType?.startsWith("image/")) {
+          // Zero-Knowledge image: download and decrypt the whole file for preview
+          // Note: In a production app, we would have small encrypted thumbnails
+          blob = await downloadFileToBlob(item, session!.backendToken, masterKey);
+        } else {
+          // Regular file: fetch server-generated thumbnail
+          blob = await getFileThumbnail(item.id, size, session!.backendToken);
+        }
+
         if (isMounted) {
           const objectUrl = URL.createObjectURL(blob);
           setSrc(objectUrl);
         }
       } catch (err) {
         if (isMounted) setError(true);
+      } finally {
+        if (isMounted) setIsLoading(false);
       }
     });
 
@@ -82,16 +97,20 @@ export function Thumbnail({ itemId, size, alt, className }: ThumbnailProps) {
       isMounted = false;
       if (src) URL.revokeObjectURL(src);
     };
-  }, [visible, itemId, size, session?.backendToken]);
+  }, [visible, item.id, size, session?.backendToken, masterKey]);
 
   return (
-    <div ref={imgRef} className={`relative overflow-hidden flex items-center justify-center bg-discord-bg-tertiary ${className}`}>
+    <div ref={imgRef} className={`relative overflow-hidden flex items-center justify-center bg-md-surface-container-low ${className}`}>
       {src ? (
-        <img src={src} alt={alt} className="w-full h-full object-cover animate-in fade-in duration-300" />
+        <img src={src} alt={item.name} className="w-full h-full object-cover animate-in fade-in duration-300" />
       ) : (
-        <div className="flex flex-col items-center gap-2 text-discord-text-muted/20">
-          <FileText className={`${size === 500 ? 'w-16 h-16' : 'w-8 h-8'}`} />
-          {error && <span className="text-[10px] text-discord-red/40">Failed to load</span>}
+        <div className="flex flex-col items-center gap-2 text-md-on-surface-variant/20">
+          {isLoading ? (
+            <Loader2 className={`${size === 500 ? 'w-10 h-10' : 'w-6 h-6'} animate-spin`} />
+          ) : (
+            <FileText className={`${size === 500 ? 'w-16 h-16' : 'w-8 h-8'}`} />
+          )}
+          {error && <span className="text-[10px] text-md-error/40">Failed to load</span>}
         </div>
       )}
     </div>

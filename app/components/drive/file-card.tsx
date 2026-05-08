@@ -127,11 +127,10 @@ export function FileCard({ item, context = "drive" }: FileCardProps) {
           selected ? "bg-md-surface-container-low shadow-inner" : "bg-md-surface-container-highest/50"
         )}
       >
-        {item.hasThumb500 ? (
+        {item.hasThumb500 || (item.encrypted && item.mimeType?.startsWith("image/")) ? (
           <Thumbnail 
-            itemId={item.id} 
+            item={item} 
             size={500} 
-            alt={item.name} 
             className={cn(
               "w-full h-full object-cover transition-opacity duration-300",
               selected ? "opacity-90" : "opacity-100"

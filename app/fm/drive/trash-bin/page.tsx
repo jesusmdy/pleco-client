@@ -10,6 +10,7 @@ import { TrashBulkActions } from "@/app/components/trash/trash-bulk-actions";
 import { useSelectionStore } from "@/app/store/selectionStore";
 import { useDebounce } from "@/app/hooks/useDebounce";
 import { TrashToolbar } from "@/app/components/trash/trash-toolbar";
+import { useDecryptedItems } from "@/app/hooks/useDecryptedItems";
 
 export default function TrashPage() {
   const { data: session } = useSession();
@@ -30,7 +31,8 @@ export default function TrashPage() {
     refetchOnMount: true,
   });
 
-  const driveItems = useMemo(() => items.map(trashItemToDriveItem), [items]);
+  const rawDriveItems = useMemo(() => items.map(trashItemToDriveItem), [items]);
+  const driveItems = useDecryptedItems(rawDriveItems) || [];
 
   return (
     <div className="flex flex-col h-full overflow-hidden">

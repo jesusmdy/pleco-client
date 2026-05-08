@@ -102,18 +102,31 @@ export async function exportKey(key: CryptoKey): Promise<string> {
 }
 
 /**
- * Imports a key from a raw format (base64 string).
+ * Helper to convert base64 to bytes.
  */
-export async function importKey(base64Key: string): Promise<CryptoKey> {
-  const binaryString = atob(base64Key);
-  const bytes = new Uint8Array(binaryString.length);
-  for (let i = 0; i < binaryString.length; i++) {
-    bytes[i] = binaryString.charCodeAt(i);
+export function base64ToBytes(base64: string): Uint8Array {
+  return new Uint8Array(atob(base64).split("").map(c => c.charCodeAt(0)));
+}
+
+/**
+ * Imports a raw key (either as base64 string or BufferSource) into a CryptoKey object.
+ */
+export async function importKey(data: string | BufferSource): Promise<CryptoKey> {
+  let keyBuffer = typeof data === 'string' ? base64ToBytes(data).buffer : data;
+  
+  let byteLength = (keyBuffer as ArrayBuffer).byteLength;
+
+  // Legacy Fix: If we have 44 bytes, it's likely a base64 string that was accidentally 
+  // encoded as UTF-8 bytes during upload. We need to decode it back to 32 bytes.
+  if (byteLength === 44) {
+    const legacyStr = new TextDecoder().decode(keyBuffer as ArrayBuffer);
+    keyBuffer = base64ToBytes(legacyStr).buffer;
+    byteLength = (keyBuffer as ArrayBuffer).byteLength;
   }
 
   return window.crypto.subtle.importKey(
     'raw',
-    bytes.buffer,
+    keyBuffer,
     ALGORITHM,
     false,
     ['encrypt', 'decrypt']
@@ -139,18 +152,12 @@ export async function encryptString(text: string, key: CryptoKey): Promise<strin
  * Decrypts a base64 encoded string containing IV + ciphertext.
  */
 export async function decryptString(encryptedBase64: string, key: CryptoKey): Promise<string> {
-  console.log("crypto: Attempting to decrypt string:", encryptedBase64.substring(0, 10) + "...");
-  const binaryString = atob(encryptedBase64);
-  const combined = new Uint8Array(binaryString.length);
-  for (let i = 0; i < binaryString.length; i++) {
-    combined[i] = binaryString.charCodeAt(i);
-  }
+  const combined = base64ToBytes(encryptedBase64);
   const iv = combined.slice(0, 12);
   const ciphertext = combined.slice(12).buffer;
   
   const decrypted = await decryptData(ciphertext, key, iv);
   const result = new TextDecoder().decode(decrypted);
-  console.log("crypto: Successfully decrypted string");
   return result;
 }
 

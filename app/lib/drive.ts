@@ -1,5 +1,5 @@
 import { request, API_BASE_URL } from "./client";
-import { decryptData, importKey } from "./crypto";
+import { decryptData, importKey, base64ToBytes } from "./crypto";
 export { API_BASE_URL };
 
 export interface TrashItem {
@@ -17,6 +17,10 @@ export interface TrashItem {
   encrypted: boolean;
   createdAt: string;
   updatedAt: string;
+  hasThumb200?: boolean;
+  hasThumb500?: boolean;
+  encryptedFileKey?: string;
+  encryptionIv?: string;
 }
 
 export function trashItemToDriveItem(item: TrashItem): UnifiedDriveItem {
@@ -32,6 +36,10 @@ export function trashItemToDriveItem(item: TrashItem): UnifiedDriveItem {
     path: item.path ?? [],
     createdAt: item.createdAt,
     updatedAt: item.updatedAt,
+    hasThumb200: item.hasThumb200,
+    hasThumb500: item.hasThumb500,
+    encryptedFileKey: item.encryptedFileKey,
+    encryptionIv: item.encryptionIv,
   };
 }
 
@@ -112,11 +120,11 @@ export const renameItem = (id: string, name: string, token: string) =>
 export const deleteItem = (id: string, token: string) =>
   request<void>(`/drive/items/${id}`, { method: "DELETE", token });
 
-export const downloadFile = async (
+export const downloadFileToBlob = async (
   item: UnifiedDriveItem, 
   token: string, 
   masterKey?: CryptoKey | null
-) => {
+): Promise<Blob> => {
   const response = await fetch(`${API_BASE_URL}/drive/download/${item.id}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
@@ -127,31 +135,39 @@ export const downloadFile = async (
 
   let blob = await response.blob();
 
-  if (item.encryptedFileKey && item.encryptionIv && masterKey) {
+  if (item.encrypted && item.encryptedFileKey && item.encryptionIv && masterKey) {
     try {
       // 1. Parse combined key (Encrypted Key : Key IV)
-      const [encKeyBase64, keyIvBase64] = item.encryptedFileKey.split(":");
+      const colonIndex = item.encryptedFileKey.lastIndexOf(":");
+      if (colonIndex === -1) throw new Error("Invalid encrypted file key format");
       
-      const encKeyBuffer = new Uint8Array(atob(encKeyBase64).split("").map(c => c.charCodeAt(0))).buffer;
-      const keyIv = new Uint8Array(atob(keyIvBase64).split("").map(c => c.charCodeAt(0)));
+      const encKeyBase64 = item.encryptedFileKey.substring(0, colonIndex);
+      const keyIvBase64 = item.encryptedFileKey.substring(colonIndex + 1);
+
+      const encKeyBuffer = base64ToBytes(encKeyBase64).buffer;
+      const keyIv = base64ToBytes(keyIvBase64);
       
-      // 2. Decrypt File Key using Master Key
       const decryptedKeyBuffer = await decryptData(encKeyBuffer, masterKey, keyIv);
-      const rawFileKey = btoa(String.fromCharCode(...new Uint8Array(decryptedKeyBuffer)));
-      const fileKey = await importKey(rawFileKey);
+      const fileKey = await importKey(decryptedKeyBuffer);
       
-      // 3. Decrypt File Content
-      const fileIv = new Uint8Array(atob(item.encryptionIv).split("").map(c => c.charCodeAt(0)));
+      const fileIv = base64ToBytes(item.encryptionIv);
       const encryptedFileBuffer = await blob.arrayBuffer();
       const decryptedFileBuffer = await decryptData(encryptedFileBuffer, fileKey, fileIv);
       
       blob = new Blob([decryptedFileBuffer], { type: item.mimeType || "application/octet-stream" });
     } catch (error) {
-      console.error("Decryption failed:", error);
-      throw new Error("Failed to decrypt file. Check your master key.");
+      throw new Error("Failed to decrypt file.");
     }
   }
+  return blob;
+};
 
+export const downloadFile = async (
+  item: UnifiedDriveItem, 
+  token: string, 
+  masterKey?: CryptoKey | null
+) => {
+  const blob = await downloadFileToBlob(item, token, masterKey);
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
