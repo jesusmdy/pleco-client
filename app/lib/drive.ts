@@ -1,4 +1,5 @@
 import { request, API_BASE_URL } from "./client";
+import { decryptData, importKey } from "./crypto";
 export { API_BASE_URL };
 
 export interface TrashItem {
@@ -48,6 +49,8 @@ export interface UnifiedDriveItem {
   updatedAt: string;
   hasThumb200?: boolean;
   hasThumb500?: boolean;
+  encryptedFileKey?: string;
+  encryptionIv?: string;
 }
 
 export const getRecentFiles = (token: string) =>
@@ -80,10 +83,21 @@ export const createFolder = (name: string, parentId: string | null, token: strin
     token,
   });
 
-export const uploadDriveFile = (file: File, parentId: string | null, token: string) => {
+export const uploadDriveFile = (
+  file: Blob, 
+  name: string,
+  parentId: string | null, 
+  token: string, 
+  encryptedFileKey?: string, 
+  iv?: string,
+  fileHash?: string
+) => {
   const formData = new FormData();
-  formData.append("file", file);
+  formData.append("file", file, name);
   if (parentId) formData.append("parentId", parentId);
+  if (encryptedFileKey) formData.append("encryptedFileKey", encryptedFileKey);
+  if (iv) formData.append("iv", iv);
+  if (fileHash) formData.append("fileHash", fileHash);
 
   return request<any>("/drive/upload", { method: "POST", body: formData, token });
 };
@@ -98,8 +112,12 @@ export const renameItem = (id: string, name: string, token: string) =>
 export const deleteItem = (id: string, token: string) =>
   request<void>(`/drive/items/${id}`, { method: "DELETE", token });
 
-export const downloadFile = async (id: string, fileName: string, token: string) => {
-  const response = await fetch(`${API_BASE_URL}/drive/download/${id}`, {
+export const downloadFile = async (
+  item: UnifiedDriveItem, 
+  token: string, 
+  masterKey?: CryptoKey | null
+) => {
+  const response = await fetch(`${API_BASE_URL}/drive/download/${item.id}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
 
@@ -107,11 +125,37 @@ export const downloadFile = async (id: string, fileName: string, token: string) 
     throw new Error("Download failed");
   }
 
-  const blob = await response.blob();
+  let blob = await response.blob();
+
+  if (item.encryptedFileKey && item.encryptionIv && masterKey) {
+    try {
+      // 1. Parse combined key (Encrypted Key : Key IV)
+      const [encKeyBase64, keyIvBase64] = item.encryptedFileKey.split(":");
+      
+      const encKeyBuffer = new Uint8Array(atob(encKeyBase64).split("").map(c => c.charCodeAt(0))).buffer;
+      const keyIv = new Uint8Array(atob(keyIvBase64).split("").map(c => c.charCodeAt(0)));
+      
+      // 2. Decrypt File Key using Master Key
+      const decryptedKeyBuffer = await decryptData(encKeyBuffer, masterKey, keyIv);
+      const rawFileKey = btoa(String.fromCharCode(...new Uint8Array(decryptedKeyBuffer)));
+      const fileKey = await importKey(rawFileKey);
+      
+      // 3. Decrypt File Content
+      const fileIv = new Uint8Array(atob(item.encryptionIv).split("").map(c => c.charCodeAt(0)));
+      const encryptedFileBuffer = await blob.arrayBuffer();
+      const decryptedFileBuffer = await decryptData(encryptedFileBuffer, fileKey, fileIv);
+      
+      blob = new Blob([decryptedFileBuffer], { type: item.mimeType || "application/octet-stream" });
+    } catch (error) {
+      console.error("Decryption failed:", error);
+      throw new Error("Failed to decrypt file. Check your master key.");
+    }
+  }
+
   const url = window.URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = fileName;
+  a.download = item.name;
   document.body.appendChild(a);
   a.click();
   a.remove();

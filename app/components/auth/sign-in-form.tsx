@@ -7,9 +7,12 @@ import { Input } from "@/app/components/ui/input";
 import { Button } from "@/app/components/ui/button";
 import Link from "next/link";
 import { signIn as apiSignIn, verifyMfa as apiVerifyMfa } from "@/app/lib/auth";
+import { deriveKey } from "@/app/lib/crypto";
+import { useCryptoStore } from "@/app/store/useCryptoStore";
 
 export function SignInForm() {
   const router = useRouter();
+  const setMasterKey = useCryptoStore(state => state.setMasterKey);
   const [isMfaRequired, setIsMfaRequired] = useState(false);
   const [mfaCode, setMfaCode] = useState("");
   const [tempToken, setTempToken] = useState("");
@@ -72,6 +75,10 @@ export function SignInForm() {
         if (result?.error) {
           setError("Failed to initialize session");
         } else {
+          // Derive and set master key
+          // We normalize the username to lowercase to prevent case-sensitivity issues with the salt
+          const key = await deriveKey(password, username.toLowerCase()); 
+          await setMasterKey(key);
           router.push("/fm/drive");
         }
       }

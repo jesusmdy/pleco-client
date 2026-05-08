@@ -4,8 +4,15 @@ import { UploadManager } from "@/app/components/drive/upload-manager";
 import { AuthGuard } from "@/app/components/auth-guard";
 import { VerticalToolbar } from "@/app/components/layout/vertical-toolbar";
 import { UploadProvider } from "@/app/components/drive/upload-provider";
+import { useEffect } from "react";
+import { useCryptoStore } from "@/app/store/useCryptoStore";
 
 export default function FmLayout({ children }: { children: React.ReactNode }) {
+  const initializeFromSession = useCryptoStore(state => state.initializeFromSession);
+
+  useEffect(() => {
+    initializeFromSession();
+  }, [initializeFromSession]);
 
   return (
     <AuthGuard isAuth={true}>

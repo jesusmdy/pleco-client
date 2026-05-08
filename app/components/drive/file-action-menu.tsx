@@ -13,7 +13,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useUpload } from "@/app/components/drive/upload-provider";
 import { isPreviewable } from "@/app/lib/preview";
 import { FileViewerModal } from "./file-viewer-modal";
-
+import { useCryptoStore } from "@/app/store/useCryptoStore";
 import { Menu, MenuItem, MenuSeparator } from "../ui/menu";
 
 interface FileActionMenuProps {
@@ -38,6 +38,7 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
   const queryClient = useQueryClient();
   const isTrash = context === "trash";
   const { uploadTo } = useUpload();
+  const masterKey = useCryptoStore(state => state.masterKey);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -69,7 +70,7 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
     e.stopPropagation();
     onClose();
     try {
-      await downloadFile(item.id, item.name, session!.backendToken);
+      await downloadFile(item, session!.backendToken, masterKey);
     } catch (err) {
       console.error("Failed to download:", err);
     }

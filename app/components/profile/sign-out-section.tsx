@@ -5,11 +5,32 @@ import { signOut } from "next-auth/react";
 import { LogOut } from "lucide-react";
 import { Button } from "@/app/components/ui/button";
 import { Modal } from "@/app/components/ui/modal";
+import { useCryptoStore } from "@/app/store/useCryptoStore";
 
 export function SignOutSection() {
+  const setMasterKey = useCryptoStore(state => state.setMasterKey);
   const [isSignOutOpen, setIsSignOutOpen] = useState(false);
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
+    // 1. Thorough LocalStorage Cleanup
+    const keysToClear = [
+      "pleco-upload-activity",
+      "pleco_token",
+      "pleco-token",
+      "pleco_username",
+      "pleco-username",
+      "view-mode-storage",
+      "view-preferences-storage"
+    ];
+    keysToClear.forEach(key => localStorage.removeItem(key));
+    
+    // 2. SessionStorage Cleanup (Master Key)
+    sessionStorage.removeItem("pleco_master_key");
+
+    // 3. In-memory store cleanup
+    await setMasterKey(null);
+
+    // 4. Redirect to Sign-in
     signOut({ callbackUrl: "/auth/sign-in" });
   };
 

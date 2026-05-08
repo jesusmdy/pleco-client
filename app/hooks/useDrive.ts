@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getRootFolders, getFolderChildren, getBreadcrumb } from "@/app/lib/drive";
 import { useSession } from "next-auth/react";
+import { useDecryptedItems, useDecryptedBreadcrumb } from "./useDecryptedItems";
 
 export function useDrive(currentFolderId: string | null) {
   const { data: session } = useSession();
@@ -24,5 +25,13 @@ export function useDrive(currentFolderId: string | null) {
     refetchOnMount: true,
   });
 
-  return { folderContent, breadcrumb, isLoading, error };
+  const decryptedItems = useDecryptedItems(folderContent);
+  const decryptedBreadcrumb = useDecryptedBreadcrumb(breadcrumb);
+
+  return { 
+    folderContent: decryptedItems, 
+    breadcrumb: decryptedBreadcrumb, 
+    isLoading, 
+    error 
+  };
 }

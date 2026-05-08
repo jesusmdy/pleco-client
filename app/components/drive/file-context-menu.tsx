@@ -7,6 +7,7 @@ import { UnifiedDriveItem, downloadFile } from "@/app/lib/drive";
 import { useSession } from "next-auth/react";
 import { RenameModal } from "./rename-modal";
 import { DeleteModal } from "./delete-modal";
+import { useCryptoStore } from "@/app/store/useCryptoStore";
 import { useRouter } from "next/navigation";
 
 import { Menu, MenuItem, MenuSeparator } from "../ui/menu";
@@ -25,6 +26,7 @@ export function FileContextMenu({ item, x, y, onClose }: FileContextMenuProps) {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
+  const masterKey = useCryptoStore(state => state.masterKey);
   const router = useRouter();
 
   useEffect(() => {
@@ -48,7 +50,7 @@ export function FileContextMenu({ item, x, y, onClose }: FileContextMenuProps) {
     e.stopPropagation();
     onClose();
     try {
-      await downloadFile(item.id, item.name, session!.backendToken);
+      await downloadFile(item, session!.backendToken, masterKey);
     } catch (err) {
       console.error("Failed to download:", err);
     }
