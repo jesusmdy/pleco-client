@@ -11,6 +11,8 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/app/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { useUpload } from "@/app/components/drive/upload-provider";
+import { isPreviewable } from "@/app/lib/preview";
+import { FileViewerModal } from "./file-viewer-modal";
 
 import { Menu, MenuItem, MenuSeparator } from "../ui/menu";
 
@@ -29,6 +31,7 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
   const [isRenameOpen, setIsRenameOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isPermanentDeleteOpen, setIsPermanentDeleteOpen] = useState(false);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
   const router = useRouter();
@@ -47,9 +50,18 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
   }, [onClose]);
 
   const handleOpen = () => {
-    onClose();
     if (item.itemType === "FOLDER") {
+      onClose();
       router.push(`/fm/drive/folders/${item.id}`);
+    } else if (item.itemType === "FILE" && isPreviewable(item.mimeType)) {
+      setIsPreviewOpen(true);
+      // We don't call onClose here because we want the FileActionMenu 
+      // to render the portal (FileViewerModal) and then hide the menu.
+      // Actually, in our render logic: 
+      // !isRenameOpen && !isDeleteOpen && !isPermanentDeleteOpen && !isPreviewOpen && renderMenu()
+      // So setting isPreviewOpen to true WILL hide the menu.
+    } else {
+      onClose();
     }
   };
 
@@ -108,6 +120,7 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
 
           <MenuItem
             onClick={() => setIsRenameOpen(true)}
+            disabled={item.id === null}
             icon={<Edit2 />}
           >
             Rename
@@ -150,6 +163,7 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
 
           <MenuItem
             onClick={() => setIsDeleteOpen(true)}
+            disabled={item.id === null}
             icon={<Trash2 />}
             variant="error"
           >
@@ -183,11 +197,14 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
 
   return createPortal(
     <>
-      {!isRenameOpen && !isDeleteOpen && !isPermanentDeleteOpen && renderMenu()}
+      {!isRenameOpen && !isDeleteOpen && !isPermanentDeleteOpen && !isPreviewOpen && renderMenu()}
       {isRenameOpen && <RenameModal item={item} onClose={onClose} />}
       {isDeleteOpen && <DeleteModal item={item} onClose={onClose} />}
       {isPermanentDeleteOpen && (
         <PermanentDeleteModal item={item} onClose={onClose} />
+      )}
+      {isPreviewOpen && (
+        <FileViewerModal item={item} onClose={() => { setIsPreviewOpen(false); onClose(); }} />
       )}
     </>,
     document.body

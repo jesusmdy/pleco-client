@@ -54,10 +54,25 @@ export function TreeNode({
   };
 
   const handleContextMenu = (e: React.MouseEvent) => {
-    if (isRoot || !item) return;
-    
     e.preventDefault();
     e.stopPropagation();
+
+    // Shim for root node if item is missing
+    const activeItem = item || (isRoot ? {
+      id: null,
+      name: "My Drive",
+      itemType: "FOLDER",
+      parentId: null,
+      size: 0,
+      depth: 0,
+      path: [],
+      encrypted: true,
+      status: "ACTIVE",
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    } as UnifiedDriveItem : null);
+
+    if (!activeItem) return;
     setContextMenu({ x: e.clientX, y: e.clientY });
   };
 
@@ -119,9 +134,21 @@ export function TreeNode({
         </div>
       )}
 
-      {contextMenu && item && (
+      {contextMenu && (
         <FileActionMenu
-          item={item}
+          item={item || {
+            id: null,
+            name: "My Drive",
+            itemType: "FOLDER",
+            parentId: null,
+            size: 0,
+            depth: 0,
+            path: [],
+            encrypted: true,
+            status: "ACTIVE",
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          } as UnifiedDriveItem}
           x={contextMenu.x}
           y={contextMenu.y}
           onClose={() => setContextMenu(null)}

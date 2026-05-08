@@ -72,6 +72,7 @@ export function UploadManager() {
         
         // Invalidate cache to show new items
         queryClient.invalidateQueries({ queryKey: ["folderContent", nextItem.parentId || "root"] });
+        queryClient.invalidateQueries({ queryKey: ["folderTreeFull"] });
       } catch (error) {
         updateItemStatus(nextItem.id, "error", undefined, (error as Error).message);
       } finally {

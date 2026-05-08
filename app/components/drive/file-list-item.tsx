@@ -8,6 +8,8 @@ import { FileActionMenu, FileActionTrigger } from "./file-action-menu";
 import { useSelectionStore } from "@/app/store/selectionStore";
 import { Thumbnail } from "./thumbnail";
 import { formatBytes, cn } from "@/app/lib/utils";
+import { isPreviewable } from "@/app/lib/preview";
+import { FileViewerModal } from "./file-viewer-modal";
 
 import { ListItem } from "../ui/list";
 
@@ -25,6 +27,7 @@ export function FileListItem({ item, context = "drive" }: FileListItemProps) {
   const { toggle, isSelected } = useSelectionStore();
   const selected = isSelected(item.id);
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
   const clickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const handleContextMenu = (e: React.MouseEvent) => {
@@ -34,7 +37,11 @@ export function FileListItem({ item, context = "drive" }: FileListItemProps) {
 
   const handleOpen = () => {
     if (isTrash) return;
-    if (isFolder) router.push(`/fm/drive/folders/${item.id}`);
+    if (isFolder) {
+      router.push(`/fm/drive/folders/${item.id}`);
+    } else if (isPreviewable(item.mimeType)) {
+      setIsPreviewOpen(true);
+    }
   };
 
   const handleClick = () => {
@@ -112,6 +119,13 @@ export function FileListItem({ item, context = "drive" }: FileListItemProps) {
               y={contextMenu.y} 
               context={context}
               onClose={() => setContextMenu(null)} 
+            />
+          )}
+
+          {isPreviewOpen && (
+            <FileViewerModal 
+              item={item} 
+              onClose={() => setIsPreviewOpen(false)} 
             />
           )}
         </>

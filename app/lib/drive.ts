@@ -1,4 +1,5 @@
 import { request, API_BASE_URL } from "./client";
+export { API_BASE_URL };
 
 export interface TrashItem {
   id: string;
