@@ -25,6 +25,7 @@ export function CreateFolderModal({ parentId, onClose }: CreateFolderModalProps)
       queryClient.invalidateQueries({ 
         queryKey: ["folderContent", parentId || "root"] 
       });
+      queryClient.invalidateQueries({ queryKey: ["folderTreeFull"] });
       onClose();
     },
   });

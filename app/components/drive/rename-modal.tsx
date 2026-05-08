@@ -42,6 +42,7 @@ export function RenameModal({ item, onClose }: RenameModalProps) {
       queryClient.invalidateQueries({ 
         queryKey: ["folderContent", item.parentId || "root"] 
       });
+      queryClient.invalidateQueries({ queryKey: ["folderTreeFull"] });
       onClose();
     },
   });

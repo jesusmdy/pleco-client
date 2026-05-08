@@ -22,6 +22,7 @@ export function DeleteModal({ item, onClose }: DeleteModalProps) {
       queryClient.invalidateQueries({ 
         queryKey: ["folderContent", item.parentId || "root"] 
       });
+      queryClient.invalidateQueries({ queryKey: ["folderTreeFull"] });
       onClose();
     },
   });

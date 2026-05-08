@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ChevronRight, ChevronDown, Folder, HardDrive } from "lucide-react";
 import { cn } from "@/app/lib/utils";
 import { UnifiedDriveItem } from "@/app/lib/drive";
+import { FileActionMenu } from "@/app/components/drive/file-action-menu";
 
 interface TreeNodeProps {
   id: string | null;
@@ -16,6 +17,7 @@ interface TreeNodeProps {
   token: string | undefined;
   pathname: string;
   folderMap: Record<string, UnifiedDriveItem[]>;
+  item?: UnifiedDriveItem;
 }
 
 export function TreeNode({ 
@@ -27,9 +29,11 @@ export function TreeNode({
   pathIds, 
   token, 
   pathname,
-  folderMap
+  folderMap,
+  item
 }: TreeNodeProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
 
   // Auto-expand if this folder is in the current path
   useEffect(() => {
@@ -49,11 +53,20 @@ export function TreeNode({
     setIsExpanded(!isExpanded);
   };
 
+  const handleContextMenu = (e: React.MouseEvent) => {
+    if (isRoot || !item) return;
+    
+    e.preventDefault();
+    e.stopPropagation();
+    setContextMenu({ x: e.clientX, y: e.clientY });
+  };
+
   const href = id === null ? "/fm/drive" : `/fm/drive/folders/${id}`;
 
   return (
     <div className="flex flex-col">
       <div
+        onContextMenu={handleContextMenu}
         className={cn(
           "flex items-center gap-1 min-h-[40px] px-2 rounded-xl transition-all duration-200 group relative",
           isActive 
@@ -100,9 +113,19 @@ export function TreeNode({
               token={token}
               pathname={pathname}
               folderMap={folderMap}
+              item={folder}
             />
           ))}
         </div>
+      )}
+
+      {contextMenu && item && (
+        <FileActionMenu
+          item={item}
+          x={contextMenu.x}
+          y={contextMenu.y}
+          onClose={() => setContextMenu(null)}
+        />
       )}
     </div>
   );

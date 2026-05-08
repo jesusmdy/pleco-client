@@ -5,12 +5,16 @@ interface BreadcrumbItemProps {
   href: string;
   label: string;
   isLast?: boolean;
+  onContextMenu?: (e: React.MouseEvent) => void;
+  onClick?: (e: React.MouseEvent) => void;
 }
 
-export function BreadcrumbItem({ href, label, isLast }: BreadcrumbItemProps) {
+export function BreadcrumbItem({ href, label, isLast, onContextMenu, onClick }: BreadcrumbItemProps) {
   return (
     <Link 
       href={href}
+      onContextMenu={onContextMenu}
+      onClick={onClick}
       className={`
         flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all shrink-0 font-semibold tracking-tight
         ${isLast ? 'text-md-on-surface bg-md-surface-variant/20' : 'text-md-on-surface-variant hover:bg-md-surface-variant/20 hover:text-md-on-surface'}

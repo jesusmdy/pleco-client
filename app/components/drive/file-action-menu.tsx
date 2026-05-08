@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import { createPortal } from "react-dom";
-import { Download, Edit2, Trash2, FolderOpen, ExternalLink, MoreVertical, RotateCcw, ShieldAlert } from "lucide-react";
+import { Download, Edit2, Trash2, FolderOpen, ExternalLink, MoreVertical, RotateCcw, ShieldAlert, FileUp, FolderUp } from "lucide-react";
 import { UnifiedDriveItem, downloadFile, restoreItems, permanentlyDeleteItems } from "@/app/lib/drive";
 import { useSession } from "next-auth/react";
 import { RenameModal } from "./rename-modal";
@@ -10,6 +10,7 @@ import { DeleteModal } from "./delete-modal";
 import { useRouter } from "next/navigation";
 import { cn } from "@/app/lib/utils";
 import { useQueryClient } from "@tanstack/react-query";
+import { useUpload } from "@/app/components/drive/upload-provider";
 
 import { Menu, MenuItem, MenuSeparator } from "../ui/menu";
 
@@ -33,6 +34,7 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
   const router = useRouter();
   const queryClient = useQueryClient();
   const isTrash = context === "trash";
+  const { uploadTo } = useUpload();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -68,6 +70,7 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
       await restoreItems([item.id], session!.backendToken);
       queryClient.invalidateQueries({ queryKey: ["trash"] });
       queryClient.invalidateQueries({ queryKey: ["folderContent"] });
+      queryClient.invalidateQueries({ queryKey: ["folderTreeFull"] });
     } catch (err) {
       console.error("Failed to restore:", err);
     }
@@ -109,6 +112,30 @@ export function FileActionMenu({ item, x, y, onClose, variant = "context", conte
           >
             Rename
           </MenuItem>
+
+          {item.itemType === "FOLDER" && (
+            <>
+              <MenuSeparator />
+              <MenuItem
+                onClick={() => {
+                  uploadTo(item.id, "file");
+                  onClose();
+                }}
+                icon={<FileUp />}
+              >
+                Upload file
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  uploadTo(item.id, "folder");
+                  onClose();
+                }}
+                icon={<FolderUp />}
+              >
+                Upload folder
+              </MenuItem>
+            </>
+          )}
           
           {item.itemType === "FILE" && (
             <MenuItem
