@@ -66,6 +66,9 @@ export const getRootFolders = (token: string) =>
 export const getFolderChildren = (folderId: string, token: string) =>
   request<UnifiedDriveItem[]>(`/drive/folders/${folderId}`, { method: "GET", token });
 
+export const getFolderTree = (token: string) =>
+  request<UnifiedDriveItem[]>("/drive/folders/tree", { method: "GET", token });
+
 export const getBreadcrumb = (folderId: string, token: string) =>
   request<BreadcrumbNode[]>(`/drive/folders/${folderId}/breadcrumb`, { method: "GET", token });
 
